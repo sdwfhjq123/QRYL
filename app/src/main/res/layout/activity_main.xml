@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.qryl.qryl.activity.MainActivity">
+
+    <RadioGroup
+        android:id="@+id/rg_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_home"
+            style="@style/MainActivityRaodioButtonStyle"
+            android:checked="true"
+            android:drawableTop="@drawable/selector_rb_home"
+            android:text="首页" />
+
+        <RadioButton
+            android:id="@+id/rb_order"
+            style="@style/MainActivityRaodioButtonStyle"
+            android:drawableTop="@drawable/selector_rb_order"
+            android:text="定单" />
+
+        <RadioButton
+            android:id="@+id/rb_msg"
+            style="@style/MainActivityRaodioButtonStyle"
+            android:drawableTop="@drawable/selector_rb_msg"
+            android:text="消息" />
+
+        <RadioButton
+            android:id="@+id/rb_me"
+            style="@style/MainActivityRaodioButtonStyle"
+            android:drawableTop="@drawable/selector_rb_me"
+            android:text="我的" />
+    </RadioGroup>
+
+    <View
+        style="@style/ViewLine"
+        android:layout_above="@id/rg_main" />
+
+
+    <RelativeLayout
+        android:id="@+id/rl_main"
+        style="@style/TitleRelativeStyle">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:drawableRight="@mipmap/ic_arrows_down"
+            android:paddingLeft="10dp"
+            android:text="济南市"
+            android:textColor="#ffffff"
+            android:textSize="13sp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:drawableRight="@mipmap/ic_arrows_down"
+            android:paddingLeft="10dp"
+            android:text="返回按钮"
+            android:textColor="#ffffff"
+            android:textSize="13sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_title_main"
+            style="@style/TitleName"
+            android:text="亲仁医疗护理" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingRight="10dp"
+            android:text="帮助"
+            android:textColor="#ffffff"
+            android:textSize="13sp" />
+    </RelativeLayout>
+
+
+    <FrameLayout
+        android:id="@+id/fl_home"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/rg_main"
+        android:layout_below="@id/rl_main"
+        android:paddingBottom="1dp"></FrameLayout>
+
+</RelativeLayout>
