@@ -46,7 +46,7 @@ public class PasswordToggleEditText extends android.support.v7.widget.AppCompatE
         //获取EditText的DrawableRight,主要是通过xml或者外部设置右边的按钮，如果没有设置就采用默认的
         mToggleDrawable = getCompoundDrawables()[2];
         if (mToggleDrawable == null) {
-            mToggleDrawable = ContextCompat.getDrawable(getContext(), R.mipmap.icon_toggle);
+            mToggleDrawable = ContextCompat.getDrawable(getContext(), R.mipmap.ic_psd_locked);
         }
         mToggleDrawable.setBounds(0, 0, mToggleDrawable.getIntrinsicWidth(), mToggleDrawable.getIntrinsicHeight());
         setToggleIconVisible(true);

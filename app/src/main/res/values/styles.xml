@@ -6,6 +6,10 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <!-- AppCompatEditText默认状态状态设置底线颜色 -->
+        <item name="colorControlNormal">#fff</item>
+        <!-- AppCompatEditText选择的底线颜色 -->
+        <item name="colorControlActivated">#fff</item>
     </style>
 
     <!-- 主页面radioButton的样式 -->
@@ -39,7 +43,7 @@
     <style name="ViewLine">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
-        <item name="android:background">#aaaaaa</item>
+        <item name="android:background">#666</item>
     </style>
 
     <!-- 标题名字-->

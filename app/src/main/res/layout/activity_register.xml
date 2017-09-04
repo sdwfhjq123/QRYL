@@ -5,61 +5,52 @@
     android:layout_height="match_parent"
     tools:context="com.qryl.qryl.activity.login.LoginActivity">
 
-    <RelativeLayout
-        android:id="@+id/rl_register"
-        style="@style/TitleRelativeStyle">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:drawableLeft="@mipmap/ic_return"
-            android:drawablePadding="3dp"
-            android:paddingLeft="10dp"
-            android:text="返回"
-            android:textColor="#ffffff"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/tv_title_main"
-            style="@style/TitleName"
-            android:text="用户注册" />
-
-        <TextView
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:paddingRight="10dp"
-            android:text="帮助"
-            android:textColor="#ffffff"
-            android:textSize="13sp" />
-    </RelativeLayout>
+    <include layout="@layout/title" />
 
     <LinearLayout
         android:id="@+id/ll_et_login"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="210dp"
         android:layout_marginTop="130dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/et_tel_register"
-            style="@style/et_lab"
-            android:drawableLeft="@mipmap/ic_msg_pressed"
-            android:hint="请输入手机号" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/ic_phone" />
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/et_tel_register"
+                style="@style/et_lab"
+                android:hint="请输入手机号" />
+
+        </LinearLayout>
+
+        <View style="@style/ViewLine" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginRight="10dp">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/ic_psd_locked" />
+
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/et_verification_register"
                 style="@style/et_lab"
                 android:layout_weight="1"
-                android:drawableLeft="@mipmap/ic_msg_pressed"
                 android:hint="请输入验证码" />
 
             <Button
@@ -68,23 +59,50 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/selector_btn_login"
+                android:padding="10dp"
                 android:text="请输入验证码"
                 android:textColor="#fff" />
         </LinearLayout>
 
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/et_psd_register"
-            style="@style/et_lab"
-            android:drawableLeft="@mipmap/ic_msg_pressed"
-            android:hint="密码为6至12个数字或字母" />
+        <View style="@style/ViewLine" />
 
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/et_psd_confirm_register"
-            style="@style/et_lab"
-            android:drawableLeft="@mipmap/ic_msg_pressed"
-            android:hint="请再次确认密码" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/ic_psd_locked" />
 
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/et_psd_register"
+                style="@style/et_lab"
+                android:hint="密码为6至12个数字或字母" />
+
+        </LinearLayout>
+
+        <View style="@style/ViewLine" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/ic_psd_locked" />
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/et_psd_confirm_register"
+                style="@style/et_lab"
+                android:hint="请再次确认密码" />
+
+        </LinearLayout>
+
+        <View style="@style/ViewLine" />
     </LinearLayout>
 
     <RelativeLayout
