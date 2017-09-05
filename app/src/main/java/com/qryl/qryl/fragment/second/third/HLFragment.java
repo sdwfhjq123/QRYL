@@ -27,6 +27,7 @@ public class HLFragment extends Fragment {
     private SwipeRefreshLayout swipeRefresh;
     private RecyclerView recyclerView;
     private List<String> stringList = new ArrayList<>();
+    private HlAdapter adapter;
 
     @Nullable
     @Override
@@ -34,11 +35,48 @@ public class HLFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_hl, null);
         initView(view);
         initData();
-        HlAdapter adapter = new HlAdapter(stringList);
+        initRecyclerView();
+        return view;
+    }
+
+    /**
+     * 加载护工列表
+     */
+    private void initRecyclerView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
+        adapter = new HlAdapter(stringList);
         recyclerView.setAdapter(adapter);
-        return view;
+        swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshView();
+            }
+        });
+    }
+
+    /**
+     * 刷新布局
+     */
+    private void refreshView() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.notifyDataSetChanged();
+                        swipeRefresh.setRefreshing(false);
+                    }
+                });
+            }
+        }).start();
     }
 
     private void initData() {

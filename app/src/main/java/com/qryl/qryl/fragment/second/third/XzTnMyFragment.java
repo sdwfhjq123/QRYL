@@ -1,5 +1,6 @@
 package com.qryl.qryl.fragment.second.third;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -7,15 +8,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.qryl.qryl.R;
 import com.qryl.qryl.fragment.BaseFragment;
 import com.qryl.qryl.fragment.FragmentFactory;
 import com.qryl.qryl.util.UIUtils;
+
+import java.lang.reflect.Field;
 
 /**
  * Created by hp on 2017/8/21.
@@ -47,6 +52,13 @@ public class XzTnMyFragment extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
         //给viewpager设置点击监听事件,绑定tablayout
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        //设置下划线宽度
+        tabLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                setIndicator(tabLayout, 40, 40);
+            }
+        });
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {//点击第一次的tab选项回调
@@ -55,12 +67,12 @@ public class XzTnMyFragment extends Fragment {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {//上一次的tab回调
-
+                //Toast.makeText(UIUtils.getContext(), tab.getText(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {//再次点击同一个tab的回调
-                Toast.makeText(UIUtils.getContext(), tab.getText(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(UIUtils.getContext(), tab.getText(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -97,6 +109,45 @@ public class XzTnMyFragment extends Fragment {
         @Override
         public CharSequence getPageTitle(int position) {
             return mTabNames[position];
+        }
+
+    }
+
+    /**
+     * 利用反射设置tablayout下划线的大小
+     *
+     * @param tabs
+     * @param leftDip
+     * @param rightDip
+     */
+    private void setIndicator(TabLayout tabs, int leftDip, int rightDip) {
+        Class<?> tabLayout = tabs.getClass();
+        Field tabStrip = null;
+        try {
+            tabStrip = tabLayout.getDeclaredField("mTabStrip");
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+
+        tabStrip.setAccessible(true);
+        LinearLayout llTab = null;
+        try {
+            llTab = (LinearLayout) tabStrip.get(tabs);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        int left = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, leftDip, Resources.getSystem().getDisplayMetrics());
+        int right = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rightDip, Resources.getSystem().getDisplayMetrics());
+
+        for (int i = 0; i < llTab.getChildCount(); i++) {
+            View child = llTab.getChildAt(i);
+            child.setPadding(0, 0, 0, 0);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1);
+            params.leftMargin = left;
+            params.rightMargin = right;
+            child.setLayoutParams(params);
+            child.invalidate();
         }
     }
 }

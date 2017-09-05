@@ -19,7 +19,7 @@ public class ServerFragment extends BaseFragment {
 
     @Override
     public View initView() {
-        TextView mView = new TextView(context);
+        TextView mView = new TextView(mContext);
         mView.setText("服务人员列表");
         mView.setTextSize(18);
         mView.setTextColor(Color.BLACK);

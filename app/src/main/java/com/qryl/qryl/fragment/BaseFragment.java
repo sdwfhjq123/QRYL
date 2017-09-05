@@ -16,12 +16,12 @@ import com.qryl.qryl.util.UIUtils;
 
 public abstract class BaseFragment extends Fragment {
 
-    public Context context;
+    public Context mContext;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = UIUtils.getContext();
+        mContext = UIUtils.getContext();
     }
 
     @Nullable
