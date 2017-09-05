@@ -1,8 +1,5 @@
-package com.qryl.qryl.fragment;
+package com.qryl.qryl.fragment.second;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,14 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.hintview.ColorPointHintView;
 import com.qryl.qryl.R;
 import com.qryl.qryl.adapter.RollPagerAdapter;
+import com.qryl.qryl.fragment.second.third.HLFragment;
+import com.qryl.qryl.fragment.second.third.XzTnMyFragment;
 import com.qryl.qryl.util.UIUtils;
 
 import java.util.ArrayList;

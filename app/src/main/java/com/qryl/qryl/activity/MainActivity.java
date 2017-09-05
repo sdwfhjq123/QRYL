@@ -1,27 +1,17 @@
 package com.qryl.qryl.activity;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.jude.rollviewpager.RollPagerView;
-import com.jude.rollviewpager.hintview.ColorPointHintView;
 import com.qryl.qryl.R;
-import com.qryl.qryl.adapter.RollPagerAdapter;
-import com.qryl.qryl.fragment.HomeFragment;
-import com.qryl.qryl.fragment.MeFragment;
-import com.qryl.qryl.fragment.MsgFragment;
-import com.qryl.qryl.fragment.OrderFragment;
-import com.qryl.qryl.util.UIUtils;
-
-import java.util.ArrayList;
+import com.qryl.qryl.fragment.second.HomeFragment;
+import com.qryl.qryl.fragment.second.MeFragment;
+import com.qryl.qryl.fragment.second.MsgFragment;
+import com.qryl.qryl.fragment.second.OrderFragment;
 
 /**
  * 以及样式还未实现

@@ -1,6 +1,5 @@
-package com.qryl.qryl.fragment;
+package com.qryl.qryl.fragment.second;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -14,12 +13,12 @@ import com.qryl.qryl.util.UIUtils;
  * Created by hp on 2017/8/16.
  */
 
-public class MsgFragment extends android.support.v4.app.Fragment {
+public class OrderFragment extends android.support.v4.app.Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = UIUtils.inflate(R.layout.fragment_msg);
+        View view = UIUtils.inflate(R.layout.fragment_order);
         return view;
     }
 }

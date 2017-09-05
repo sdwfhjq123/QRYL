@@ -1,4 +1,4 @@
-package com.qryl.qryl.fragment;
+package com.qryl.qryl.fragment.second.third;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

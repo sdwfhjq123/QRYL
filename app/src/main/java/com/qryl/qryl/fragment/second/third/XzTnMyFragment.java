@@ -1,4 +1,4 @@
-package com.qryl.qryl.fragment;
+package com.qryl.qryl.fragment.second.third;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.qryl.qryl.R;
+import com.qryl.qryl.fragment.BaseFragment;
+import com.qryl.qryl.fragment.FragmentFactory;
 import com.qryl.qryl.util.UIUtils;
 
 /**
