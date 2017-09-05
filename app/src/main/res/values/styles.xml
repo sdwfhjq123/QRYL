@@ -7,9 +7,9 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <!-- AppCompatEditText默认状态状态设置底线颜色 -->
-        <item name="colorControlNormal">#fff</item>
+        <item name="colorControlNormal">#0fff</item>
         <!-- AppCompatEditText选择的底线颜色 -->
-        <item name="colorControlActivated">#fff</item>
+        <item name="colorControlActivated">#0fff</item>
     </style>
 
     <!-- 主页面radioButton的样式 -->

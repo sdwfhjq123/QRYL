@@ -5,12 +5,14 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Process;
 
+import org.litepal.LitePalApplication;
+
 /**
  * Created by hp on 2017/8/16.\
  * 自定义Application，进行全局初始化处理
  */
 
-public class QRYLApplication extends Application {
+public class QRYLApplication extends LitePalApplication {
 
     private static Context context;
     private static Handler handler;
