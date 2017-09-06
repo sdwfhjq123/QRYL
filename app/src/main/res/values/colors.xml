@@ -13,4 +13,5 @@
 
     <color name="tab_text_color_selected">#ff5988be</color><!-- tab选中文字颜色 -->
     <color name="tab_text_color_normal">#3b3b3b</color><!-- tab未选中文字颜色 -->
+    <color name="card_view_bg">#ffffff</color><!-- tab未选中文字颜色 -->
 </resources>

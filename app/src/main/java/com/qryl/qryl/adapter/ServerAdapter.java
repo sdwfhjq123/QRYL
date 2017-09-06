@@ -1,13 +1,12 @@
 package com.qryl.qryl.adapter;
 
-import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,36 +20,40 @@ import java.util.List;
  * Created by yinhao on 2017/9/5.
  */
 
-public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHolder> {
+public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder> {
 
     private List<String> stringList = new ArrayList<>();
 
-    public ServiceAdapter(List<String> list) {
+    public ServerAdapter(List<String> list) {
         stringList = list;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        CardView cardView;
-        ImageView ivServiceItem;
-        TextView tvTitleItem;
-        TextView tvInfoItem;
+        RelativeLayout rlRootItem;
+        ImageView ivHeadItem;
+        TextView tvNameItem;
+        TextView tvExperienceItem;
+        TextView tvBeGoodAtItem;
+        TextView tvProfessionItem;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            cardView = (CardView) itemView;
-            ivServiceItem = (ImageView) itemView.findViewById(R.id.iv_service_item);
-            tvTitleItem = (TextView) itemView.findViewById(R.id.tv_title_item);
-            tvInfoItem = (TextView) itemView.findViewById(R.id.tv_info_item);
-            //cardView.setCardBackgroundColor(UIUtils.getContext().getResources().getColor(R.color.card_view_bg));
+            rlRootItem = (RelativeLayout) itemView;
+            ivHeadItem = (ImageView) itemView.findViewById(R.id.iv_head_item);
+            tvNameItem = (TextView) itemView.findViewById(R.id.tv_name_item);
+            tvExperienceItem = (TextView) itemView.findViewById(R.id.tv_experience_item);
+            tvBeGoodAtItem = (TextView) itemView.findViewById(R.id.tv_be_good_at_item);
+            tvProfessionItem = (TextView) itemView.findViewById(R.id.tv_profession_item);
+            //itemView.findViewById(R.id.tv_sign_item);//是否签到的imageview
         }
     }
 
     @Override
-    public ServiceAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(UIUtils.getContext()).inflate(R.layout.item_service, null);
+    public ServerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(UIUtils.getContext()).inflate(R.layout.item_server, null);
         final ViewHolder holder = new ViewHolder(view);
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
+        holder.rlRootItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int position = holder.getAdapterPosition();
@@ -62,10 +65,10 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(ServiceAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(ServerAdapter.ViewHolder holder, int position) {
         //修改内容
         String s = stringList.get(position);
-        holder.tvTitleItem.setText(s);
+        holder.tvExperienceItem.setText(s);
     }
 
     @Override

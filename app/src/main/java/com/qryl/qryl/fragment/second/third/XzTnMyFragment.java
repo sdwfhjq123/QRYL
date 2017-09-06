@@ -56,7 +56,7 @@ public class XzTnMyFragment extends Fragment {
         tabLayout.post(new Runnable() {
             @Override
             public void run() {
-                setIndicator(tabLayout, 40, 40);
+                setIndicator(tabLayout, 60, 60);
             }
         });
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

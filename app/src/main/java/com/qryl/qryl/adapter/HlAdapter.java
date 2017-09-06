@@ -1,6 +1,7 @@
 package com.qryl.qryl.adapter;
 
 import android.content.Context;
+import android.provider.Contacts;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,9 +51,9 @@ public class HlAdapter extends RecyclerView.Adapter<HlAdapter.ViewHolder> {
 
     @Override
     public HlAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (mContext == null) {
-            parent.getContext();
-        }
+//        if (mContext == null) {
+//            parent.getContext();
+//        }
         //View view = LayoutInflater.from(mContext).inflate(R.layout.item_hl, parent, false);
         View view = LayoutInflater.from(UIUtils.getContext()).inflate(R.layout.item_hl, parent, false);
         final ViewHolder holder = new ViewHolder(view);
@@ -61,7 +62,7 @@ public class HlAdapter extends RecyclerView.Adapter<HlAdapter.ViewHolder> {
             public void onClick(View v) {
                 int position = holder.getAdapterPosition();
                 String s = stringList.get(position);
-                Toast.makeText(mContext, "点击了第s个条目 position: " + position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(UIUtils.getContext(), "点击了第s个条目 position: " + position, Toast.LENGTH_SHORT).show();
             }
         });
         return holder;

@@ -1,6 +1,7 @@
 package com.qryl.qryl.fragment.second.third.fourth;
 
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.View;
 import com.qryl.qryl.R;
 import com.qryl.qryl.adapter.ServiceAdapter;
 import com.qryl.qryl.fragment.BaseFragment;
+import com.qryl.qryl.util.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +30,13 @@ public class ServiceFragment extends BaseFragment {
     //加载数据
     @Override
     public void loadData() {
+        stringList.clear();
+        for (int i = 0; i < 20; i++) {
+            stringList.add(i + "");
+        }
         adapter = new ServiceAdapter(stringList);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        //LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        GridLayoutManager layoutManager = new GridLayoutManager(UIUtils.getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
