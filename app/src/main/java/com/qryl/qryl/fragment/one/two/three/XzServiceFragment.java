@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.qryl.qryl.R;
-import com.qryl.qryl.adapter.ServiceAdapter;
+import com.qryl.qryl.adapter.XzServiceAdapter;
 import com.qryl.qryl.fragment.one.two.BaseFragment;
 import com.qryl.qryl.util.UIUtils;
 
@@ -24,7 +24,7 @@ public class XzServiceFragment extends BaseFragment {
     private RecyclerView recyclerView;
 
     private List<String> stringList = new ArrayList<>();
-    private ServiceAdapter adapter;
+    private XzServiceAdapter adapter;
 
     //加载数据
     @Override
@@ -33,7 +33,7 @@ public class XzServiceFragment extends BaseFragment {
         for (int i = 0; i < 20; i++) {
             stringList.add(i + "");
         }
-        adapter = new ServiceAdapter(stringList);
+        adapter = new XzServiceAdapter(stringList);
         //LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         GridLayoutManager layoutManager = new GridLayoutManager(UIUtils.getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);

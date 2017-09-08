@@ -6,7 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.qryl.qryl.R;
-import com.qryl.qryl.adapter.ServerAdapter;
+import com.qryl.qryl.adapter.TnServerAdapter;
+import com.qryl.qryl.adapter.XzServerAdapter;
 import com.qryl.qryl.fragment.one.two.BaseFragment;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class TnServerFragment extends BaseFragment {
     private RecyclerView recyclerView;
 
     private List<String> stringList = new ArrayList<>();
-    private ServerAdapter adapter;
+    private TnServerAdapter adapter;
 
     //加载数据
     @Override
@@ -31,7 +32,7 @@ public class TnServerFragment extends BaseFragment {
         for (int i = 0; i < 20; i++) {
             stringList.add(i + "");
         }
-        adapter = new ServerAdapter(stringList);
+        adapter = new TnServerAdapter(stringList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         //GridLayoutManager layoutManager = new GridLayoutManager(UIUtils.getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);

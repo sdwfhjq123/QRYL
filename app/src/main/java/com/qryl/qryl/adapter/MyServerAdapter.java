@@ -1,6 +1,5 @@
 package com.qryl.qryl.adapter;
 
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,11 +19,11 @@ import java.util.List;
  * Created by yinhao on 2017/9/5.
  */
 
-public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder> {
+public class MyServerAdapter extends RecyclerView.Adapter<MyServerAdapter.ViewHolder> {
 
     private List<String> stringList = new ArrayList<>();
 
-    public ServerAdapter(List<String> list) {
+    public MyServerAdapter(List<String> list) {
         stringList = list;
     }
 
@@ -50,7 +49,7 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
     }
 
     @Override
-    public ServerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyServerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(UIUtils.getContext()).inflate(R.layout.item_server, null);
         final ViewHolder holder = new ViewHolder(view);
         holder.rlRootItem.setOnClickListener(new View.OnClickListener() {
@@ -65,7 +64,7 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(ServerAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(MyServerAdapter.ViewHolder holder, int position) {
         //修改内容
         String s = stringList.get(position);
         holder.tvExperienceItem.setText(s);
