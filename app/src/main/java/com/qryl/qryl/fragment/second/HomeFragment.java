@@ -14,7 +14,9 @@ import com.jude.rollviewpager.hintview.ColorPointHintView;
 import com.qryl.qryl.R;
 import com.qryl.qryl.adapter.RollPagerAdapter;
 import com.qryl.qryl.fragment.second.third.HLFragment;
-import com.qryl.qryl.fragment.second.third.XzTnMyFragment;
+import com.qryl.qryl.fragment.second.third.MyFragment;
+import com.qryl.qryl.fragment.second.third.TnFragment;
+import com.qryl.qryl.fragment.second.third.XzFragment;
 import com.qryl.qryl.util.UIUtils;
 
 import java.util.ArrayList;
@@ -96,19 +98,19 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
             //巡诊
             case R.id.ll_xz:
                 changeTitleName("巡诊");
-                ft.replace(R.id.ll_home, new XzTnMyFragment());
+                ft.replace(R.id.ll_home, new XzFragment());
                 llFourHome.setVisibility(View.GONE);
                 break;
             //推拿
             case R.id.ll_tn:
                 changeTitleName("推拿");
-                ft.replace(R.id.ll_home, new XzTnMyFragment());
+                ft.replace(R.id.ll_home, new TnFragment());
                 llFourHome.setVisibility(View.GONE);
                 break;
             //母婴
             case R.id.ll_my:
                 changeTitleName("母婴");
-                ft.replace(R.id.ll_home, new XzTnMyFragment());
+                ft.replace(R.id.ll_home, new MyFragment());
                 llFourHome.setVisibility(View.GONE);
                 break;
         }

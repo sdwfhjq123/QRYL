@@ -1,4 +1,4 @@
-package com.qryl.qryl.fragment;
+package com.qryl.qryl.fragment.second.third;
 
 import android.content.Context;
 import android.os.Bundle;

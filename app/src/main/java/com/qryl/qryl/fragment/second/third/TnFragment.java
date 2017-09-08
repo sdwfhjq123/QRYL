@@ -16,8 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.qryl.qryl.R;
-import com.qryl.qryl.fragment.BaseFragment;
-import com.qryl.qryl.fragment.FragmentFactory;
 import com.qryl.qryl.util.UIUtils;
 
 import java.lang.reflect.Field;
@@ -27,7 +25,7 @@ import java.lang.reflect.Field;
  * 巡诊等三个的点开后的fragment
  */
 
-public class XzTnMyFragment extends Fragment {
+public class TnFragment extends Fragment {
 
     private View view;
     private ViewPager viewPager;
@@ -97,7 +95,7 @@ public class XzTnMyFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            BaseFragment fragment = FragmentFactory.createFragment(position);
+            BaseFragment fragment = TnFragmentFactory.createFragment(position);
             return fragment;
         }
 
