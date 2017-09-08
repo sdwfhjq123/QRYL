@@ -1,7 +1,7 @@
-package com.qryl.qryl.fragment.second.third;
+package com.qryl.qryl.fragment.one.two;
 
-import com.qryl.qryl.fragment.second.third.fourth.XzServerFragment;
-import com.qryl.qryl.fragment.second.third.fourth.XzServiceFragment;
+import com.qryl.qryl.fragment.one.two.three.TnServerFragment;
+import com.qryl.qryl.fragment.one.two.three.TnServiceFragment;
 
 import java.util.HashMap;
 
@@ -10,7 +10,7 @@ import java.util.HashMap;
  * tab标签的切换点单派单工厂类----优化代码
  */
 
-public class XzFragmentFactory {
+public class TnFragmentFactory {
 
     private static HashMap<Integer, BaseFragment> mBaseFragments = new HashMap<Integer, BaseFragment>();
 
@@ -22,10 +22,10 @@ public class XzFragmentFactory {
         if (baseFragment == null) {
             switch (pos) {
                 case 0:
-                    baseFragment = new XzServiceFragment();//服务项目
+                    baseFragment = new TnServiceFragment();//服务项目
                     break;
                 case 1:
-                    baseFragment = new XzServerFragment();//服务人员
+                    baseFragment = new TnServerFragment();//服务人员
                     break;
             }
 

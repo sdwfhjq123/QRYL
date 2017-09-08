@@ -8,10 +8,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.qryl.qryl.R;
-import com.qryl.qryl.fragment.second.HomeFragment;
-import com.qryl.qryl.fragment.second.MeFragment;
-import com.qryl.qryl.fragment.second.MsgFragment;
-import com.qryl.qryl.fragment.second.OrderFragment;
+import com.qryl.qryl.fragment.one.HomeFragment;
+import com.qryl.qryl.fragment.one.MeFragment;
+import com.qryl.qryl.fragment.one.MsgFragment;
+import com.qryl.qryl.fragment.one.OrderFragment;
 
 /**
  * 以及样式还未实现

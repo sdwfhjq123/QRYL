@@ -1,4 +1,4 @@
-package com.qryl.qryl.fragment.second.third.fourth;
+package com.qryl.qryl.fragment.one.two.three;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.qryl.qryl.R;
 import com.qryl.qryl.adapter.ServerAdapter;
-import com.qryl.qryl.fragment.second.third.BaseFragment;
+import com.qryl.qryl.fragment.one.two.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
  * Created by hp on 2017/8/21.
  */
 
-public class TnServerFragment extends BaseFragment {
+public class MyServerFragment extends BaseFragment {
 
     private SwipeRefreshLayout swipeRefresh;
     private RecyclerView recyclerView;

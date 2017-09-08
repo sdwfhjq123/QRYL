@@ -1,40 +1,50 @@
-package com.qryl.qryl.fragment.second.third.fourth;
+package com.qryl.qryl.fragment.one.two;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.qryl.qryl.R;
-import com.qryl.qryl.adapter.ServerAdapter;
-import com.qryl.qryl.fragment.second.third.BaseFragment;
+import com.qryl.qryl.adapter.HlAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by hp on 2017/8/21.
+ * Created by hp on 2017/8/18.
+ * 选择护理按钮后出现的护工列表界面
  */
 
-public class XzServerFragment extends BaseFragment {
+public class HLFragment extends Fragment {
 
     private SwipeRefreshLayout swipeRefresh;
     private RecyclerView recyclerView;
-
     private List<String> stringList = new ArrayList<>();
-    private ServerAdapter adapter;
+    private HlAdapter adapter;
 
-    //加载数据
+    @Nullable
     @Override
-    public void loadData() {
-        stringList.clear();
-        for (int i = 0; i < 20; i++) {
-            stringList.add(i + "");
-        }
-        adapter = new ServerAdapter(stringList);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_hl, null);
+        initView(view);
+        initData();
+        initRecyclerView();
+        return view;
+    }
+
+    /**
+     * 加载护工列表
+     */
+    private void initRecyclerView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        //GridLayoutManager layoutManager = new GridLayoutManager(UIUtils.getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
+        adapter = new HlAdapter(stringList);
         recyclerView.setAdapter(adapter);
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -43,7 +53,6 @@ public class XzServerFragment extends BaseFragment {
                 refreshView();
             }
         });
-
     }
 
     /**
@@ -69,16 +78,20 @@ public class XzServerFragment extends BaseFragment {
         }).start();
     }
 
-    @Override
-    public View initView() {
-//        TextView mView = new TextView(context);
-//        mView.setText("服务项目列表");
-//        mView.setTextSize(18);
-//        mView.setTextColor(Color.BLACK);
-//        return mView;
-        View view = View.inflate(mContext, R.layout.fragment_service, null);
+    private void initData() {
+        stringList.clear();
+        for (int i = 0; i < 20; i++) {
+            stringList.add(i + "");
+        }
+    }
+
+    /**
+     * 加载布局
+     *
+     * @param view
+     */
+    private void initView(View view) {
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        return view;
     }
 }

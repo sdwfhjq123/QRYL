@@ -1,4 +1,4 @@
-package com.qryl.qryl.fragment.second.third;
+package com.qryl.qryl.fragment.one.two;
 
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -25,7 +25,7 @@ import java.lang.reflect.Field;
  * 巡诊等三个的点开后的fragment
  */
 
-public class XzFragment extends Fragment {
+public class MyFragment extends Fragment {
 
     private View view;
     private ViewPager viewPager;
@@ -95,7 +95,7 @@ public class XzFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            BaseFragment fragment = XzFragmentFactory.createFragment(position);
+            BaseFragment fragment = MyFragmentFactory.createFragment(position);
             return fragment;
         }
 

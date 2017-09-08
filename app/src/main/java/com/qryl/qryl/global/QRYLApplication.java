@@ -7,6 +7,8 @@ import android.os.Process;
 
 import org.litepal.LitePalApplication;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * Created by hp on 2017/8/16.\
  * 自定义Application，进行全局初始化处理
@@ -25,6 +27,10 @@ public class QRYLApplication extends LitePalApplication {
         handler = new Handler();
         //获取主线程的id
         mainThreadId = Process.myTid();
+
+        //初始化JPush
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
     }
 
     public static Context getContext() {

@@ -1,9 +1,7 @@
-package com.qryl.qryl.fragment.second.third;
+package com.qryl.qryl.fragment.one.two;
 
-import com.qryl.qryl.fragment.second.third.fourth.MyServerFragment;
-import com.qryl.qryl.fragment.second.third.fourth.MyServiceFragment;
-import com.qryl.qryl.fragment.second.third.fourth.XzServerFragment;
-import com.qryl.qryl.fragment.second.third.fourth.XzServiceFragment;
+import com.qryl.qryl.fragment.one.two.three.MyServerFragment;
+import com.qryl.qryl.fragment.one.two.three.MyServiceFragment;
 
 import java.util.HashMap;
 

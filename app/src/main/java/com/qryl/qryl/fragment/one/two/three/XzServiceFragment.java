@@ -1,4 +1,4 @@
-package com.qryl.qryl.fragment.second.third.fourth;
+package com.qryl.qryl.fragment.one.two.three;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.qryl.qryl.R;
 import com.qryl.qryl.adapter.ServiceAdapter;
-import com.qryl.qryl.fragment.second.third.BaseFragment;
+import com.qryl.qryl.fragment.one.two.BaseFragment;
 import com.qryl.qryl.util.UIUtils;
 
 import java.util.ArrayList;

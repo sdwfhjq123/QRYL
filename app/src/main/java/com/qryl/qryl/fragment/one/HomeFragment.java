@@ -1,4 +1,4 @@
-package com.qryl.qryl.fragment.second;
+package com.qryl.qryl.fragment.one;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,10 +13,10 @@ import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.hintview.ColorPointHintView;
 import com.qryl.qryl.R;
 import com.qryl.qryl.adapter.RollPagerAdapter;
-import com.qryl.qryl.fragment.second.third.HLFragment;
-import com.qryl.qryl.fragment.second.third.MyFragment;
-import com.qryl.qryl.fragment.second.third.TnFragment;
-import com.qryl.qryl.fragment.second.third.XzFragment;
+import com.qryl.qryl.fragment.one.two.HLFragment;
+import com.qryl.qryl.fragment.one.two.MyFragment;
+import com.qryl.qryl.fragment.one.two.TnFragment;
+import com.qryl.qryl.fragment.one.two.XzFragment;
 import com.qryl.qryl.util.UIUtils;
 
 import java.util.ArrayList;
