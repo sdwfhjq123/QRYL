@@ -1,4 +1,4 @@
-package com.qryl.qryl;
+package com.qryl.qryl.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

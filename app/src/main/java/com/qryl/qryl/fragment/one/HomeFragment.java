@@ -123,7 +123,7 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
      * @param name
      */
     private void changeTitleName(String name) {
-        TextView view = (TextView) getActivity().findViewById(R.id.tv_title_main);
+        TextView view = (TextView) getActivity().findViewById(R.id.tv_title);
         view.setText(name);
     }
 

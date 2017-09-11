@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/title" />
+
+    <RelativeLayout
+        android:id="@+id/my_head"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/TextInItemStyle"
+            android:layout_marginLeft="10dp"
+            android:text="我的头像" />
+
+        <ImageView style="@style/ImgAdvanceInItemStyle" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/civ_head"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="50dp"
+            android:background="#f00"
+            android:src="#ff0" />
+
+    </RelativeLayout>
+
+    <View style="@style/ViewLine" />
+
+    <RelativeLayout
+        android:id="@+id/tel"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="5dp">
+
+        <TextView
+
+            style="@style/TextInItemStyle"
+            android:layout_marginLeft="10dp"
+            android:text="我的电话" />
+
+        <TextView
+            android:id="@+id/tv_tel"
+            style="@style/TextInItemStyle"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:text="未填写" />
+    </RelativeLayout>
+
+    <View style="@style/ViewLine" />
+
+
+    <RelativeLayout
+        android:id="@+id/real_name"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="5dp">
+
+        <TextView
+
+            style="@style/TextInItemStyle"
+            android:layout_marginLeft="10dp"
+            android:text="真实姓名" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            style="@style/TextInItemStyle"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:text="未填写" />
+    </RelativeLayout>
+
+    <View style="@style/ViewLine" />
+
+    <RelativeLayout
+        android:id="@+id/identity"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="5dp">
+
+        <TextView
+
+            style="@style/TextInItemStyle"
+            android:layout_marginLeft="10dp"
+            android:text="身份证号" />
+
+        <TextView
+            android:id="@+id/tv_identity"
+            style="@style/TextInItemStyle"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:text="未填写" />
+    </RelativeLayout>
+
+    <View style="@style/ViewLine" />
+
+    <RelativeLayout
+        android:id="@+id/gender"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/TextInItemStyle"
+            android:layout_marginLeft="10dp"
+            android:text="我的性别" />
+
+        <ImageView style="@style/ImgAdvanceInItemStyle" />
+
+        <TextView
+            android:id="@+id/tv_gender"
+            style="@style/TextInItemStyle"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:text="男" />
+    </RelativeLayout>
+
+    <View style="@style/ViewLine" />
+
+    <RelativeLayout
+        android:id="@+id/location"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/TextInItemStyle"
+            android:layout_marginLeft="10dp"
+            android:text="我的地址" />
+
+        <ImageView style="@style/ImgAdvanceInItemStyle" />
+
+        <TextView
+            android:id="@+id/tv_location"
+            style="@style/TextInItemStyle"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:text="请选择" />
+    </RelativeLayout>
+
+    <View style="@style/ViewLine" />
+
+    <RelativeLayout
+        android:id="@+id/ybh"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/TextInItemStyle"
+            android:layout_marginLeft="10dp"
+            android:text="我的医保号" />
+
+        <ImageView style="@style/ImgAdvanceInItemStyle" />
+
+        <TextView
+            android:id="@+id/tv_ybh"
+            style="@style/TextInItemStyle"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:text="请输入" />
+    </RelativeLayout>
+
+    <View style="@style/ViewLine" />
+
+    <RelativeLayout
+        android:id="@+id/stature"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/TextInItemStyle"
+            android:layout_alignBaseline="@+id/tv_stature"
+            android:layout_alignBottom="@+id/tv_stature"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="11dp"
+            android:text="我的身高" />
+
+        <ImageView style="@style/ImgAdvanceInItemStyle" />
+
+        <TextView
+            android:id="@+id/tv_stature"
+            style="@style/TextInItemStyle"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:text="请输入" />
+    </RelativeLayout>
+
+    <View style="@style/ViewLine" />
+
+    <RelativeLayout
+        android:id="@+id/weight"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/TextInItemStyle"
+            android:layout_marginLeft="10dp"
+            android:text="我的体重" />
+
+        <ImageView style="@style/ImgAdvanceInItemStyle" />
+
+        <TextView
+            android:id="@+id/tv_weight"
+            style="@style/TextInItemStyle"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:text="请输入" />
+    </RelativeLayout>
+
+    <View style="@style/ViewLine" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3">
+
+        <Button
+            android:id="@+id/btn_save"
+            style="@style/ButtonLoginStyle"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="30dp"
+            android:text="保存" />
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rl_root_item"
     android:layout_width="match_parent"
-    android:layout_height="80dp">
+    android:layout_height="100dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -87,7 +87,7 @@
                 android:id="@+id/tv_be_good_at_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="擅长:擅长擅长:擅长擅长:擅长擅长:擅长擅长:擅长擅长:擅长擅长:擅长擅长:擅长擅长:擅长擅长:擅长擅长:擅长擅长:擅长"
+                android:text="擅长:擅擅长:擅长:擅长擅长:擅长擅长:擅长擅擅长擅长:擅长擅长:擅长"
                 android:textColor="#666"
                 android:textSize="10sp" />
         </LinearLayout>

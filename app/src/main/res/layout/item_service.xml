@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:text="静脉采血静脉采血静脉脉采血静脉采血静脉采血静脉采血静脉采血静脉采血静脉采血静脉采血静采血静脉采血静脉采血静脉采血静"
+                android:text="静脉采血血静脉采血静脉采血静脉采血静脉采血静脉采血静采血静脉采血静脉采血静脉采血静"
                 android:textColor="#666"
                 android:textSize="10sp" />
 

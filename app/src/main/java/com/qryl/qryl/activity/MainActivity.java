@@ -1,8 +1,10 @@
 package com.qryl.qryl.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -25,13 +27,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String MSG_FRAGMENT = "MSG_FRAGMENT";
     private static final String ORDER_FRAGMENT = "ORDER_FRAGMENT";
 
-
     private RadioGroup rgMain;
-    private TextView tvTitleMain;
+    private TextView tvTitle;
     private RadioButton rbHome, rbOrder, rbMsg, rbMe;
     private android.support.v4.app.FragmentManager fm;
     private android.support.v4.app.FragmentTransaction ft;
-
+    private TextView tvLocation;
+    private LinearLayout llSetting;
+    private TextView tvHelp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void initData() {
         initFragment();
-
     }
 
     /**
@@ -71,7 +73,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         rbOrder = (RadioButton) findViewById(R.id.rb_order);
         rbMsg = (RadioButton) findViewById(R.id.rb_msg);
         rbMe = (RadioButton) findViewById(R.id.rb_me);
-        tvTitleMain = (TextView) findViewById(R.id.tv_title_main);
+        tvTitle = (TextView) findViewById(R.id.tv_title);
+        tvLocation = (TextView) findViewById(R.id.tv_location);
+        llSetting = (LinearLayout) findViewById(R.id.ll_setting);
+        tvHelp = (TextView) findViewById(R.id.tv_help);
         rbHome.setOnClickListener(this);
         rbOrder.setOnClickListener(this);
         rbMsg.setOnClickListener(this);
@@ -85,27 +90,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //首页
             case R.id.rb_home:
                 setTitleName("亲仁医疗护理");
+                llSetting.setVisibility(View.GONE);
+                tvHelp.setVisibility(View.VISIBLE);
                 ft.replace(R.id.fl_home, new HomeFragment(), HOME_FRAGMENT);
                 break;
             //定单
             case R.id.rb_order:
                 setTitleName("订单");
+                llSetting.setVisibility(View.GONE);
+                tvHelp.setVisibility(View.VISIBLE);
                 ft.replace(R.id.fl_home, new OrderFragment(), ORDER_FRAGMENT);
                 break;
             //消息
             case R.id.rb_msg:
                 setTitleName("消息");
+                llSetting.setVisibility(View.GONE);
+                tvHelp.setVisibility(View.VISIBLE);
                 ft.replace(R.id.fl_home, new MsgFragment(), MSG_FRAGMENT);
                 break;
             //我的
             case R.id.rb_me:
                 setTitleName("我的");
+                llSetting.setVisibility(View.VISIBLE);
+                llSetting.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(MainActivity.this, MeSettingActivity.class));
+                    }
+                });
+                tvHelp.setVisibility(View.GONE);
                 ft.replace(R.id.fl_home, new MeFragment(), ME_FRAGMENT);
                 break;
         }
         ft.commit();
     }
-
 
     /**
      * 点击最下面四个按钮式切换标题的名字
@@ -113,8 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * @param name 需要传入修改的name
      */
     private void setTitleName(String name) {
-        tvTitleMain.setText(name);
+        tvTitle.setText(name);
     }
-
 
 }

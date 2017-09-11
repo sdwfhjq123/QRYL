@@ -8,6 +8,7 @@ import android.os.Process;
 import org.litepal.LitePalApplication;
 
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.sms.SMSSDK;
 
 /**
  * Created by hp on 2017/8/16.\
@@ -31,6 +32,10 @@ public class QRYLApplication extends LitePalApplication {
         //初始化JPush
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
+        //初始化极光短信
+        SMSSDK.getInstance().initSdk(this);
+        SMSSDK.getInstance().setDebugMode(true);
+        SMSSDK.getInstance().setIntervalTime(60000);
     }
 
     public static Context getContext() {

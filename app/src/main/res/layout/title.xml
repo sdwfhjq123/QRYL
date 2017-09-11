@@ -9,6 +9,7 @@
         style="@style/TitleRelativeStyle">
 
         <TextView
+            android:id="@+id/tv_return"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -17,15 +18,28 @@
             android:paddingLeft="10dp"
             android:text="返回"
             android:textColor="#ffffff"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:drawablePadding="3dp"
+            android:drawableRight="@mipmap/ic_arrows_down"
+            android:paddingLeft="10dp"
+            android:text="济南市"
+            android:textColor="#ffffff"
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/tv_title_main"
+            android:id="@+id/tv_title"
             style="@style/TitleName"
             android:text="用户登录" />
 
         <TextView
-
+            android:id="@+id/tv_help"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -34,6 +48,29 @@
             android:text="帮助"
             android:textColor="#ffffff"
             android:textSize="13sp" />
+
+        <LinearLayout
+            android:id="@+id/ll_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingRight="10dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/ic_setup" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="设置"
+                android:textColor="#ffffff"
+                android:textSize="13sp" />
+        </LinearLayout>
+
     </RelativeLayout>
 
 </LinearLayout>
