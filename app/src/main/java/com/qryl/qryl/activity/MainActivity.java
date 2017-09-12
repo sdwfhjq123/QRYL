@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private android.support.v4.app.FragmentTransaction ft;
     private TextView tvLocation;
     private LinearLayout llSetting;
-    private TextView tvHelp;
+    private TextView tvHelp, tvReturn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvLocation = (TextView) findViewById(R.id.tv_location);
         llSetting = (LinearLayout) findViewById(R.id.ll_setting);
         tvHelp = (TextView) findViewById(R.id.tv_help);
+        tvReturn = (TextView) findViewById(R.id.tv_return);
         rbHome.setOnClickListener(this);
         rbOrder.setOnClickListener(this);
         rbMsg.setOnClickListener(this);
@@ -92,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setTitleName("亲仁医疗护理");
                 llSetting.setVisibility(View.GONE);
                 tvHelp.setVisibility(View.VISIBLE);
+                tvLocation.setVisibility(View.VISIBLE);
                 ft.replace(R.id.fl_home, new HomeFragment(), HOME_FRAGMENT);
                 break;
             //定单
@@ -99,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setTitleName("订单");
                 llSetting.setVisibility(View.GONE);
                 tvHelp.setVisibility(View.VISIBLE);
+                tvLocation.setVisibility(View.GONE);
                 ft.replace(R.id.fl_home, new OrderFragment(), ORDER_FRAGMENT);
                 break;
             //消息
@@ -106,19 +109,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setTitleName("消息");
                 llSetting.setVisibility(View.GONE);
                 tvHelp.setVisibility(View.VISIBLE);
+                tvLocation.setVisibility(View.GONE);
                 ft.replace(R.id.fl_home, new MsgFragment(), MSG_FRAGMENT);
                 break;
             //我的
             case R.id.rb_me:
                 setTitleName("我的");
                 llSetting.setVisibility(View.VISIBLE);
-                llSetting.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startActivity(new Intent(MainActivity.this, MeSettingActivity.class));
-                    }
-                });
                 tvHelp.setVisibility(View.GONE);
+                tvLocation.setVisibility(View.GONE);
+//                llSetting.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        startActivity(new Intent(MainActivity.this, MeSettingActivity.class));
+//                    }
+//                });
                 ft.replace(R.id.fl_home, new MeFragment(), ME_FRAGMENT);
                 break;
         }

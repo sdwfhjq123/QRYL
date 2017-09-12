@@ -79,7 +79,6 @@ public class MeSettingActivity extends AppCompatActivity {
     private int genderNum;//1是女，0是男
     private String ybhDialogText;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +86,8 @@ public class MeSettingActivity extends AppCompatActivity {
         genderArray = getResources().getStringArray(R.array.gender);
         initView();
         tvReturn.setVisibility(View.VISIBLE);
+        //有些条目不能为空
+
         //点击每个条目实现dialog或者activity
         clickItemShowDialog();
     }

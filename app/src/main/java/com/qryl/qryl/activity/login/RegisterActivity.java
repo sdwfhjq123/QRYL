@@ -101,7 +101,7 @@ public class RegisterActivity extends AppCompatActivity {
             if (TextUtils.isEmpty(etPsd.getText().toString())) {
                 Toast.makeText(this, "请输入注册密码!", Toast.LENGTH_SHORT).show();
             } else {
-                if (etPsd.getText().toString().equals(etPsdComfirm.getText().toString())) {
+                if (!etPsd.getText().toString().equals(etPsdComfirm.getText().toString())) {
                     Toast.makeText(this, "确认密码与密码不符!", Toast.LENGTH_SHORT).show();
                 } else {
                     if (!checkBox.isChecked()) {
@@ -149,10 +149,10 @@ public class RegisterActivity extends AppCompatActivity {
     private void postData() {
         OkHttpClient client = new OkHttpClient();
         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
-        builder.addFormDataPart("psd", etPsdComfirm.getText().toString());
-        builder.addFormDataPart("user", etTel.getText().toString());
+        builder.addFormDataPart("password", etPsdComfirm.getText().toString());
+        builder.addFormDataPart("mobile", etTel.getText().toString());
         MultipartBody requestBody = builder.build();
-        Request requset = new Request.Builder().url("").post(requestBody).build();
+        Request requset = new Request.Builder().url("http://192.168.2.134:8080/qryl/patientUser/register").post(requestBody).build();
         client.newCall(requset).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
