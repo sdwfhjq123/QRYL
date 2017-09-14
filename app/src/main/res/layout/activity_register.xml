@@ -156,6 +156,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:checked="true"
+                android:background="@mipmap/ic_frame_true"
                 android:shadowColor="#4581c7" />
 
             <TextView

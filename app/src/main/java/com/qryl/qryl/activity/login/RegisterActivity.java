@@ -74,8 +74,10 @@ public class RegisterActivity extends AppCompatActivity {
                 //根据checkBox的状态修改样式
                 if (checked) {
                     checkBox.setChecked(false);
+                    checkBox.setBackgroundResource(R.mipmap.ic_frame_false);
                 } else {
                     checkBox.setChecked(true);
+                    checkBox.setBackgroundResource(R.mipmap.ic_frame_true);
                 }
             }
         });
