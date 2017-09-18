@@ -9,9 +9,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.hintview.ColorPointHintView;
 import com.qryl.qryl.R;
+import com.qryl.qryl.VO.Picture;
 import com.qryl.qryl.adapter.RollPagerAdapter;
 import com.qryl.qryl.fragment.one.two.HLFragment;
 import com.qryl.qryl.fragment.one.two.MyFragment;
@@ -19,7 +23,20 @@ import com.qryl.qryl.fragment.one.two.TnFragment;
 import com.qryl.qryl.fragment.one.two.XzFragment;
 import com.qryl.qryl.util.UIUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 
 /**
@@ -35,7 +52,7 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
     private LinearLayout llHl, llXz, llTn, llMy;
     private LinearLayout llFourHome;
     private RollPagerView mRollPagerView;
-    private ArrayList<Integer> mImgList = new ArrayList<>();
+    private List<Picture> mImgList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -54,10 +71,62 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
      * 初始化数据
      */
     private void initData() {
+        postData();
 
-        mImgList.add(R.mipmap.img1);
-        mImgList.add(R.mipmap.img2);
-        mImgList.add(R.mipmap.img3);
+    }
+
+    /**
+     * 获取网络图片
+     */
+    private void postData() {
+        OkHttpClient client = new OkHttpClient();
+        FormBody.Builder builder = new FormBody.Builder();
+        builder.add("positionName", "new Name");
+        FormBody formBody = builder.build();
+        Request request = new Request.Builder()
+                .url("http://192.168.2.134:8080/qryl/common/getAdverListByPositionName")
+                .post(formBody)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String result = response.body().string();
+                handldJson(result);
+            }
+        });
+    }
+
+    /**
+     * 解析json
+     *
+     * @param result
+     */
+    private void handldJson(String result) {
+        try {
+            JSONObject jsonObject = new JSONObject(result);
+            JSONArray data = jsonObject.getJSONArray("data");
+            for (int i = 0; i < data.length(); i++) {
+                JSONObject jb = data.getJSONObject(i);
+                //"id": 2,
+                //"imgUrl": "new url img",
+                //"positionId": 2,
+                //"httpUrl": "new httpurl",
+                //"note": "new note"
+                int id = jb.getInt("id");
+                int positionId = jb.getInt("positionId");
+                String imgUrl = jb.getString("imgUrl");
+                String httpUrl = jb.getString("httpUrl");
+                String note = jb.getString("note");
+                mImgList.add(new Picture(id, imgUrl, positionId, httpUrl, note));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
