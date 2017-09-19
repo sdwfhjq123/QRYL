@@ -1,6 +1,7 @@
 package com.qryl.qryl.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +53,6 @@ public class MenuListAdapter extends BaseAdapter {
 
         viewHolder.text1 = (TextView) convertView.findViewById(R.id.textname);
         viewHolder.text1.setText(list.get(position));
-
         return convertView;
     }
 

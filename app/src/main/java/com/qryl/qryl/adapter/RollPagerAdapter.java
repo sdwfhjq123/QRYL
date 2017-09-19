@@ -17,6 +17,7 @@ import java.util.List;
 
 public class RollPagerAdapter extends StaticPagerAdapter {
     private List<Picture> data = new ArrayList<>();
+    private int mChildCount = 0;
 
     public RollPagerAdapter(List<Picture> mImgList) {
         this.data = mImgList;
@@ -38,5 +39,20 @@ public class RollPagerAdapter extends StaticPagerAdapter {
 
     public void setData(List<Picture> data) {
         this.data = data;
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        mChildCount = getCount();
+        super.notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        if (mChildCount > 0) {
+            mChildCount--;
+            return POSITION_NONE;
+        }
+        return super.getItemPosition(object);
     }
 }

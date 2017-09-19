@@ -53,7 +53,6 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
     private LinearLayout llFourHome;
     private RollPagerView mRollPagerView;
     private List<Picture> mImgList = new ArrayList<>();
-    private RollPagerAdapter rollPagerAdapter = new RollPagerAdapter(mImgList);
 
     @Nullable
     @Override
@@ -61,7 +60,6 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
         view = UIUtils.inflate(R.layout.fragment_home);
         initUI();
         initData();
-        initRPV();
         initFragment();
 
         return view;
@@ -127,8 +125,7 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    rollPagerAdapter.setData(mImgList);
-                    rollPagerAdapter.notifyDataSetChanged();
+                    initRPV();
                 }
             });
         } catch (JSONException e) {
@@ -220,7 +217,8 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
         //隐藏指示器
         //mRollPagerView.setHintView(null);
         //设置适配器
-        mRollPagerView.setAdapter(rollPagerAdapter);
-        rollPagerAdapter.notifyDataSetChanged();
+        RollPagerAdapter adapter = new RollPagerAdapter(mImgList);
+        mRollPagerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 }
