@@ -35,4 +35,8 @@ public class RollPagerAdapter extends StaticPagerAdapter {
     public int getCount() {
         return data.size();
     }
+
+    public void setData(List<Picture> data) {
+        this.data = data;
+    }
 }

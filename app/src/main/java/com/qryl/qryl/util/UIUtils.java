@@ -96,7 +96,7 @@ public class UIUtils {
      */
     public static int dip2px(float dip) {
         float density = getContext().getResources().getDisplayMetrics().density;
-        return (int) (dip + density + 0.5f);
+        return (int) (dip * density + 0.5f);
     }
 
     /**

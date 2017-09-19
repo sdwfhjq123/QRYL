@@ -53,6 +53,7 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
     private LinearLayout llFourHome;
     private RollPagerView mRollPagerView;
     private List<Picture> mImgList = new ArrayList<>();
+    private RollPagerAdapter rollPagerAdapter = new RollPagerAdapter(mImgList);
 
     @Nullable
     @Override
@@ -62,7 +63,6 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
         initData();
         initRPV();
         initFragment();
-
 
         return view;
     }
@@ -81,7 +81,7 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
     private void postData() {
         OkHttpClient client = new OkHttpClient();
         FormBody.Builder builder = new FormBody.Builder();
-        builder.add("positionName", "new Name");
+        builder.add("positionName", "shouye");
         FormBody formBody = builder.build();
         Request request = new Request.Builder()
                 .url("http://192.168.2.134:8080/qryl/common/getAdverListByPositionName")
@@ -124,6 +124,13 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
                 String note = jb.getString("note");
                 mImgList.add(new Picture(id, imgUrl, positionId, httpUrl, note));
             }
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    rollPagerAdapter.setData(mImgList);
+                    rollPagerAdapter.notifyDataSetChanged();
+                }
+            });
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -213,6 +220,7 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
         //隐藏指示器
         //mRollPagerView.setHintView(null);
         //设置适配器
-        mRollPagerView.setAdapter(new RollPagerAdapter(mImgList));
+        mRollPagerView.setAdapter(rollPagerAdapter);
+        rollPagerAdapter.notifyDataSetChanged();
     }
 }

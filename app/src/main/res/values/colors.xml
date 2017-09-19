@@ -14,4 +14,12 @@
     <color name="tab_text_color_selected">#ff5988be</color><!-- tab选中文字颜色 -->
     <color name="tab_text_color_normal">#3b3b3b</color><!-- tab未选中文字颜色 -->
     <color name="card_view_bg">#ffffff</color><!-- tab未选中文字颜色 -->
+
+    <color name="mask_color">#88888888</color>
+    <color name="blue_app">#22abea</color>
+    <color name="drop_down_unselected">#ffffff</color>
+
+    <color name="base_title_color">#464a4d</color>
+    <color name="material_text_color_47">#333333</color>
+    <color name="divider_color_c7">#d3d3d3</color>
 </resources>
