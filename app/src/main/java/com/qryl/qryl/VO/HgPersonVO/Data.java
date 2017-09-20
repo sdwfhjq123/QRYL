@@ -1,51 +1,33 @@
 package com.qryl.qryl.VO.HgPersonVO;
 
+import java.util.List;
+
 /**
  * Created by yinhao on 2017/9/19.
  */
 
 public class Data {
-    private int id;
-    private String realName;
-    private int age;
-    private int workYears;
+    private List<DataArea> data;
+    private int total;
 
-    public Data(int id, String realName, int age, int workYears) {
-        this.id = id;
-        this.realName = realName;
-        this.age = age;
-        this.workYears = workYears;
+    public Data(List<DataArea> data, int total) {
+        this.data = data;
+        this.total = total;
     }
 
-    public int getId() {
-        return id;
+    public List<DataArea> getData() {
+        return data;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setData(List<DataArea> data) {
+        this.data = data;
     }
 
-    public String getRealName() {
-        return realName;
+    public int getTotal() {
+        return total;
     }
 
-    public void setRealName(String realName) {
-        this.realName = realName;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public int getWorkYears() {
-        return workYears;
-    }
-
-    public void setWorkYears(int workYears) {
-        this.workYears = workYears;
+    public void setTotal(int total) {
+        this.total = total;
     }
 }

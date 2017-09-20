@@ -16,7 +16,7 @@
     <color name="card_view_bg">#ffffff</color><!-- tab未选中文字颜色 -->
 
     <color name="mask_color">#88888888</color>
-    <color name="blue_app">#22abea</color>
+    <color name="blue_app">#666</color>
     <color name="drop_down_unselected">#fff</color>
 
     <color name="base_title_color">#fff</color>

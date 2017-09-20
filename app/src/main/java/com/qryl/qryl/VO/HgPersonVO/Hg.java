@@ -7,19 +7,12 @@ import java.util.List;
  */
 
 public class Hg {
-    private List<Data> data;
+
+    private Data data;
     private String resultCode;
 
-    public Hg(List<Data> data, String resultCode) {
-        this.data = data;
+    public Hg(String resultCode, int total, Data data) {
         this.resultCode = resultCode;
-    }
-
-    public List<Data> getData() {
-        return data;
-    }
-
-    public void setData(List<Data> data) {
         this.data = data;
     }
 
@@ -29,5 +22,13 @@ public class Hg {
 
     public void setResultCode(String resultCode) {
         this.resultCode = resultCode;
+    }
+
+    public Data getData() {
+        return data;
+    }
+
+    public void setData(Data data) {
+        this.data = data;
     }
 }

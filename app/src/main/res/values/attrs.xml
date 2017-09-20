@@ -17,8 +17,10 @@
         <attr name="menuTextSize" format="dimension" />
         <!--tab选中状态图标-->
         <attr name="menuSelectedIcon" format="reference" />
-        <!--tab未选中状态图标-->
         <attr name="menuUnselectedIcon" format="reference" />
+        <!--tab未选中状态图标-->
+        <attr name="menuSelectedLeftIcon" format="reference" />
+        <attr name="menuUnselectedLeftIcon" format="reference" />
     </declare-styleable>
 
 </resources>
