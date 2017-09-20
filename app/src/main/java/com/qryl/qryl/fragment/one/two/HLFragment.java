@@ -76,7 +76,6 @@ public class HLFragment extends Fragment {
     private SwipeRefreshLayout swipeRefresh;
     private RecyclerView recyclerView;
     private int total;
-    private Handler handler = new Handler();
 
     @Nullable
     @Override
@@ -139,9 +138,9 @@ public class HLFragment extends Fragment {
                     public void run() {
                         swipeRefresh.setRefreshing(false);
                         //Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
-                        handleJson(result);
                     }
                 });
+                handleJson(result);
             }
         });
     }
@@ -166,11 +165,17 @@ public class HLFragment extends Fragment {
                     int workYears = jo.getInt("workYears");
                     datas.add(new DataArea(id, realName, gender, age, workYears));
                 }
-                Toast.makeText(getActivity(), datas.size() + "", Toast.LENGTH_SHORT).show();
-                adapter.setData(datas);
-                adapter.notifyDataSetChanged();
-                swipeRefresh.setRefreshing(false);
-                adapter.notifyItemRemoved(adapter.getItemCount());
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity(), datas.size() + "", Toast.LENGTH_SHORT).show();
+                        adapter.setData(datas);
+                        adapter.notifyDataSetChanged();
+                        swipeRefresh.setRefreshing(false);
+                        adapter.notifyItemRemoved(adapter.getItemCount());
+                    }
+                });
+
             }
         } catch (JSONException e) {
             e.printStackTrace();

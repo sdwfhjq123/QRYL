@@ -180,8 +180,9 @@ public class RegisterActivity extends AppCompatActivity {
                             progressDialog.dismiss();
                         }
                         Toast.makeText(RegisterActivity.this, "注册成功!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                        startActivity(intent);
+                        //Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                        //startActivity(intent);
+                        finish();
                     }
                 });
             }

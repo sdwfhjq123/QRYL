@@ -39,7 +39,7 @@
                 android:textColor="#666" />
 
             <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/et_user_login"
+                android:id="@+id/et_user"
                 style="@style/et_lab"
                 android:hint="请输入用户名" />
 
@@ -66,7 +66,7 @@
                 android:textColor="#666" />
 
             <com.qryl.qryl.view.PasswordToggleEditText
-                android:id="@+id/et_psd_login"
+                android:id="@+id/et_psd"
                 style="@style/et_lab"
                 android:hint="请输入密码" />
 
@@ -122,14 +122,14 @@
     </RelativeLayout>
 
     <Button
-        android:id="@+id/btn_login_login"
+        android:id="@+id/btn_login"
         style="@style/ButtonLoginStyle"
         android:layout_below="@id/rl_login_text"
         android:layout_marginTop="50dp"
         android:text="登录" />
 
     <Button
-        android:id="@+id/btn_register_login"
+        android:id="@+id/btn_register"
         style="@style/ButtonLoginStyle"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
@@ -138,7 +138,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/btn_register_login"
+        android:layout_above="@id/btn_register"
         android:layout_marginBottom="3dp"
         android:layout_marginLeft="40dp"
         android:text="目前还没有亲仁医疗账号？"
