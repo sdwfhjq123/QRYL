@@ -1,34 +1,33 @@
 package com.qryl.qryl.fragment.one.two;
 
-import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.qryl.qryl.R;
-import com.qryl.qryl.VO.HgPersonVO.Data;
-import com.qryl.qryl.VO.HgPersonVO.DataArea;
-import com.qryl.qryl.VO.HgPersonVO.Hg;
+import com.qryl.qryl.VO.DataArea;
+import com.qryl.qryl.activity.MainActivity;
 import com.qryl.qryl.adapter.HlAdapter;
 import com.qryl.qryl.adapter.MenuListAdapter;
 import com.qryl.qryl.util.UIUtils;
 import com.qryl.qryl.view.DropDownMenu;
 
 import org.feezu.liuli.timeselector.TimeSelector;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -63,9 +62,9 @@ public class HLFragment extends Fragment {
 
     private List<View> popupViews = new ArrayList<>();
 
-    private String gender = null;
-    private String hours = null;
-    private String startTime;
+    private String gender = "";
+    private String hours = "";
+    private String startTime = "";
     private String endTime = "2018-12-31 00:00:00";
 
     private List<DataArea> datas = new ArrayList<>();
@@ -77,6 +76,7 @@ public class HLFragment extends Fragment {
     private SwipeRefreshLayout swipeRefresh;
     private RecyclerView recyclerView;
     private int total;
+    private Handler handler = new Handler();
 
     @Nullable
     @Override
@@ -84,7 +84,7 @@ public class HLFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_hl, null);
         startTime = getCurrentTime();
         initView(view);
-        swipeRefresh.setRefreshing(true);
+
         initData();
         return view;
     }
@@ -98,12 +98,25 @@ public class HLFragment extends Fragment {
      * 加载数据
      */
     private void postData(String gender, String startTime, String endTime, String hours) {
+        swipeRefresh.setRefreshing(true);
         OkHttpClient client = new OkHttpClient();
         FormBody.Builder builder = new FormBody.Builder();
-        builder.add("gender", gender);
+        if (!(gender.equals(""))) {
+            builder.add("gender", gender);
+        } else {
+            builder.add("gender", "");
+        }
         builder.add("startTime", startTime);
-        builder.add("endTime", endTime);
-        builder.add("hours", hours);
+        if (!(endTime.equals(""))) {
+            builder.add("endTime", endTime);
+        } else {
+            builder.add("gender", "2018-12-31 00:00:00");
+        }
+        if (!(hours.equals(""))) {
+            builder.add("hours", hours);
+        } else {
+            builder.add("hours", "");
+        }
         builder.add("page", String.valueOf(page));
         builder.add("limit", String.valueOf(20));
         FormBody formBody = builder.build();
@@ -124,10 +137,11 @@ public class HLFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
+                        swipeRefresh.setRefreshing(false);
+                        //Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
+                        handleJson(result);
                     }
                 });
-                handleJson(result);
             }
         });
     }
@@ -138,23 +152,29 @@ public class HLFragment extends Fragment {
      * @param result
      */
     private void handleJson(String result) {
-        Gson gson = new Gson();
-        Hg hg = gson.fromJson(result, Hg.class);
-        total = hg.getData().getTotal();
-        List<DataArea> data = hg.getData().getData();
-        for (int i = 0; i < data.size(); i++) {
-            datas.add(data.get(i));
-        }
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
+        try {
+            JSONObject jsonObject = new JSONObject(result);
+            JSONArray jsonArray = jsonObject.getJSONArray("data");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jo = jsonArray.getJSONObject(i);
+                total = jo.getInt("total");
+                for (int j = 0; j < jo.length(); j++) {
+                    int id = jo.getInt("id");
+                    String realName = jo.getString("realName");
+                    int gender = jo.getInt("gender");
+                    int age = jo.getInt("age");
+                    int workYears = jo.getInt("workYears");
+                    datas.add(new DataArea(id, realName, gender, age, workYears));
+                }
+                Toast.makeText(getActivity(), datas.size() + "", Toast.LENGTH_SHORT).show();
                 adapter.setData(datas);
                 adapter.notifyDataSetChanged();
-                adapter.notifyItemRemoved(adapter.getItemCount());
                 swipeRefresh.setRefreshing(false);
+                adapter.notifyItemRemoved(adapter.getItemCount());
             }
-        });
-
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -219,6 +239,7 @@ public class HLFragment extends Fragment {
                         tvTime.setText(time + ":00");
                         endTime = tvTime.getText().toString();
                         Toast.makeText(getActivity(), time, Toast.LENGTH_SHORT).show();
+                        postData(gender, startTime, endTime, hours);
                     }
                 }, startTime, "2018-12-31 00:00");
                 timeSelector.show();
@@ -229,10 +250,10 @@ public class HLFragment extends Fragment {
             @Override
             public void onRefresh() {
                 swipeRefresh.setRefreshing(true);
-                initData();
+                postData(gender, startTime, endTime, hours);
             }
         });
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(UIUtils.getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -250,7 +271,7 @@ public class HLFragment extends Fragment {
                         isLoading = true;
                         page += 1;
                         if (page <= total) {
-                            initData();
+                            postData(gender, startTime, endTime, hours);
                         }
                         isLoading = false;
                     }
@@ -278,7 +299,7 @@ public class HLFragment extends Fragment {
         } else if (position.equals("女")) {
             gender = String.valueOf(1);
         } else if (position.equals("不限")) {
-            gender = null;
+            gender = "";
         }
         postData(gender, startTime, endTime, hours);
     }
@@ -286,7 +307,7 @@ public class HLFragment extends Fragment {
     private void assessValueOfWork(String position) {
         //private String[] workTimes = {"不限", "8小时", "12小时", "24小时"};
         if (position.equals("不限")) {
-            hours = null;
+            hours = "";
         } else if (position.equals("8小时")) {
             hours = String.valueOf("8");
         } else if (position.equals("12小时")) {
@@ -301,6 +322,6 @@ public class HLFragment extends Fragment {
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss");
         String date = sDateFormat.format(new java.util.Date());
         Toast.makeText(getActivity(), date, Toast.LENGTH_SHORT).show();
-        return date;
+        return "2017-07-07 00:00:00";
     }
 }

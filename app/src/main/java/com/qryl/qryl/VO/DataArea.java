@@ -1,4 +1,4 @@
-package com.qryl.qryl.VO.HgPersonVO;
+package com.qryl.qryl.VO;
 
 /**
  * Created by hp on 2017/9/20.
@@ -10,6 +10,8 @@ public class DataArea {
     private int gender;
     private int age;
     private int workYears;
+
+    //未使用到的
 
     public DataArea(int id, String realName, int gender, int age, int workYears) {
         this.id = id;

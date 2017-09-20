@@ -8,7 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.qryl.qryl.R;
-import com.qryl.qryl.VO.HgPersonVO.DataArea;
+import com.qryl.qryl.VO.DataArea;
 import com.qryl.qryl.util.UIUtils;
 
 import java.util.ArrayList;
@@ -37,8 +37,8 @@ public class HlAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.onItemClickListener = onItemClickListener;
     }
 
-    public HlAdapter(List<DataArea> list) {
-        datas = list;
+    public HlAdapter(List<DataArea> data) {
+        datas = data;
     }
 
     @Override
