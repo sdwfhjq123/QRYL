@@ -68,8 +68,6 @@
                     android:textColor="#666" />
 
             </LinearLayout>
-
-
         </LinearLayout>
 
         <LinearLayout
@@ -161,7 +159,7 @@
 
             <TextView
                 android:id="@+id/tv_location"
-                android:layout_width="wrap_content"
+                android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textColor="#666" />
@@ -209,6 +207,7 @@
     <View style="@style/ViewLine" />
 
     <RelativeLayout
+        android:id="@+id/rl_contacts"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:padding="5dp">
@@ -241,6 +240,7 @@
     <View style="@style/ViewLine" />
 
     <RelativeLayout
+        android:id="@+id/rl_location"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:padding="5dp">
@@ -372,5 +372,22 @@
     </RelativeLayout>
 
     <View style="@style/ViewLine" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btn_exit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/selector_btn_login"
+            android:text="退出登陆"
+            android:textColor="#fff" />
+
+    </RelativeLayout>
 
 </LinearLayout>

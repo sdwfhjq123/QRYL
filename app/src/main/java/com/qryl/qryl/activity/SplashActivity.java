@@ -11,7 +11,7 @@ import android.widget.RelativeLayout;
 
 import com.qryl.qryl.R;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends BaseActivity {
 
     private RelativeLayout rlSplash;
     private Handler mHandler = new Handler();

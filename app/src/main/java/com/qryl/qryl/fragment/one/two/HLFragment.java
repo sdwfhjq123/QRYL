@@ -1,7 +1,7 @@
 package com.qryl.qryl.fragment.one.two;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -18,9 +18,10 @@ import android.widget.Toast;
 
 import com.qryl.qryl.R;
 import com.qryl.qryl.VO.DataArea;
-import com.qryl.qryl.activity.MainActivity;
+import com.qryl.qryl.activity.H5.HgxqActivity;
 import com.qryl.qryl.adapter.HlAdapter;
 import com.qryl.qryl.adapter.MenuListAdapter;
+import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.UIUtils;
 import com.qryl.qryl.view.DropDownMenu;
 
@@ -64,18 +65,19 @@ public class HLFragment extends Fragment {
 
     private String gender = "";
     private String hours = "";
-    private String startTime = "";
+    private String startTime;
     private String endTime = "2018-12-31 00:00:00";
 
     private List<DataArea> datas = new ArrayList<>();
     private HlAdapter adapter = new HlAdapter(datas);
-    private TimeSelector timeSelector;
+    private TimeSelector timeSelectorStart;
     private int lastVisibleItemPosition;
     private boolean isLoading = false;
     private int page = 1;
     private SwipeRefreshLayout swipeRefresh;
     private RecyclerView recyclerView;
     private int total;
+    private TimeSelector timeSelectorEnd;
 
     @Nullable
     @Override
@@ -83,7 +85,6 @@ public class HLFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_hl, null);
         startTime = getCurrentTime();
         initView(view);
-
         initData();
         return view;
     }
@@ -100,46 +101,35 @@ public class HLFragment extends Fragment {
         swipeRefresh.setRefreshing(true);
         OkHttpClient client = new OkHttpClient();
         FormBody.Builder builder = new FormBody.Builder();
-        if (!(gender.equals(""))) {
-            builder.add("gender", gender);
-        } else {
-            builder.add("gender", "");
-        }
+        builder.add("gender", gender);
         builder.add("startTime", startTime);
-        if (!(endTime.equals(""))) {
-            builder.add("endTime", endTime);
-        } else {
-            builder.add("gender", "2018-12-31 00:00:00");
-        }
-        if (!(hours.equals(""))) {
-            builder.add("hours", hours);
-        } else {
-            builder.add("hours", "");
-        }
+        builder.add("endTime", endTime);
+        builder.add("hours", hours);
         builder.add("page", String.valueOf(page));
         builder.add("limit", String.valueOf(20));
+        Log.i(TAG, "postData: 参数：gender:" + gender + " ,start:" + startTime + ",end:" + endTime + ",hours:" + hours);
         FormBody formBody = builder.build();
         final Request request = new Request.Builder()
-                .url("http://192.168.2.134:8080/qryl/carer/getCarerList")
+                .url(ConstantValue.URL + "/carer/getCarerList")
                 .post(formBody)
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefresh.setRefreshing(false);
+                    }
+                });
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String result = response.body().string();
                 Log.i(TAG, "onResponse: " + result);
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeRefresh.setRefreshing(false);
-                        //Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
-                    }
-                });
+                Log.i(TAG, "onResponse: page大小" + page);
                 handleJson(result);
             }
         });
@@ -153,30 +143,31 @@ public class HLFragment extends Fragment {
     private void handleJson(String result) {
         try {
             JSONObject jsonObject = new JSONObject(result);
-            JSONArray jsonArray = jsonObject.getJSONArray("data");
+            final JSONObject data = jsonObject.getJSONObject("data");
+            total = data.getInt("total");
+            JSONArray jsonArray = data.getJSONArray("data");
+            Log.i(TAG, "handleJson: jsonArray size:" + jsonArray.length());
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jo = jsonArray.getJSONObject(i);
-                total = jo.getInt("total");
-                for (int j = 0; j < jo.length(); j++) {
-                    int id = jo.getInt("id");
-                    String realName = jo.getString("realName");
-                    int gender = jo.getInt("gender");
-                    int age = jo.getInt("age");
-                    int workYears = jo.getInt("workYears");
-                    datas.add(new DataArea(id, realName, gender, age, workYears));
-                }
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getActivity(), datas.size() + "", Toast.LENGTH_SHORT).show();
-                        adapter.setData(datas);
-                        adapter.notifyDataSetChanged();
-                        swipeRefresh.setRefreshing(false);
-                        adapter.notifyItemRemoved(adapter.getItemCount());
-                    }
-                });
-
+                Log.i(TAG, "handleJson: jo size:" + jo.length());
+                int id = jo.getInt("id");
+                String realName = jo.getString("realName");
+                int gender = jo.getInt("gender");
+                int age = jo.getInt("age");
+                int workYears = jo.getInt("workYears");
+                String headshotImg = jo.getString("headshotImg");
+                datas.add(new DataArea(id, realName, gender, age, workYears, headshotImg));
             }
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.i(TAG, "run: data.size()" + datas.size());
+                    adapter.setData(datas);
+                    adapter.notifyDataSetChanged();
+                    adapter.notifyItemRemoved(adapter.getItemCount());
+                    swipeRefresh.setRefreshing(false);
+                }
+            });
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -232,32 +223,57 @@ public class HLFragment extends Fragment {
         View contentView = View.inflate(getActivity(), R.layout.hg, null);
         swipeRefresh = (SwipeRefreshLayout) contentView.findViewById(R.id.swipe_refresh);
         recyclerView = (RecyclerView) contentView.findViewById(R.id.recycler_view);
-
         mDropDownMenu.setDropDownMenu(Arrays.asList(headers), popupViews, contentView);
 
         tvTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                timeSelector = new TimeSelector(getActivity(), new TimeSelector.ResultHandler() {
+                timeSelectorEnd = new TimeSelector(getActivity(), new TimeSelector.ResultHandler() {
                     @Override
                     public void handle(String time) {
                         tvTime.setText(time + ":00");
                         endTime = tvTime.getText().toString();
                         Toast.makeText(getActivity(), time, Toast.LENGTH_SHORT).show();
-                        postData(gender, startTime, endTime, hours);
+                        datas.clear();
+                        page = 1;
+                        postData(String.valueOf(gender), startTime, endTime, String.valueOf(hours));
                     }
                 }, startTime, "2018-12-31 00:00");
-                timeSelector.show();
+                timeSelectorEnd.setTitle("请选择结束时间");
+                timeSelectorEnd.show();
+
+                timeSelectorStart = new TimeSelector(getActivity(), new TimeSelector.ResultHandler() {
+                    @Override
+                    public void handle(String time) {
+                        tvTime.setText(time + ":00");
+                        startTime = tvTime.getText().toString();
+                        //Toast.makeText(getActivity(), time, Toast.LENGTH_SHORT).show();
+                        //datas.clear();
+                        //page = 1;
+                        // postData(String.valueOf(gender), startTime, endTime, String.valueOf(hours));
+                    }
+                }, startTime, "2017-7-31 00:00");
+                timeSelectorStart.setTitle("请选择开始时间");
+                timeSelectorStart.show();
+
+
             }
         });
+
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                swipeRefresh.setRefreshing(true);
-                postData(gender, startTime, endTime, hours);
+                datas.clear();
+                String gender = "";
+                String starTime = "2017-07-07 00:00:00";
+                String endTime = "2018-12-12 00:00:00";
+                String hours = "";
+                page = 1;
+                postData(gender, starTime, endTime, hours);
             }
         });
+
         final LinearLayoutManager layoutManager = new LinearLayoutManager(UIUtils.getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -269,14 +285,17 @@ public class HLFragment extends Fragment {
                 if (lastVisibleItemPosition + 1 == adapter.getItemCount()) {
                     boolean isRefreshing = swipeRefresh.isRefreshing();
                     if (isRefreshing) {
+                        page = 1;
                         adapter.notifyItemRemoved(adapter.getItemCount());
                         swipeRefresh.setRefreshing(false);
                     }
-                    if (isLoading) {
+                    if (!isLoading) {
                         isLoading = true;
                         page += 1;
                         if (page <= total) {
-                            postData(gender, startTime, endTime, hours);
+                            postData(String.valueOf(gender), startTime, endTime, String.valueOf(hours));
+                        } else {
+                            Toast.makeText(getActivity(), "没有更多数据了...", Toast.LENGTH_SHORT).show();
                         }
                         isLoading = false;
                     }
@@ -294,6 +313,11 @@ public class HLFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 Log.i(TAG, "onItemClick: 点击了条目:" + position);
+                int id = datas.get(position).getId();
+                Log.i(TAG, "onItemClick: 点击的id" + id);
+                Intent intent = new Intent(getActivity(), HgxqActivity.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
             }
         });
     }
@@ -306,6 +330,8 @@ public class HLFragment extends Fragment {
         } else if (position.equals("不限")) {
             gender = "";
         }
+        page = 1;
+        datas.clear();
         postData(gender, startTime, endTime, hours);
     }
 
@@ -320,6 +346,8 @@ public class HLFragment extends Fragment {
         } else if (position.equals("24小时")) {
             hours = String.valueOf("24");
         }
+        page = 1;
+        datas.clear();
         postData(gender, startTime, endTime, hours);
     }
 

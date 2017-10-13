@@ -1,8 +1,6 @@
 package com.qryl.qryl.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -18,7 +16,7 @@ import com.qryl.qryl.fragment.one.OrderFragment;
 /**
  * 以及样式还未实现
  */
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = "MainActivity";
 
@@ -60,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fm = getSupportFragmentManager();
         ft = fm.beginTransaction();
         ft.replace(R.id.fl_home, new HomeFragment(), HOME_FRAGMENT);
+        //ft.addToBackStack(null);
         ft.commit();
     }
 
@@ -127,6 +126,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ft.replace(R.id.fl_home, new MeFragment(), ME_FRAGMENT);
                 break;
         }
+
+//        ft.addToBackStack(null);
         ft.commit();
     }
 

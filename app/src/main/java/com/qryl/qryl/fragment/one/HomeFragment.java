@@ -22,6 +22,7 @@ import com.qryl.qryl.fragment.one.two.HLFragment;
 import com.qryl.qryl.fragment.one.two.MyFragment;
 import com.qryl.qryl.fragment.one.two.TnFragment;
 import com.qryl.qryl.fragment.one.two.XzFragment;
+import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.UIUtils;
 
 import org.json.JSONArray;
@@ -83,7 +84,7 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
         builder.add("positionName", "shouye");
         FormBody formBody = builder.build();
         Request request = new Request.Builder()
-                .url("http://192.168.2.134:8080/qryl/common/getAdverListByPositionName")
+                .url(ConstantValue.URL +"/common/getAdverListByPositionName")
                 .post(formBody)
                 .build();
         client.newCall(request).enqueue(new Callback() {

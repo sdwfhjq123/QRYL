@@ -34,6 +34,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.qryl.qryl.R;
+import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.DialogUtil;
 import com.qryl.qryl.view.MyAlertDialog;
 
@@ -52,7 +53,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class MeSettingActivity extends AppCompatActivity {
+public class MeSettingActivity extends BaseActivity {
 
     private static final String TAG = "MeSettingActivity";
 
@@ -78,16 +79,20 @@ public class MeSettingActivity extends AppCompatActivity {
     private File headFile;
     private int genderNum;//1是女，0是男
     private String ybhDialogText;
+    private RelativeLayout customId;
+    private TextView tvCustomId;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_me_setting);
+        SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+        userId = prefs.getString("user_id", "");
+        Log.i(TAG, "onCreate: " + userId);
         genderArray = getResources().getStringArray(R.array.gender);
         initView();
         tvReturn.setVisibility(View.VISIBLE);
-        //有些条目不能为空
-
         //点击每个条目实现dialog或者activity
         clickItemShowDialog();
     }
@@ -191,12 +196,12 @@ public class MeSettingActivity extends AppCompatActivity {
             }
         });
         //选择地址
-        location.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //跳转选择地址界面
-            }
-        });
+//        location.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //跳转选择地址界面
+//            }
+//        });
 
         //输入医保号
         ybh.setOnClickListener(new View.OnClickListener() {
@@ -220,6 +225,68 @@ public class MeSettingActivity extends AppCompatActivity {
             }
         });
         //我的身高
+        stature.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View view = View.inflate(MeSettingActivity.this, R.layout.text_item_dialog_num, null);
+                TextView tvTitileDialog = (TextView) view.findViewById(R.id.tv_title_dialog);
+                final EditText etHintDialog = (EditText) view.findViewById(R.id.et_hint_dialog);
+                tvTitileDialog.setText("身高(cm)");
+                new MyAlertDialog(MeSettingActivity.this, view)
+                        //.setView(view)
+                        .setNegativeButton("取消", null)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String stature = etHintDialog.getText().toString();
+                                tvStature.setText(stature);
+                                dialog.dismiss();
+                            }
+                        }).show();
+            }
+        });
+        //我的体重
+        weight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View view = View.inflate(MeSettingActivity.this, R.layout.text_item_dialog_num, null);
+                TextView tvTitileDialog = (TextView) view.findViewById(R.id.tv_title_dialog);
+                final EditText etHintDialog = (EditText) view.findViewById(R.id.et_hint_dialog);
+                tvTitileDialog.setText("体重(Kg)");
+                new MyAlertDialog(MeSettingActivity.this, view)
+                        //.setView(view)
+                        .setNegativeButton("取消", null)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String weight = etHintDialog.getText().toString();
+                                tvWeight.setText(weight);
+                                dialog.dismiss();
+                            }
+                        }).show();
+            }
+        });
+        //登录账号只能修改一次
+        customId.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View view = View.inflate(MeSettingActivity.this, R.layout.text_item_dialog_text, null);
+                TextView tvTitileDialog = (TextView) view.findViewById(R.id.tv_title_dialog);
+                final EditText etHintDialog = (EditText) view.findViewById(R.id.et_hint_dialog);
+                tvTitileDialog.setText("修改账号，只能修改一次");
+                new MyAlertDialog(MeSettingActivity.this, view)
+                        //.setView(view)
+                        .setNegativeButton("取消", null)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String customId = etHintDialog.getText().toString();
+                                tvCustomId.setText(customId);
+                                dialog.dismiss();
+                            }
+                        }).show();
+            }
+        });
 
     }
 
@@ -237,22 +304,55 @@ public class MeSettingActivity extends AppCompatActivity {
             RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), headFile);
             builder.addFormDataPart("txImg", headFile.getName(), requestBody);
         }
-        builder.addFormDataPart("", telDialogText);
-        builder.addFormDataPart("", nameDialogText);
-        builder.addFormDataPart("", identityDialogText);
-        builder.addFormDataPart("", String.valueOf(genderNum));
-        builder.addFormDataPart("", ybhDialogText);
+        if (!tvCustomId.getText().toString().equals("请输入")) {
+            builder.addFormDataPart("userName", tvCustomId.getText().toString());
+        } else {
+            builder.addFormDataPart("userName", "");
+        }
+        builder.addFormDataPart("id", userId);//需要动态传入
+        if (!tvName.getText().toString().equals("请输入")) {
+            builder.addFormDataPart("realName", tvName.getText().toString());
+        } else {
+            builder.addFormDataPart("realName", "");
+        }
+        builder.addFormDataPart("age", "");
+        builder.addFormDataPart("gender", String.valueOf(genderNum));
+        builder.addFormDataPart("address", "");
+        if (!tvYbh.getText().toString().equals("请输入")) {
+            builder.addFormDataPart("healthCareNum", tvYbh.getText().toString());
+        } else {
+            builder.addFormDataPart("healthCareNum", "");
+        }
+        if (!tvWeight.getText().toString().equals("请输入")) {
+            builder.addFormDataPart("weight", tvWeight.getText().toString());
+        } else {
+            builder.addFormDataPart("weight", "0.0");
+        }
+        if (!tvStature.getText().toString().equals("请输入")) {
+            builder.addFormDataPart("height", tvStature.getText().toString());
+        } else {
+            builder.addFormDataPart("height", "0.0");
+        }
+        builder.addFormDataPart("provinceId", "370000");
+        builder.addFormDataPart("cityId", "370100");
+        builder.addFormDataPart("districtId", "370102");
         MultipartBody body = builder.build();
-        Request request = new Request.Builder().url("").post(body).build();
+        Request request = new Request.Builder().url(ConstantValue.URL +"/patientUser/modify").post(body).build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-
+                Log.i(TAG, "onFailure: ");
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-
+                Log.i(TAG, "onResponse: " + response.body().string());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                });
             }
         });
     }
@@ -510,19 +610,19 @@ public class MeSettingActivity extends AppCompatActivity {
         realName = (RelativeLayout) findViewById(R.id.real_name);
         identity = (RelativeLayout) findViewById(R.id.identity);
         gender = (RelativeLayout) findViewById(R.id.gender);
-        location = (RelativeLayout) findViewById(R.id.location);
         ybh = (RelativeLayout) findViewById(R.id.ybh);
         stature = (RelativeLayout) findViewById(R.id.stature);
         weight = (RelativeLayout) findViewById(R.id.weight);
+        customId = (RelativeLayout) findViewById(R.id.custom_id);
         //返回的数据
         tvTel = (TextView) findViewById(R.id.tv_tel);
         tvName = (TextView) findViewById(R.id.tv_name);
         tvIdentity = (TextView) findViewById(R.id.tv_identity);
         tvGender = (TextView) findViewById(R.id.tv_gender);
-        tvLocation = (TextView) findViewById(R.id.tv_location);
         tvYbh = (TextView) findViewById(R.id.tv_ybh);
         tvStature = (TextView) findViewById(R.id.tv_stature);
         tvWeight = (TextView) findViewById(R.id.tv_weight);
+        tvCustomId = (TextView) findViewById(R.id.tv_custom_id);
         tvReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

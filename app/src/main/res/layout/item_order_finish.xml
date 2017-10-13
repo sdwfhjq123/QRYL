@@ -14,28 +14,17 @@
         android:padding="3dp">
 
         <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:src="@mipmap/ic_peopleb" />
 
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="由"
-            android:textColor="#666" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="test"
-            android:textColor="#666" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="给您推送"
+            android:text="title"
             android:textColor="#666" />
 
         <ImageView
@@ -47,11 +36,30 @@
     <View style="@style/ViewLine" />
 
     <!-- 动态添加药品布局 -->
-    <android.support.v7.widget.RecyclerView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp">
+        android:layout_height="70dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="5dp">
 
-    </android.support.v7.widget.RecyclerView>
+        <TextView
+            android:id="@+id/tv_note"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="本处显示简明扼要病历，现病史、既往史、各种阳性和阴性体征、诊断或印象及医生治疗处理意见等" />
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="本处显示简明扼要病历，现病史、既往史、各种阳性和阴性体征、诊断或印象及医生治疗处理意见等" />
+
+    </LinearLayout>
 
     <View style="@style/ViewLine" />
 
@@ -72,9 +80,10 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tv_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="test"
+            android:text="money"
             android:textColor="#666"
             android:textSize="22sp" />
 
@@ -91,25 +100,15 @@
             android:paddingRight="10dp">
 
             <Button
-                android:id="@+id/btn_pay"
+                android:id="@+id/btn_evaluate"
                 android:layout_width="50dp"
                 android:layout_height="30dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:background="@drawable/selector_btn_login"
-                android:text="支付"
+                android:text="评价"
                 android:textColor="#fff" />
 
-            <Button
-                android:id="@+id/btn_delete"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:layout_toLeftOf="@id/btn_pay"
-                android:background="@drawable/selector_btn_login"
-                android:text="删除"
-                android:textColor="#fff" />
         </RelativeLayout>
 
     </LinearLayout>

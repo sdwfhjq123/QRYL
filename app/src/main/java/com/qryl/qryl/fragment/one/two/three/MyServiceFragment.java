@@ -5,14 +5,22 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.google.gson.Gson;
 import com.qryl.qryl.R;
-import com.qryl.qryl.adapter.MyServiceAdapter;
+import com.qryl.qryl.VO.ServiceVO.Data;
+import com.qryl.qryl.VO.ServiceVO.ItemList;
+import com.qryl.qryl.VO.ServiceVO.ServiceVO;
 import com.qryl.qryl.adapter.XzServiceAdapter;
 import com.qryl.qryl.fragment.one.two.BaseFragment;
-import com.qryl.qryl.util.UIUtils;
+import com.qryl.qryl.util.HttpUtil;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 /**
  * Created by hp on 2017/8/21.
@@ -24,64 +32,76 @@ public class MyServiceFragment extends BaseFragment {
     private SwipeRefreshLayout swipeRefresh;
     private RecyclerView recyclerView;
 
-    private List<String> stringList = new ArrayList<>();
-    private MyServiceAdapter adapter;
+    private List<ItemList> datas = new ArrayList<>();
+    private XzServiceAdapter adapter = new XzServiceAdapter(datas);
 
-    //加载数据
+
+    /**
+     * 加载数据
+     */
     @Override
     public void loadData() {
-        stringList.clear();
-        for (int i = 0; i < 20; i++) {
-            stringList.add(i + "");
-        }
-        adapter = new MyServiceAdapter(stringList);
-        //LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        GridLayoutManager layoutManager = new GridLayoutManager(UIUtils.getContext(), 2);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-        swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        postData();
+    }
+
+    private void postData() {
+        HttpUtil.handleDataFromService("4", new Callback() {
             @Override
-            public void onRefresh() {
-                refreshView();
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String result = response.body().string();
+                handleJson(result);
             }
         });
-
     }
 
     /**
-     * 刷新布局
+     * 解析json
+     *
+     * @param result
      */
-    private void refreshView() {
-        new Thread(new Runnable() {
+    private void handleJson(String result) {
+        Gson gson = new Gson();
+        ServiceVO serviceVO = gson.fromJson(result, ServiceVO.class);
+        List<Data> data = serviceVO.getData();
+        for (int i = 0; i < data.size(); i++) {
+            List<ItemList> itemList = data.get(i).getItemList();
+            for (int j = 0; j < itemList.size(); j++) {
+                datas.add(new ItemList(itemList.get(i).getId(), itemList.get(i).getName(), itemList.get(i).getHeadshotImg(), itemList.get(i).getAbstracts()));
+            }
+        }
+
+        getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        adapter.notifyDataSetChanged();
-                        swipeRefresh.setRefreshing(false);
-                    }
-                });
+                adapter.notifyDataSetChanged();
+                swipeRefresh.setRefreshing(false);
             }
-        }).start();
+        });
     }
 
     @Override
     public View initView() {
-//        TextView mView = new TextView(context);
-//        mView.setText("服务项目列表");
-//        mView.setTextSize(18);
-//        mView.setTextColor(Color.BLACK);
-//        return mView;
         View view = View.inflate(mContext, R.layout.fragment_service, null);
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                datas.clear();
+                boolean isRefreshing = swipeRefresh.isRefreshing();
+                if (isRefreshing) {
+                    postData();
+                }
+            }
+        });
         return view;
     }
 }

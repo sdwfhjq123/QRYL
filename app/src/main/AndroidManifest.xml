@@ -45,19 +45,16 @@
         android:theme="@style/AppTheme">
         <activity android:name=".activity.MainActivity">
 
+        </activity>
+        <activity android:name=".activity.login.LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-        <activity android:name=".activity.login.LoginActivity" />
         <activity android:name=".activity.SplashActivity" />
-        <activity android:name=".activity.login.RegisterActivity">
-
-        </activity>
-        <activity android:name=".activity.login.Complete" />
+        <activity android:name=".activity.login.RegisterActivity" />
 
         <!-- Required SDK 核心功能 -->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
@@ -188,9 +185,14 @@
         <!-- Required. AppKey copied from Portal -->
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="65bb24afeefb2051e8a9a817" />
+            android:value="06bafe8fadf0adce5749adc1" />
 
-        <activity android:name=".activity.MeSettingActivity"></activity>
+        <activity android:name=".activity.MeSettingActivity" />
+        <activity android:name=".activity.login.ResetPsdActivity" />
+        <activity android:name=".activity.H5.HgxqActivity" />
+        <activity android:name=".activity.H5.ContactsActivity" />
+        <activity android:name=".activity.H5.LocationActivity"></activity>
+        <activity android:name=".activity.H5.XzxqActivity"></activity>
     </application>
 
 </manifest>

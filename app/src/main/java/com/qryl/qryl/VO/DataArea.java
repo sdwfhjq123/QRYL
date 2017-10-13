@@ -10,15 +10,25 @@ public class DataArea {
     private int gender;
     private int age;
     private int workYears;
+    private String headshotImg;
+
+    public String getHeadshotImg() {
+        return headshotImg;
+    }
+
+    public void setHeadshotImg(String headshotImg) {
+        this.headshotImg = headshotImg;
+    }
 
     //未使用到的
 
-    public DataArea(int id, String realName, int gender, int age, int workYears) {
+    public DataArea(int id, String realName, int gender, int age, int workYears, String headshotImg) {
         this.id = id;
         this.realName = realName;
         this.gender = gender;
         this.age = age;
         this.workYears = workYears;
+        this.headshotImg = headshotImg;
     }
 
     public int getId() {

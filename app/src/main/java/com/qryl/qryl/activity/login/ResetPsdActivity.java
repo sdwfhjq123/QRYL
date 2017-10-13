@@ -34,25 +34,22 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class RegisterActivity extends BaseActivity {
+public class ResetPsdActivity extends BaseActivity {
 
-    private static final String TAG = "RegisterActivity";
+    private static final String TAG = "ResetPsdActivity";
 
     private Button btnVerification;
     private AppCompatEditText etVerification;
     private AppCompatEditText etPsd;
     private AppCompatEditText etPsdComfirm;
-    private RelativeLayout rlIsCheck;
-    private CheckBox checkBox;
-    private TextView tvProtocol;
-    private Button btnRegisiter;
+    private Button btnSure;
     private AppCompatEditText etTel;
     private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_reset_psd);
         initView();
 
     }
@@ -64,29 +61,12 @@ public class RegisterActivity extends BaseActivity {
         etVerification = (AppCompatEditText) findViewById(R.id.et_verification_register);
         etPsd = (AppCompatEditText) findViewById(R.id.et_psd_register);
         etPsdComfirm = (AppCompatEditText) findViewById(R.id.et_psd_confirm_register);
-        rlIsCheck = (RelativeLayout) findViewById(R.id.rl_isCheck);
-        checkBox = (CheckBox) findViewById(R.id.cb_consent);
-        tvProtocol = (TextView) findViewById(R.id.tv_protocol_register);
-        btnRegisiter = (Button) findViewById(R.id.btn_register);
-        //根据cb判断是否点击了对号
-        rlIsCheck.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean checked = checkBox.isChecked();
-                //根据checkBox的状态修改样式
-                if (checked) {
-                    checkBox.setChecked(false);
-                    checkBox.setBackgroundResource(R.mipmap.ic_frame_false);
-                } else {
-                    checkBox.setChecked(true);
-                    checkBox.setBackgroundResource(R.mipmap.ic_frame_true);
-                }
-            }
-        });
+        btnSure = (Button) findViewById(R.id.btn_register);
+
         //实现倒计时并发送请求并获取验证码的功能
         receiverSMS();
         //注册
-        btnRegisiter.setOnClickListener(new View.OnClickListener() {
+        btnSure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //点击注册的时候要确认所有的注册信息不为空
@@ -103,22 +83,19 @@ public class RegisterActivity extends BaseActivity {
             Toast.makeText(this, "请输入正确的手机号!", Toast.LENGTH_SHORT).show();
         } else {
             if (TextUtils.isEmpty(etPsd.getText().toString())) {
-                Toast.makeText(this, "请输入注册密码!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "请输入修改密码!", Toast.LENGTH_SHORT).show();
             } else {
                 if (!etPsd.getText().toString().equals(etPsdComfirm.getText().toString())) {
                     Toast.makeText(this, "确认密码与密码不符!", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (!checkBox.isChecked()) {
-                        Toast.makeText(this, "请同意用户注册协议!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        progressDialog.setMessage("正在注册...");
-                        progressDialog.show();
-                        checkSMS();
-                    }
+                    progressDialog.setMessage("正在修改...");
+                    progressDialog.show();
+                    checkSMS();
                 }
             }
         }
     }
+
 
     /**
      * 验证码通过正确，就注册发送服务器
@@ -140,7 +117,7 @@ public class RegisterActivity extends BaseActivity {
                         if (progressDialog.isShowing() && progressDialog != null) {
                             progressDialog.dismiss();
                         }
-                        Toast.makeText(RegisterActivity.this, "验证码验证失败!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ResetPsdActivity.this, "验证码验证失败!", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -153,13 +130,10 @@ public class RegisterActivity extends BaseActivity {
     private void postData() {
         OkHttpClient client = new OkHttpClient();
         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
-        builder.addFormDataPart("password", etPsdComfirm.getText().toString());
+        builder.addFormDataPart("newPassword", etPsdComfirm.getText().toString());
         builder.addFormDataPart("mobile", etTel.getText().toString());
         MultipartBody requestBody = builder.build();
-        Request requset = new Request.Builder()
-                .url(ConstantValue.URL + "/patientUser/register")
-                .post(requestBody)
-                .build();
+        Request requset = new Request.Builder().url(ConstantValue.URL +"/patientUser/resetPassword").post(requestBody).build();
         client.newCall(requset).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -170,7 +144,7 @@ public class RegisterActivity extends BaseActivity {
                         if (progressDialog.isShowing() && progressDialog != null) {
                             progressDialog.dismiss();
                         }
-                        Toast.makeText(RegisterActivity.this, "注册失败!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ResetPsdActivity.this, "注册失败!", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -184,7 +158,7 @@ public class RegisterActivity extends BaseActivity {
                         if (progressDialog.isShowing() && progressDialog != null) {
                             progressDialog.dismiss();
                         }
-                        Toast.makeText(RegisterActivity.this, "注册成功!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ResetPsdActivity.this, "修改成功!", Toast.LENGTH_SHORT).show();
                         //Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                         //startActivity(intent);
                         finish();

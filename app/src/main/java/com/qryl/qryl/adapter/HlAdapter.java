@@ -4,11 +4,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.qryl.qryl.R;
 import com.qryl.qryl.VO.DataArea;
+import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.UIUtils;
 
 import java.util.ArrayList;
@@ -66,8 +69,8 @@ public class HlAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         //修改内容
         if (holder instanceof ItemViewHolder) {
-            ((ItemViewHolder) holder).tvAgeItem.setText(datas.get(position).getAge());
-            ((ItemViewHolder) holder).tvExperienceItem.setText(datas.get(position).getWorkYears());
+            ((ItemViewHolder) holder).tvAgeItem.setText(datas.get(position).getAge() + "");
+            ((ItemViewHolder) holder).tvExperienceItem.setText(datas.get(position).getWorkYears() + "");
             if (datas.get(position).getGender() == 0) {
                 ((ItemViewHolder) holder).tvGenderItem.setText("男");
             } else if (datas.get(position).getGender() == 1) {
@@ -75,6 +78,7 @@ public class HlAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
             ((ItemViewHolder) holder).tvNameItem.setText(datas.get(position).getRealName());
             ((ItemViewHolder) holder).tvStarItem.setText("★★★★★");
+            Glide.with(UIUtils.getContext()).load(ConstantValue.URL + datas.get(position).getHeadshotImg()).into(((ItemViewHolder) holder).ivHeadItem);
             int id = datas.get(position).getId();
             if (onItemClickListener != null) {
                 ((ItemViewHolder) holder).rlRootItem.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +106,7 @@ public class HlAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView tvExperienceItem;
         TextView tvAgeItem;
         TextView tvStarItem;
+        ImageView ivHeadItem;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
@@ -111,6 +116,7 @@ public class HlAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             tvExperienceItem = (TextView) itemView.findViewById(R.id.tv_experience_item);
             tvAgeItem = (TextView) itemView.findViewById(R.id.tv_age_item);
             tvStarItem = (TextView) itemView.findViewById(R.id.tv_star_item);
+            ivHeadItem = (ImageView) itemView.findViewById(R.id.iv_head_item);
         }
     }
 
