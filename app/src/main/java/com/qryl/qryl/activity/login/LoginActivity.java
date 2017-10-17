@@ -154,15 +154,17 @@ public class LoginActivity extends BaseActivity {
             }
 
             @Override
-            public void onResponse(Call call, final Response response) throws IOException {
-                String result = response.body().string();
+            public void onResponse(Call call, final Response response) {
                 try {
-                    Log.i(TAG, "onResponse: " + result);
+                    String result = response.body().string();
                     JSONObject jsonObject = new JSONObject(result);
-                    id = jsonObject.getInt("userId");
+                    JSONObject data = jsonObject.getJSONObject("data");
+                    id = data.getInt("loginId");
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

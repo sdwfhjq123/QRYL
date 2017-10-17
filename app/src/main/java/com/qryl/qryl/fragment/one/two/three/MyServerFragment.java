@@ -10,6 +10,9 @@ import com.google.gson.Gson;
 import com.qryl.qryl.R;
 import com.qryl.qryl.VO.OrderVO.Order;
 import com.qryl.qryl.VO.OrderVO.OrderInfoArea;
+import com.qryl.qryl.VO.XzVO.Xz;
+import com.qryl.qryl.VO.XzVO.XzData;
+import com.qryl.qryl.VO.XzVO.XzInfo;
 import com.qryl.qryl.adapter.MyServerAdapter;
 import com.qryl.qryl.adapter.OrderUnderwayAdapter;
 import com.qryl.qryl.adapter.XzServerAdapter;
@@ -27,18 +30,21 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static android.R.attr.data;
+
 /**
  * Created by hp on 2017/8/21.
  */
 
 public class MyServerFragment extends BaseFragment {
+
     private static final String TAG = "MyServerFragment";
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefresh;
 
-    private List<OrderInfoArea> datas = new ArrayList<>();
-    private OrderUnderwayAdapter adapter = new OrderUnderwayAdapter(datas);
+    private List<XzInfo> datas = new ArrayList<>();
+    private XzServerAdapter adapter = new XzServerAdapter(datas);
     private int page = 1;
     private int lastVisibleItemPosition;
     private boolean isLoading;
@@ -60,7 +66,7 @@ public class MyServerFragment extends BaseFragment {
         builder.add("limit", "10");
         FormBody formBody = builder.build();
         final Request request = new Request.Builder()
-                .url(ConstantValue.URL+"/dn/getListByProfessionIdAndRegionId")
+                .url(ConstantValue.URL+"/massager/getMasagerList")
                 .post(formBody)
                 .build();
         client.newCall(request).enqueue(new Callback() {
@@ -85,8 +91,10 @@ public class MyServerFragment extends BaseFragment {
      */
     private void handleJson(String result) {
         Gson gson = new Gson();
-        Order order = gson.fromJson(result, Order.class);
-        List<OrderInfoArea> data = order.getData().getData();
+        Xz xz = gson.fromJson(result, Xz.class);
+        XzData xzdata = xz.getData();
+        total = xzdata.getTotal();
+        List<XzInfo> data = xzdata.getData();
         for (int i = 0; i < data.size(); i++) {
             datas.add(data.get(i));
         }
@@ -126,7 +134,6 @@ public class MyServerFragment extends BaseFragment {
                     boolean isRefreshing = swipeRefresh.isRefreshing();
                     if (isRefreshing) {
                         page = 1;
-                        adapter.notifyItemRemoved(adapter.getItemCount());
                         swipeRefresh.setRefreshing(false);
                     }
                     if (!isLoading) {

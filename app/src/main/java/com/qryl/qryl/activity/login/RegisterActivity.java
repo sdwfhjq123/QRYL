@@ -1,7 +1,9 @@
 package com.qryl.qryl.activity.login;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
@@ -20,6 +22,9 @@ import com.qryl.qryl.activity.BaseActivity;
 import com.qryl.qryl.activity.MainActivity;
 import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.VerificationCountDownTimer;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -48,6 +53,7 @@ public class RegisterActivity extends BaseActivity {
     private Button btnRegisiter;
     private AppCompatEditText etTel;
     private ProgressDialog progressDialog;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,7 +183,14 @@ public class RegisterActivity extends BaseActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.i(TAG, "onResponse: 服务器连接成功" + response.body().string());
+                String result = response.body().string();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    JSONObject data = jsonObject.getJSONObject("data");
+                    id = data.getInt("loginId");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -185,8 +198,10 @@ public class RegisterActivity extends BaseActivity {
                             progressDialog.dismiss();
                         }
                         Toast.makeText(RegisterActivity.this, "注册成功!", Toast.LENGTH_SHORT).show();
-                        //Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                        //startActivity(intent);
+                        SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+                        prefs.edit().putString("user_id", String.valueOf(id)).apply();
+                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                        startActivity(intent);
                         finish();
                     }
                 });
