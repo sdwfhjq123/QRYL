@@ -17,6 +17,7 @@ import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.hintview.ColorPointHintView;
 import com.qryl.qryl.R;
 import com.qryl.qryl.VO.Picture;
+import com.qryl.qryl.activity.MainActivity;
 import com.qryl.qryl.adapter.RollPagerAdapter;
 import com.qryl.qryl.fragment.one.two.HLFragment;
 import com.qryl.qryl.fragment.one.two.MyFragment;
@@ -125,12 +126,15 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
                 String note = jb.getString("note");
                 mImgList.add(new Picture(id, imgUrl, positionId, httpUrl, note));
             }
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    initRPV();
-                }
-            });
+            if (getActivity() instanceof MainActivity){
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        initRPV();
+                    }
+                });
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

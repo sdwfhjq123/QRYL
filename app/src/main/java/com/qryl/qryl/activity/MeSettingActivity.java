@@ -679,7 +679,7 @@ public class MeSettingActivity extends BaseActivity {
 
     private void initView() {
         tvTitle = (TextView) findViewById(R.id.tv_title);
-        tvTitle.setText("设置");
+        tvTitle.setText("编辑资料");
         findViewById(R.id.tv_location).setVisibility(View.GONE);
         tvReturn = (TextView) findViewById(R.id.tv_return);
         //点击事件区域
