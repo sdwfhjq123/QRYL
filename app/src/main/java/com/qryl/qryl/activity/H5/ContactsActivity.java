@@ -29,7 +29,7 @@ public class ContactsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contacts);
+        setContentView(R.layout.activity_test);
         prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
         Log.i(TAG, "onCreate: 截获的id " + userId);
@@ -41,6 +41,9 @@ public class ContactsActivity extends BaseActivity {
         WebSettings webSettings = webview.getSettings();
         webSettings.setDefaultTextEncodingName("utf-8");
         webSettings.setJavaScriptEnabled(true);// 为WebView使能JavaScript
+        webview.getSettings().setDomStorageEnabled(true);
+        webview.getSettings().setDatabaseEnabled(true);
+        webview.getSettings().setDatabasePath(ContactsActivity.this.getApplicationContext().getCacheDir().getAbsolutePath());
         webview.addJavascriptInterface(new HgxqAndroidToJs(this), "contacts");
         webSettings.setAppCacheEnabled(false);
         webview.setWebViewClient(new WebViewClient() {
@@ -53,13 +56,13 @@ public class ContactsActivity extends BaseActivity {
         webview.loadUrl(URL);
     }
 
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KEYCODE_BACK) && webview.canGoBack()) {
-            webview.goBack();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if ((keyCode == KEYCODE_BACK) && webview.canGoBack()) {
+//            webview.goBack();
+//            return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 
     @Override
     protected void onDestroy() {

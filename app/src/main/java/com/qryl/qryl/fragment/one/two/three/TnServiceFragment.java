@@ -1,5 +1,6 @@
 package com.qryl.qryl.fragment.one.two.three;
 
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import com.qryl.qryl.R;
 import com.qryl.qryl.VO.ServiceVO.Data;
 import com.qryl.qryl.VO.ServiceVO.ItemList;
 import com.qryl.qryl.VO.ServiceVO.ServiceVO;
+import com.qryl.qryl.activity.H5.XzServicexqActivity;
 import com.qryl.qryl.adapter.XzServiceAdapter;
 import com.qryl.qryl.fragment.one.two.BaseFragment;
 import com.qryl.qryl.util.HttpUtil;
@@ -104,6 +106,18 @@ public class TnServiceFragment extends BaseFragment {
                 if (isRefreshing) {
                     postData();
                 }
+            }
+        });
+        adapter.setOnItemClickListener(new XzServiceAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Log.i(TAG, "onItemClick: 点击了条目:" + position);
+                int id = datas.get(position).getId();
+                Log.i(TAG, "onItemClick: 点击的id:" + id);
+                Intent intent = new Intent(getActivity(), XzServicexqActivity.class);
+                intent.putExtra("id", id);
+                intent.putExtra("type", 3);
+                startActivity(intent);
             }
         });
         return view;

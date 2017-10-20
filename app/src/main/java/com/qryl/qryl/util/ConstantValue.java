@@ -7,5 +7,6 @@ package com.qryl.qryl.util;
 public class ConstantValue {
 
     //public static final String URL = "http://www.51rai.com";
-    public static final String URL = "http://118.190.201.194";
+    //public static final String URL = "http://118.190.201.194";
+    public static final String URL = "http://192.168.2.134:8080/qryl";
 }

@@ -1,5 +1,6 @@
 package com.qryl.qryl.fragment.one.two.three;
 
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import com.qryl.qryl.VO.OrderVO.OrderInfoArea;
 import com.qryl.qryl.VO.XzVO.Xz;
 import com.qryl.qryl.VO.XzVO.XzData;
 import com.qryl.qryl.VO.XzVO.XzInfo;
+import com.qryl.qryl.activity.H5.XzxqActivity;
 import com.qryl.qryl.adapter.MyServerAdapter;
 import com.qryl.qryl.adapter.OrderUnderwayAdapter;
 import com.qryl.qryl.adapter.XzServerAdapter;
@@ -154,6 +156,24 @@ public class TnServerFragment extends BaseFragment {
                 page = 1;
                 datas.clear();
                 postData(String.valueOf(1));
+            }
+        });
+
+        adapter.setOnItemClickListener(new XzServerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Log.i(TAG, "onItemClick: 点击了条目:" + position);
+                int id = datas.get(position).getId();
+                Log.i(TAG, "onItemClick: 点击的id" + id);
+                Intent intent = new Intent(getActivity(), XzxqActivity.class);
+                intent.putExtra("id", id);
+                intent.putExtra("type", 3);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onDeleteItemClick(View view, int position) {
+
             }
         });
         return view;

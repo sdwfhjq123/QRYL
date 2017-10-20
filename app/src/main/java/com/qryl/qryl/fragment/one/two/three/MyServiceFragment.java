@@ -1,8 +1,10 @@
 package com.qryl.qryl.fragment.one.two.three;
 
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.google.gson.Gson;
@@ -10,6 +12,7 @@ import com.qryl.qryl.R;
 import com.qryl.qryl.VO.ServiceVO.Data;
 import com.qryl.qryl.VO.ServiceVO.ItemList;
 import com.qryl.qryl.VO.ServiceVO.ServiceVO;
+import com.qryl.qryl.activity.H5.XzServicexqActivity;
 import com.qryl.qryl.adapter.XzServiceAdapter;
 import com.qryl.qryl.fragment.one.two.BaseFragment;
 import com.qryl.qryl.util.HttpUtil;
@@ -28,6 +31,8 @@ import okhttp3.Response;
  */
 
 public class MyServiceFragment extends BaseFragment {
+
+    private static final String TAG = "MyServiceFragment";
 
     private SwipeRefreshLayout swipeRefresh;
     private RecyclerView recyclerView;
@@ -102,6 +107,19 @@ public class MyServiceFragment extends BaseFragment {
                 }
             }
         });
+        adapter.setOnItemClickListener(new XzServiceAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Log.i(TAG, "onItemClick: 点击了条目:" + position);
+                int id = datas.get(position).getId();
+                Log.i(TAG, "onItemClick: 点击的id:" + id);
+                Intent intent = new Intent(getActivity(), XzServicexqActivity.class);
+                intent.putExtra("id", id);
+                intent.putExtra("type", 4);
+                startActivity(intent);
+            }
+        });
+
         return view;
     }
 }

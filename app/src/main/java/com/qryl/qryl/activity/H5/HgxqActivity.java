@@ -21,17 +21,19 @@ import static android.view.KeyEvent.KEYCODE_BACK;
 public class HgxqActivity extends BaseActivity {
     private static final String TAG = "HgxqActivity";
     private static final String URL = "http://192.168.2.187/patient/carer_details.html";
-    private int id;
     private WebView webview;
     private String userId;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+        Intent intent = getIntent();
+        id = intent.getIntExtra("id", 0);
         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
-        Log.i(TAG, "onCreate: "+userId);
+        Log.i(TAG, "onCreate: " + userId);
         initView();
     }
 
@@ -39,22 +41,25 @@ public class HgxqActivity extends BaseActivity {
         webview = (WebView) findViewById(R.id.webview);
         WebSettings webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true);
+        webSettings.setDomStorageEnabled(true);
+        webSettings.setDatabaseEnabled(true);
+        webSettings.setDatabasePath(HgxqActivity.this.getApplicationContext().getCacheDir().getAbsolutePath());
         webview.addJavascriptInterface(new HgxqAndroidToJs(this), "qrylhg");
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
-                webview.loadUrl("javascript:getId(" + userId + ")");
+                webview.loadUrl("javascript:getId(" + userId+","+ id + ")");
             }
         });
         webview.loadUrl(URL);
     }
 
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KEYCODE_BACK) && webview.canGoBack()) {
-            webview.goBack();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if ((keyCode == KEYCODE_BACK) && webview.canGoBack()) {
+//            webview.goBack();
+//            return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 
 }

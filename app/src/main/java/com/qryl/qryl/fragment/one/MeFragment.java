@@ -78,7 +78,7 @@ public class MeFragment extends android.support.v4.app.Fragment implements View.
         Log.i(TAG, "postData: userId" + userId);
         FormBody formBody = builder.build();
         final Request request = new Request.Builder()
-                .url(ConstantValue.URL +"/patientUser/getById")
+                .url(ConstantValue.URL + "/patientUser/getById")
                 .post(formBody)
                 .build();
         client.newCall(request).enqueue(new Callback() {
@@ -109,9 +109,9 @@ public class MeFragment extends android.support.v4.app.Fragment implements View.
             int id = data.getInt("id");
             final String userName = data.getString("userName");
             final String realName = data.getString("realName");
-            int age = data.getInt("age");
+            //int age = data.getInt("age");
             final int gender = data.getInt("gender");
-            String idNum = data.getString("idNum");
+            //String idNum = data.getString("idNum");
             final String healthCareNum = data.getString("healthCareNum");
             double height = data.getDouble("height");
             double weight = data.getDouble("weight");
@@ -127,7 +127,7 @@ public class MeFragment extends android.support.v4.app.Fragment implements View.
                 @Override
                 public void run() {
                     tvInfo.setText(realName);
-                    Glide.with(getActivity()).load(ConstantValue.URL +headshotImg).into(imageView);
+                    Glide.with(getActivity()).load(ConstantValue.URL + headshotImg).into(imageView);
                     tvId.setText(userName);
                     tvName.setText(realName);
                     tvGender.setText(gender == 0 ? "男" : "女");

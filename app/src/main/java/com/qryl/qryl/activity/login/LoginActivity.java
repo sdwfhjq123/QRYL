@@ -138,7 +138,6 @@ public class LoginActivity extends BaseActivity {
         FormBody formBody = builder.build();
         Request request = new Request.Builder()
                 .url(ConstantValue.URL + "/patientUser/login")
-                //.url("http://118.190.201.19/patientUser/login")
                 .post(formBody)
                 .build();
         client.newCall(request).enqueue(new Callback() {
@@ -148,7 +147,7 @@ public class LoginActivity extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(LoginActivity.this, "登录失败，请重试", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "网络连接失败，请重试", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -158,28 +157,41 @@ public class LoginActivity extends BaseActivity {
                 try {
                     String result = response.body().string();
                     JSONObject jsonObject = new JSONObject(result);
-                    JSONObject data = jsonObject.getJSONObject("data");
-                    id = data.getInt("loginId");
+                    String resultCode = jsonObject.getString("resultCode");
+                    if (resultCode.equals("200")) {
+                        JSONObject data = jsonObject.getJSONObject("data");
+                        id = data.getInt("loginId");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (progressDialog != null) {
+                                    progressDialog.dismiss();
+                                }
+                                prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+                                prefs.edit().putString("user_id", String.valueOf(id)).commit();
+                                Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
 
+                            }
+                        });
+                    } else if (resultCode.equals("500")) {
+                        final String erroMessage = jsonObject.getString("erroMessage");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (progressDialog != null) {
+                                    progressDialog.dismiss();
+                                }
+                                Toast.makeText(LoginActivity.this, erroMessage, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (progressDialog != null) {
-                            progressDialog.dismiss();
-                        }
-                        prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
-                        prefs.edit().putString("user_id", String.valueOf(id)).commit();
-                        Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-
-                    }
-                });
             }
         });
     }

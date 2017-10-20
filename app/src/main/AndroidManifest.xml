@@ -43,10 +43,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity">
-
-        </activity>
-        <activity android:name=".activity.login.LoginActivity" >
+        <activity android:name=".activity.MainActivity"></activity>
+        <activity android:name=".activity.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -191,8 +189,10 @@
         <activity android:name=".activity.login.ResetPsdActivity" />
         <activity android:name=".activity.H5.HgxqActivity" />
         <activity android:name=".activity.H5.ContactsActivity" />
-        <activity android:name=".activity.H5.LocationActivity"></activity>
-        <activity android:name=".activity.H5.XzxqActivity"></activity>
+        <activity android:name=".activity.H5.LocationActivity" />
+        <activity android:name=".activity.H5.XzxqActivity" />
+        <activity android:name=".activity.H5.XzServicexqActivity" />
+        <activity android:name=".activity.H5.MyAttentionActivity"></activity>
     </application>
 
 </manifest>

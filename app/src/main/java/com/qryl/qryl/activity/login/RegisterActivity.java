@@ -39,6 +39,8 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static android.R.attr.data;
+
 public class RegisterActivity extends BaseActivity {
 
     private static final String TAG = "RegisterActivity";
@@ -161,7 +163,7 @@ public class RegisterActivity extends BaseActivity {
         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
         builder.addFormDataPart("password", etPsdComfirm.getText().toString());
         builder.addFormDataPart("mobile", etTel.getText().toString());
-        MultipartBody requestBody = builder.build();
+        final MultipartBody requestBody = builder.build();
         Request requset = new Request.Builder()
                 .url(ConstantValue.URL + "/patientUser/register")
                 .post(requestBody)
@@ -186,25 +188,42 @@ public class RegisterActivity extends BaseActivity {
                 String result = response.body().string();
                 try {
                     JSONObject jsonObject = new JSONObject(result);
-                    JSONObject data = jsonObject.getJSONObject("data");
-                    id = data.getInt("loginId");
+                    String resultCode = jsonObject.getString("resultCode");
+                    if (resultCode.equals("200")) {
+                        JSONObject data = jsonObject.getJSONObject("data");
+                        id = data.getInt("loginId");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (progressDialog.isShowing() && progressDialog != null) {
+                                    progressDialog.dismiss();
+                                }
+                                Toast.makeText(RegisterActivity.this, "注册成功!", Toast.LENGTH_SHORT).show();
+                                SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+                                prefs.edit().putString("user_id", String.valueOf(id)).apply();
+                                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+                    } else if (resultCode.equals("500")) {
+                        final String erroMessage = jsonObject.getString("erroMessage");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (progressDialog.isShowing() && progressDialog != null) {
+                                    progressDialog.dismiss();
+                                }
+                                Toast.makeText(RegisterActivity.this, erroMessage, Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
+                    }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (progressDialog.isShowing() && progressDialog != null) {
-                            progressDialog.dismiss();
-                        }
-                        Toast.makeText(RegisterActivity.this, "注册成功!", Toast.LENGTH_SHORT).show();
-                        SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
-                        prefs.edit().putString("user_id", String.valueOf(id)).apply();
-                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                });
+
             }
         });
     }

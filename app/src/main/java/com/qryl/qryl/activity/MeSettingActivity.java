@@ -36,7 +36,11 @@ import com.bumptech.glide.Glide;
 import com.qryl.qryl.R;
 import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.DialogUtil;
+import com.qryl.qryl.util.HttpUtil;
 import com.qryl.qryl.view.MyAlertDialog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -46,6 +50,7 @@ import java.io.IOException;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -82,6 +87,7 @@ public class MeSettingActivity extends BaseActivity {
     private RelativeLayout customId;
     private TextView tvCustomId;
     private String userId;
+    private SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,11 +96,84 @@ public class MeSettingActivity extends BaseActivity {
         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
         Log.i(TAG, "onCreate: " + userId);
+        sp = getSharedPreferences("image", Context.MODE_PRIVATE);
+        sp.edit().clear().apply();
+
         genderArray = getResources().getStringArray(R.array.gender);
         initView();
+        initData();
         tvReturn.setVisibility(View.VISIBLE);
         //点击每个条目实现dialog或者activity
         clickItemShowDialog();
+    }
+
+    private void initData() {
+        //获取数据
+        OkHttpClient client = new OkHttpClient();
+        FormBody.Builder builder = new FormBody.Builder();
+        builder.add("id", userId);
+        FormBody formBody = builder.build();
+        Request request = new Request.Builder()
+                .url(ConstantValue.URL + "/patientUser/getById")
+                .post(formBody)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i(TAG, "onFailure: " + "获取个人信息失败");
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String result = response.body().string();
+                Log.i(TAG, "onResponse: 获取的编辑信息资料" + result);
+                handleJson(result);
+            }
+        });
+    }
+
+    private void handleJson(String result) {
+        try {
+            JSONObject jsonObject = new JSONObject(result);
+            String resultCode = jsonObject.getString("resultCode");
+            if (resultCode.equals("200")) {
+                JSONObject data = jsonObject.getJSONObject("data");
+                final String userName = data.getString("userName");
+                final String headshotImg = data.getString("headshotImg");
+                final String mobile = data.getString("mobile");
+                final String realName = data.getString("realName");
+                final String idNum = data.getString("idNum");
+                final int gender = data.getInt("gender");
+                final String healthCareNum = data.getString("healthCareNum");
+                final int height = data.getInt("height");
+                final int weight = data.getInt("weight");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        tvCustomId.setText(userName);
+                        tvYbh.setText(healthCareNum);
+                        Glide.with(MeSettingActivity.this).load(ConstantValue.URL + headshotImg).thumbnail(0.1f).into(civHead);
+                        tvTel.setText(mobile);
+                        tvName.setText(realName);
+                        tvIdentity.setText(idNum);
+                        tvWeight.setText(weight + "");
+                        tvStature.setText(height + "");
+                        tvGender.setText(gender == 0 ? "男" : "女");
+                    }
+                });
+            } else if (resultCode.equals("500")) {
+                final String erroMessage = jsonObject.getString("erroMessage");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MeSettingActivity.this, erroMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -337,7 +416,7 @@ public class MeSettingActivity extends BaseActivity {
         builder.addFormDataPart("cityId", "370100");
         builder.addFormDataPart("districtId", "370102");
         MultipartBody body = builder.build();
-        Request request = new Request.Builder().url(ConstantValue.URL +"/patientUser/modify").post(body).build();
+        Request request = new Request.Builder().url(ConstantValue.URL + "/patientUser/modify").post(body).build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -590,7 +669,7 @@ public class MeSettingActivity extends BaseActivity {
      * @param fileName
      */
     private void saveFile(String fileName) {
-        SharedPreferences sp = getSharedPreferences("image", MODE_PRIVATE);
+        sp = getSharedPreferences("image", MODE_PRIVATE);
         SharedPreferences.Editor edit = sp.edit();
         edit.putString(HEAD_KEY, fileName);
         //提交edit

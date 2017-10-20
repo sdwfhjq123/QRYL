@@ -23,4 +23,5 @@ public class HgxqAndroidToJs {
     public void finishActivity() {
         this.activity.finish();
     }
+
 }

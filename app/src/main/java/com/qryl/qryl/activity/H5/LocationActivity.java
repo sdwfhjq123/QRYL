@@ -26,7 +26,7 @@ public class LocationActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_location);
+        setContentView(R.layout.activity_test);
         prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
         Log.i(TAG, "onCreate:截获的id " + userId);
@@ -38,16 +38,13 @@ public class LocationActivity extends BaseActivity {
         WebSettings webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+        webview.getSettings().setDomStorageEnabled(true);
+        webview.getSettings().setDatabaseEnabled(true);
+        webview.getSettings().setDatabasePath(LocationActivity.this.getApplicationContext().getCacheDir().getAbsolutePath());
         webview.addJavascriptInterface(new HgxqAndroidToJs(this), "site");
         webview.setWebViewClient(new WebViewClient() {
-//         @Override
-//            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//                view.loadUrl(url);
-//                return false;
-//            }
             @Override
             public void onPageFinished(WebView view, String url) {
-               // webview.loadUrl("javascript:getId(" + userId + ")");
                 webview.loadUrl("javascript:getId(" + userId + ")");
             }
         });

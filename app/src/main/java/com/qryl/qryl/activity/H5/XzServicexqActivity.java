@@ -3,11 +3,8 @@ package com.qryl.qryl.activity.H5;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -16,14 +13,9 @@ import com.qryl.qryl.R;
 import com.qryl.qryl.activity.BaseActivity;
 import com.qryl.qryl.util.HgxqAndroidToJs;
 
-import static android.view.KeyEvent.KEYCODE_BACK;
-
-public class XzxqActivity extends BaseActivity {
+public class XzServicexqActivity extends BaseActivity {
     private static final String TAG = "XzxqActivity";
-    private static final String URL_XZ = "http://192.168.2.187/patient/worker_priority_worker_datails_medicalStaff.html";
-    private static final String URL_AM = "http://192.168.2.187/patient/worker_priority_worker_datails_massager.html";
-    private static final String URL_MY = "http://192.168.2.187/patient/worker_priority_worker_datails_motherBaby.html";
-
+    private static final String URL = "http://192.168.2.187/patient/serve_priority_serve_details.html";
     private WebView webview;
     private String userId;
     private int id;
@@ -39,7 +31,6 @@ public class XzxqActivity extends BaseActivity {
         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
         Log.i(TAG, "onCreate: " + userId);
-        Log.i(TAG, "传给H5的类型: " + type);
         initView();
     }
 
@@ -49,23 +40,15 @@ public class XzxqActivity extends BaseActivity {
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
         webSettings.setDatabaseEnabled(true);
-        webSettings.setDatabasePath(XzxqActivity.this.getApplicationContext().getCacheDir().getAbsolutePath());
+        webSettings.setDatabasePath(XzServicexqActivity.this.getApplicationContext().getCacheDir().getAbsolutePath());
         webview.addJavascriptInterface(new HgxqAndroidToJs(this), "qrylhg");
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
-                webview.loadUrl("javascript:getId(" + userId + "," + id + ")");
+                webview.loadUrl("javascript:getId(" + type + "," + id + "," + userId + ")");
             }
         });
-        if (type == 2) {
-            webview.loadUrl(URL_XZ);
-        } else if (type == 3) {
-            webview.loadUrl(URL_AM);
-        } else if (type == 4) {
-            webview.loadUrl(URL_MY);
-        }
-       // webview.loadUrl(URL_XZ);
-
+        webview.loadUrl(URL);
     }
 
 //    public boolean onKeyDown(int keyCode, KeyEvent event) {

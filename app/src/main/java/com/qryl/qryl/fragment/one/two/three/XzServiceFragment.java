@@ -12,6 +12,7 @@ import com.qryl.qryl.R;
 import com.qryl.qryl.VO.ServiceVO.Data;
 import com.qryl.qryl.VO.ServiceVO.ItemList;
 import com.qryl.qryl.VO.ServiceVO.ServiceVO;
+import com.qryl.qryl.activity.H5.XzServicexqActivity;
 import com.qryl.qryl.activity.H5.XzxqActivity;
 import com.qryl.qryl.adapter.XzServiceAdapter;
 import com.qryl.qryl.fragment.one.two.BaseFragment;
@@ -39,7 +40,6 @@ public class XzServiceFragment extends BaseFragment {
     private List<ItemList> datas = new ArrayList<>();
     private XzServiceAdapter adapter = new XzServiceAdapter(datas);
 
-
     /**
      * 加载数据
      */
@@ -58,7 +58,7 @@ public class XzServiceFragment extends BaseFragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String result = response.body().string();
-                Log.i(TAG, "onResponse: "+result);
+                Log.i(TAG, "onResponse: " + result);
                 handleJson(result);
             }
         });
@@ -113,7 +113,7 @@ public class XzServiceFragment extends BaseFragment {
                 Log.i(TAG, "onItemClick: 点击了条目:" + position);
                 int id = datas.get(position).getId();
                 Log.i(TAG, "onItemClick: 点击的id:" + id);
-                Intent intent = new Intent(getActivity(), XzxqActivity.class);
+                Intent intent = new Intent(getActivity(), XzServicexqActivity.class);
                 intent.putExtra("id", id);
                 intent.putExtra("type", 2);
                 startActivity(intent);
