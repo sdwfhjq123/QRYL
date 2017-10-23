@@ -193,6 +193,7 @@
         <activity android:name=".activity.H5.XzxqActivity" />
         <activity android:name=".activity.H5.XzServicexqActivity" />
         <activity android:name=".activity.H5.MyAttentionActivity"></activity>
+        <activity android:name=".activity.H5.OrderInfoActivity"></activity>
     </application>
 
 </manifest>

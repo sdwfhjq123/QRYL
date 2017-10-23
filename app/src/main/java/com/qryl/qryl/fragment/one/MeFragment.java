@@ -3,6 +3,8 @@ package com.qryl.qryl.fragment.one;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -19,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.qryl.qryl.R;
 import com.qryl.qryl.activity.H5.ContactsActivity;
 import com.qryl.qryl.activity.H5.LocationActivity;
+import com.qryl.qryl.activity.MainActivity;
 import com.qryl.qryl.activity.MeSettingActivity;
 import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.UIUtils;
@@ -26,7 +29,12 @@ import com.qryl.qryl.util.UIUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -59,8 +67,10 @@ public class MeFragment extends android.support.v4.app.Fragment implements View.
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = UIUtils.inflate(R.layout.fragment_me);
-        SharedPreferences prefs = getActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE);
-        userId = prefs.getString("user_id", "");
+        if (getActivity() instanceof MainActivity) {
+            SharedPreferences prefs = getActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE);
+            userId = prefs.getString("user_id", "");
+        }
         Log.i(TAG, "onCreateView: userId" + userId);
         initView(view);
         initData();
@@ -123,19 +133,22 @@ public class MeFragment extends android.support.v4.app.Fragment implements View.
             final String cityName = data.getString("cityName");
             final String districtName = data.getString("districtName");
             final String headshotImg = data.getString("headshotImg");
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    tvInfo.setText(realName);
-                    Glide.with(getActivity()).load(ConstantValue.URL + headshotImg).into(imageView);
-                    tvId.setText(userName);
-                    tvName.setText(realName);
-                    tvGender.setText(gender == 0 ? "男" : "女");
-                    tvYbh.setText(healthCareNum);
-                    tvTel.setText(mobile);
-                    tvLocation.setText(provinceName + cityName + districtName);
-                }
-            });
+            Log.i(TAG, "handleJson: 获取之后图片的链接 " + headshotImg);
+            if (getActivity() instanceof MainActivity) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        tvInfo.setText(realName);
+                        Glide.with(getActivity()).load(ConstantValue.URL + headshotImg).into(imageView);
+                        tvId.setText(userName);
+                        tvName.setText(realName);
+                        tvGender.setText(gender == 0 ? "男" : "女");
+                        tvYbh.setText(healthCareNum);
+                        tvTel.setText(mobile);
+                        tvLocation.setText(provinceName + cityName + districtName);
+                    }
+                });
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -195,4 +208,5 @@ public class MeFragment extends android.support.v4.app.Fragment implements View.
                 break;
         }
     }
+
 }

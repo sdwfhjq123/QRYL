@@ -1,13 +1,11 @@
 package com.qryl.qryl.activity.H5;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -17,24 +15,35 @@ import com.qryl.qryl.activity.BaseActivity;
 import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.HgxqAndroidToJs;
 
-import static android.view.KeyEvent.KEYCODE_BACK;
+public class OrderInfoActivity extends BaseActivity {
+    private static final String TAG = "XzxqActivity";
+    private static final String URL_HG = ConstantValue.URL + "/h5/medical/order_details_carer.html";
+    private static final String URL_XZ = ConstantValue.URL + "/h5/medical/order_details_medicalStaff.html";
+    private static final String URL_AM = ConstantValue.URL + "/h5/medical/order_details_massager.html";
+    private static final String URL_MY = ConstantValue.URL + "/h5/medical/order_details_motherBaby.html";
 
-public class HgxqActivity extends BaseActivity {
-    private static final String TAG = "HgxqActivity";
-    private static final String URL = ConstantValue.URL + "/h5/patient/carer_details.html";
     private WebView webview;
     private String userId;
-    private int id;
+    private int orderId;
+    private int orderType;
+
+    public static void actionStart(Context context, int params, int params2) {
+        Intent intent = new Intent(context, OrderInfoActivity.class);
+        intent.putExtra("orderId", params);
+        intent.putExtra("orderType", params2);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         Intent intent = getIntent();
-        id = intent.getIntExtra("id", 0);
+        orderId = intent.getIntExtra("orderId", 0);
+        orderType = intent.getIntExtra("orderType", 0);
         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
-        Log.i(TAG, "用户的id:" + userId + ",点击的护士的id:" + id);
+        Log.i(TAG, "onCreate: " + userId);
         initView();
     }
 
@@ -44,15 +53,23 @@ public class HgxqActivity extends BaseActivity {
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
         webSettings.setDatabaseEnabled(true);
-        webSettings.setDatabasePath(HgxqActivity.this.getApplicationContext().getCacheDir().getAbsolutePath());
+        webSettings.setDatabasePath(OrderInfoActivity.this.getApplicationContext().getCacheDir().getAbsolutePath());
         webview.addJavascriptInterface(new HgxqAndroidToJs(this), "qrylhg");
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
-                webview.loadUrl("javascript:getId(" + id + "," + userId + ")");
+                webview.loadUrl("javascript:getId(" + orderId + ")");
             }
         });
-        webview.loadUrl(URL);
+        if (orderType == 0) {
+            webview.loadUrl(URL_HG);
+        } else if (orderType == 1) {
+            webview.loadUrl(URL_XZ);
+        } else if (orderType == 2) {
+            webview.loadUrl(URL_AM);
+        }
+        // webview.loadUrl(URL_XZ);
+
     }
 
 //    public boolean onKeyDown(int keyCode, KeyEvent event) {

@@ -9,14 +9,19 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.qryl.qryl.R;
 import com.qryl.qryl.VO.OrderVO.Order;
 import com.qryl.qryl.VO.OrderVO.OrderInfoArea;
+import com.qryl.qryl.activity.MainActivity;
 import com.qryl.qryl.adapter.OrderFinishedAdapter;
 import com.qryl.qryl.adapter.OrderUnderwayAdapter;
 import com.qryl.qryl.util.ConstantValue;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -67,7 +72,7 @@ public class OrderFinishedFragment extends BaseFragment {
             builder.add("limit", "20");
             FormBody formBody = builder.build();
             final Request request = new Request.Builder()
-                    .url(ConstantValue.URL+"/order/getOrderListByStatus")
+                    .url(ConstantValue.URL + "/order/getOrderListByStatus")
                     .post(formBody)
                     .build();
             client.newCall(request).enqueue(new Callback() {
@@ -79,8 +84,23 @@ public class OrderFinishedFragment extends BaseFragment {
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String result = response.body().string();
-                    Log.i(TAG, "onResponse: " + result);
-                    handleJson(result);
+                    Log.i(TAG, "onResponse: 页数" + page);
+                    //判断data里面resultCode是否有500然后判断是否有数据或者
+                    try {
+                        JSONObject jsonObject = new JSONObject(result);
+                        String resultCode = jsonObject.getString("resultCode");
+                        if (resultCode.equals("500")) {
+                            return;
+                        } else if (resultCode.equals("200")) {
+                            JSONObject data = jsonObject.getJSONObject("data");
+                            if (data != null) {
+                                handleJson(result);
+                                Log.i(TAG, "onResponse: " + result);
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         }

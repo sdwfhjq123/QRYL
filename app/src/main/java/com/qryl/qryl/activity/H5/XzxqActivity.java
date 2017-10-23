@@ -54,7 +54,7 @@ public class XzxqActivity extends BaseActivity {
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
-                webview.loadUrl("javascript:getId(" + userId + "," + id + ")");
+                webview.loadUrl("javascript:getId(" + id + "," + userId + ")");
             }
         });
         if (type == 2) {

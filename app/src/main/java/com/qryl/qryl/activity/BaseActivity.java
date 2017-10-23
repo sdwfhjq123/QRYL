@@ -72,6 +72,8 @@ public class BaseActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     SharedPreferences prefsUserId = context.getSharedPreferences("user_id", Context.MODE_PRIVATE);
                     prefsUserId.edit().clear().commit();
+                    SharedPreferences prefsImg = context.getSharedPreferences("image", Context.MODE_PRIVATE);
+                    prefsImg.edit().clear().commit();
                     ActivityCollector.finishAll();
                     Intent intent = new Intent(context, LoginActivity.class);
                     context.startActivity(intent);

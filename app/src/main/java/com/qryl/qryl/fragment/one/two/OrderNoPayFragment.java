@@ -1,6 +1,7 @@
 package com.qryl.qryl.fragment.one.two;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -9,14 +10,20 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.qryl.qryl.R;
 import com.qryl.qryl.VO.OrderVO.Order;
 import com.qryl.qryl.VO.OrderVO.OrderInfoArea;
+import com.qryl.qryl.activity.H5.OrderInfoActivity;
+import com.qryl.qryl.activity.MainActivity;
 import com.qryl.qryl.adapter.OrderNopayAdapter;
 import com.qryl.qryl.adapter.OrderUnderwayAdapter;
 import com.qryl.qryl.util.ConstantValue;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -67,7 +74,7 @@ public class OrderNoPayFragment extends BaseFragment {
             builder.add("limit", "20");
             FormBody formBody = builder.build();
             final Request request = new Request.Builder()
-                    .url(ConstantValue.URL+"/order/getOrderListByStatus")
+                    .url(ConstantValue.URL + "/order/getOrderListByStatus")
                     .post(formBody)
                     .build();
             client.newCall(request).enqueue(new Callback() {
@@ -79,8 +86,23 @@ public class OrderNoPayFragment extends BaseFragment {
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String result = response.body().string();
-                    Log.i(TAG, "onResponse: " + result);
-                    handleJson(result);
+                    Log.i(TAG, "onResponse: 页数" + page);
+                    //判断data里面resultCode是否有500然后判断是否有数据或者
+                    try {
+                        JSONObject jsonObject = new JSONObject(result);
+                        String resultCode = jsonObject.getString("resultCode");
+                        if (resultCode.equals("500")) {
+                            return;
+                        } else if (resultCode.equals("200")) {
+                            JSONObject data = jsonObject.getJSONObject("data");
+                            if (data != null) {
+                                handleJson(result);
+                                Log.i(TAG, "onResponse: " + result);
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         }
@@ -155,6 +177,20 @@ public class OrderNoPayFragment extends BaseFragment {
                 page = 1;
                 datas.clear();
                 postData(String.valueOf(1));
+            }
+        });
+        adapter.setOnItemClickListener(new OrderNopayAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Log.i(TAG, "onItemClick: 点击了订单列表" + position);
+                if (getActivity() instanceof MainActivity) {
+                    OrderInfoActivity.actionStart(getActivity(), datas.get(position).getId(), datas.get(position).getOrderType());
+                }
+            }
+
+            @Override
+            public void onDeleteItemClick(View view, int position) {
+
             }
         });
         return view;

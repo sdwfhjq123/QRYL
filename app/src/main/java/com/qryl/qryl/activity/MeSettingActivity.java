@@ -93,11 +93,12 @@ public class MeSettingActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_me_setting);
+        sp = getSharedPreferences("image", Context.MODE_PRIVATE);
+        sp.edit().putString(HEAD_KEY, "").commit();
+
         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
         Log.i(TAG, "onCreate: " + userId);
-        sp = getSharedPreferences("image", Context.MODE_PRIVATE);
-        sp.edit().clear().apply();
 
         genderArray = getResources().getStringArray(R.array.gender);
         initView();
@@ -153,7 +154,7 @@ public class MeSettingActivity extends BaseActivity {
                     public void run() {
                         tvCustomId.setText(userName);
                         tvYbh.setText(healthCareNum);
-                        Glide.with(MeSettingActivity.this).load(ConstantValue.URL + headshotImg).thumbnail(0.1f).into(civHead);
+                        Glide.with(MeSettingActivity.this).load(ConstantValue.URL + headshotImg).skipMemoryCache(true).thumbnail(0.1f).into(civHead);
                         tvTel.setText(mobile);
                         tvName.setText(realName);
                         tvIdentity.setText(idNum);
