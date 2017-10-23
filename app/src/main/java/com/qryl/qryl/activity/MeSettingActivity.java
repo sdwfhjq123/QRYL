@@ -1,5 +1,6 @@
 package com.qryl.qryl.activity;
 
+import android.Manifest;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -61,6 +62,10 @@ import okhttp3.Response;
 public class MeSettingActivity extends BaseActivity {
 
     private static final String TAG = "MeSettingActivity";
+
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     private TextView tvTitle;
     private TextView tvReturn;
@@ -471,7 +476,8 @@ public class MeSettingActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
-                //调用相机
+                //调用相册
+                sp.edit().putInt("camera_or_album", 2).apply();
                 invokeAlbum();
             }
         });
@@ -480,7 +486,15 @@ public class MeSettingActivity extends BaseActivity {
             public void onClick(View v) {
                 popupWindow.dismiss();
                 //打开相机
-                openCarema();
+                sp.edit().putInt("camera_or_album", 1).apply();
+                //动态申请危险时权限，运行时权限
+                if (ContextCompat.checkSelfPermission(MeSettingActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+                        PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(MeSettingActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                } else {
+                    openCarema();
+                }
+
             }
         });
         btnPopCancel.setOnClickListener(new View.OnClickListener() {
@@ -493,7 +507,7 @@ public class MeSettingActivity extends BaseActivity {
 
     private void openCarema() {
         //创建File对象，用于存储拍照后的照片
-        File outputImage = new File(getExternalCacheDir(), "output_image.jpg");
+        File outputImage = new File(getExternalCacheDir(), "bh_image.jpg");
         if (outputImage.exists()) {
             outputImage.delete();
         }
@@ -502,16 +516,17 @@ public class MeSettingActivity extends BaseActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         if (Build.VERSION.SDK_INT >= 24) {
-            imageUri = FileProvider.getUriForFile(MeSettingActivity.this, "com.qryl.qrylyh.activity.login.complete.fileprovider", outputImage);
+            imageUri = FileProvider.getUriForFile(MeSettingActivity.this, "com.qryl.qryl.activity.fileprovider", outputImage);
         } else {
             imageUri = Uri.fromFile(outputImage);
         }
+
         //启动相机程序
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent, TAKE_PHOTO);
+
     }
 
     private void invokeAlbum() {
@@ -542,7 +557,12 @@ public class MeSettingActivity extends BaseActivity {
         switch (requestCode) {
             case 1:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    openAlbum();
+                    int camera_or_album = sp.getInt("camera_or_album", 2);
+                    if (camera_or_album == 2) {
+                        openAlbum();
+                    } else if (camera_or_album == 1) {
+                        openCarema();
+                    }
                 } else {
                     Toast.makeText(MeSettingActivity.this, "you denied the permission", Toast.LENGTH_SHORT).show();
                 }
@@ -560,7 +580,8 @@ public class MeSettingActivity extends BaseActivity {
                     //将拍摄的图片显示出来
                     try {
                         bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
-                        headFile = saveMyBitmap(bitmap, "head");
+                        Log.e(TAG, "onActivityResult: imageUri: " + imageUri);
+                        headFile = saveMyBitmap(bitmap, "bh_head");
                         //保存file到sp
                         saveFile(headFile.getName());
                         Glide.with(this).load(headFile).thumbnail(0.1f).into(civHead);
@@ -634,7 +655,7 @@ public class MeSettingActivity extends BaseActivity {
     private void displayImage(String imagePath) {
         if (imagePath != null) {
             bitmap = BitmapFactory.decodeFile(imagePath);
-            headFile = saveMyBitmap(bitmap, "head");
+            headFile = saveMyBitmap(bitmap, HEAD_KEY);
             //保存file到sp
             saveFile(headFile.getName());
             Glide.with(this).load(headFile).thumbnail(0.1f).into(civHead);
@@ -646,6 +667,9 @@ public class MeSettingActivity extends BaseActivity {
 
     //将bitmap转化为png格式
     public File saveMyBitmap(Bitmap mBitmap, String prefix) {
+        File sd = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+        boolean can_write = sd.canWrite();
+        Log.i(TAG, "saveMyBitmap: 是否能读取" + can_write);
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
         File file = null;
         try {
