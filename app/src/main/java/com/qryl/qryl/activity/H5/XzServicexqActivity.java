@@ -11,11 +11,12 @@ import android.webkit.WebViewClient;
 
 import com.qryl.qryl.R;
 import com.qryl.qryl.activity.BaseActivity;
+import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.HgxqAndroidToJs;
 
 public class XzServicexqActivity extends BaseActivity {
     private static final String TAG = "XzxqActivity";
-    private static final String URL = "http://192.168.2.187/patient/serve_priority_serve_details.html";
+    private static final String URL = ConstantValue.URL_H5 + "/patient/serve_priority_serve_details.html";
     private WebView webview;
     private String userId;
     private int id;

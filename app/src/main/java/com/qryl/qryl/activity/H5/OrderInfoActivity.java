@@ -17,10 +17,10 @@ import com.qryl.qryl.util.HgxqAndroidToJs;
 
 public class OrderInfoActivity extends BaseActivity {
     private static final String TAG = "XzxqActivity";
-    private static final String URL_HG = ConstantValue.URL + "/h5/medical/order_details_carer.html";
-    private static final String URL_XZ = ConstantValue.URL + "/h5/medical/order_details_medicalStaff.html";
-    private static final String URL_AM = ConstantValue.URL + "/h5/medical/order_details_massager.html";
-    private static final String URL_MY = ConstantValue.URL + "/h5/medical/order_details_motherBaby.html";
+    private static final String URL_HG = ConstantValue.URL_H5 + "/medical/order_details_carer.html";
+    private static final String URL_XZ = ConstantValue.URL_H5 + "/medical/order_details_medicalStaff.html";
+    private static final String URL_AM = ConstantValue.URL_H5 + "/medical/order_details_massager.html";
+    private static final String URL_MY = ConstantValue.URL_H5 + "/medical/order_details_motherBaby.html";
 
     private WebView webview;
     private String userId;

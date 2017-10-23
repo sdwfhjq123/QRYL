@@ -14,15 +14,16 @@ import android.webkit.WebViewClient;
 
 import com.qryl.qryl.R;
 import com.qryl.qryl.activity.BaseActivity;
+import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.HgxqAndroidToJs;
 
 import static android.view.KeyEvent.KEYCODE_BACK;
 
 public class XzxqActivity extends BaseActivity {
     private static final String TAG = "XzxqActivity";
-    private static final String URL_XZ = "http://192.168.2.187/patient/worker_priority_worker_datails_medicalStaff.html";
-    private static final String URL_AM = "http://192.168.2.187/patient/worker_priority_worker_datails_massager.html";
-    private static final String URL_MY = "http://192.168.2.187/patient/worker_priority_worker_datails_motherBaby.html";
+    private static final String URL_XZ = ConstantValue.URL_H5 + "/patient/worker_priority_worker_datails_medicalStaff.html";
+    private static final String URL_AM = ConstantValue.URL_H5 + "/patient/worker_priority_worker_datails_massager.html";
+    private static final String URL_MY = ConstantValue.URL_H5 + "/patient/worker_priority_worker_datails_motherBaby.html";
 
     private WebView webview;
     private String userId;
@@ -64,7 +65,7 @@ public class XzxqActivity extends BaseActivity {
         } else if (type == 4) {
             webview.loadUrl(URL_MY);
         }
-       // webview.loadUrl(URL_XZ);
+        // webview.loadUrl(URL_XZ);
 
     }
 

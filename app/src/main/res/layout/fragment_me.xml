@@ -213,7 +213,7 @@
         android:padding="5dp">
 
         <ImageView
-            android:id="@+id/ic_wallet_2"
+            android:id="@+id/ic_contact_2"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginRight="15dp"
@@ -223,7 +223,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/ic_wallet_2"
+            android:layout_toRightOf="@id/ic_contact_2"
             android:text="我的常用联系人"
             android:textColor="#666"
             android:textSize="16sp" />
@@ -246,7 +246,7 @@
         android:padding="5dp">
 
         <ImageView
-            android:id="@+id/ic_wallet_2"
+            android:id="@+id/ic_illness_2"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginRight="15dp"
@@ -256,7 +256,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/ic_wallet_2"
+            android:layout_toRightOf="@id/ic_illness_2"
             android:text="我的常用地址"
             android:textColor="#666"
             android:textSize="16sp" />
@@ -278,7 +278,7 @@
         android:padding="5dp">
 
         <ImageView
-            android:id="@+id/ic_wallet_2"
+            android:id="@+id/ic_follow"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginRight="15dp"
@@ -288,7 +288,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/ic_wallet_2"
+            android:layout_toRightOf="@id/ic_follow"
             android:text="我的关注"
             android:textColor="#666"
             android:textSize="16sp" />
@@ -314,7 +314,7 @@
         android:padding="5dp">
 
         <ImageView
-            android:id="@+id/ic_wallet_2"
+            android:id="@+id/ic_content_2"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginRight="15dp"
@@ -324,7 +324,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/ic_wallet_2"
+            android:layout_toRightOf="@id/ic_content_2"
             android:text="意见反馈"
             android:textColor="#666"
             android:textSize="16sp" />
@@ -347,7 +347,7 @@
         android:padding="5dp">
 
         <ImageView
-            android:id="@+id/ic_wallet_2"
+            android:id="@+id/ic_people_2"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginRight="15dp"
@@ -357,7 +357,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/ic_wallet_2"
+            android:layout_toRightOf="@id/ic_people_2"
             android:text="我的客服"
             android:textColor="#666"
             android:textSize="16sp" />

@@ -14,6 +14,7 @@ import android.webkit.WebViewClient;
 
 import com.qryl.qryl.R;
 import com.qryl.qryl.activity.BaseActivity;
+import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.HgxqAndroidToJs;
 
 import static android.view.KeyEvent.KEYCODE_BACK;
@@ -21,7 +22,7 @@ import static android.view.KeyEvent.KEYCODE_BACK;
 public class ContactsActivity extends BaseActivity {
 
     private static final String TAG = "ContactsActivity";
-    private static final String URL = "http://192.168.2.187/patient/manage_contact.html";
+    private static final String URL = ConstantValue.URL_H5 + "/patient/manage_contact.html";
     private WebView webview;
     private SharedPreferences prefs;
     private String userId;

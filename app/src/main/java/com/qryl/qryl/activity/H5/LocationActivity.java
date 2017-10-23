@@ -12,13 +12,14 @@ import android.webkit.WebViewClient;
 
 import com.qryl.qryl.R;
 import com.qryl.qryl.activity.BaseActivity;
+import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.HgxqAndroidToJs;
 
 import static android.view.KeyEvent.KEYCODE_BACK;
 
 public class LocationActivity extends BaseActivity {
     private static final String TAG = "LocationActivity";
-    private static final String URL = "http://192.168.2.187/patient/manage_site.html";
+    private static final String URL = ConstantValue.URL_H5+"/patient/manage_site.html";
     private WebView webview;
     private SharedPreferences prefs;
     private String userId;

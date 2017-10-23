@@ -21,7 +21,7 @@ import static android.view.KeyEvent.KEYCODE_BACK;
 
 public class HgxqActivity extends BaseActivity {
     private static final String TAG = "HgxqActivity";
-    private static final String URL = ConstantValue.URL + "/h5/patient/carer_details.html";
+    private static final String URL = ConstantValue.URL_H5 + "/patient/carer_details.html";
     private WebView webview;
     private String userId;
     private int id;
