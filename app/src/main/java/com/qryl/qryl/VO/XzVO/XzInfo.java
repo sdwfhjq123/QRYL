@@ -1,5 +1,7 @@
 package com.qryl.qryl.VO.XzVO;
 
+import java.util.List;
+
 /**
  * Created by yinhao on 2017/9/22.
  */
@@ -11,14 +13,54 @@ public class XzInfo {
     private String headShotImg;
     private String professionIds;
     private int status;
+    private int roleType;
+    private String hospitalName;
+    private String departmentName;
+    private String professionNames;
 
-    public XzInfo(int id, String realName, int workYears, String headShotImg, String professionIds, int status) {
+    public XzInfo(int id, String realName, int workYears, String headShotImg, String professionIds, int status, int roleType, String hospitalName, String departmentName, String professionNames) {
         this.id = id;
         this.realName = realName;
         this.workYears = workYears;
         this.headShotImg = headShotImg;
         this.professionIds = professionIds;
         this.status = status;
+        this.roleType = roleType;
+        this.hospitalName = hospitalName;
+        this.departmentName = departmentName;
+        this.professionNames = professionNames;
+    }
+
+    public String getProfessionNames() {
+        return professionNames;
+    }
+
+    public void setProfessionNames(String professionNames) {
+        this.professionNames = professionNames;
+    }
+
+    public int getRoleType() {
+        return roleType;
+    }
+
+    public void setRoleType(int roleType) {
+        this.roleType = roleType;
+    }
+
+    public String getHospitalName() {
+        return hospitalName;
+    }
+
+    public void setHospitalName(String hospitalName) {
+        this.hospitalName = hospitalName;
+    }
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
     }
 
     public int getId() {

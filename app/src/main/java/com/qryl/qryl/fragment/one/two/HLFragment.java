@@ -296,6 +296,7 @@ public class HLFragment extends Fragment {
                             postData(String.valueOf(gender), startTime, endTime, String.valueOf(hours));
                         } else {
                             Toast.makeText(getActivity(), "没有更多数据了...", Toast.LENGTH_SHORT).show();
+
                         }
                         isLoading = false;
                     }

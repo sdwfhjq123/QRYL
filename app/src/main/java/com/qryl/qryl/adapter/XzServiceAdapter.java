@@ -44,7 +44,6 @@ public class XzServiceAdapter extends RecyclerView.Adapter<XzServiceAdapter.View
             ivServiceItem = (ImageView) itemView.findViewById(R.id.iv_service_item);
             tvTitleItem = (TextView) itemView.findViewById(R.id.tv_title_item);
             tvInfoItem = (TextView) itemView.findViewById(R.id.tv_info_item);
-            //cardView.setCardBackgroundColor(UIUtils.getContext().getResources().getColor(R.color.card_view_bg));
         }
     }
 

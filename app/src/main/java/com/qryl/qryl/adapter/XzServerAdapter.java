@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.qryl.qryl.R;
 import com.qryl.qryl.VO.XzVO.XzInfo;
+import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.UIUtils;
 
 import java.util.ArrayList;
@@ -50,11 +51,20 @@ public class XzServerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof ItemViewHolder) {
-//            ((ItemViewHolder) holder).rlRootItem
-            Glide.with(UIUtils.getContext()).load(datas.get(position).getProfessionIds()).into(((ItemViewHolder) holder).ivHeadItem);
+            Glide.with(UIUtils.getContext()).load(ConstantValue.URL + datas.get(position).getProfessionIds()).into(((ItemViewHolder) holder).ivHeadItem);
             ((ItemViewHolder) holder).tvNameItem.setText(datas.get(position).getRealName());
             ((ItemViewHolder) holder).tvExperienceItem.setText(datas.get(position).getWorkYears() + "");
-            ((ItemViewHolder) holder).tvProfessionItem.setText(datas.get(position).getProfessionIds());
+            ((ItemViewHolder) holder).tvBeGoodAtItem.setText(datas.get(position).getProfessionNames());
+            ((ItemViewHolder) holder).tvHospital.setText(datas.get(position).getHospitalName());
+            ((ItemViewHolder) holder).tvDepartment.setText(datas.get(position).getDepartmentName());
+            int roleType = datas.get(position).getRoleType();
+            if (roleType == 0) {
+                ((ItemViewHolder) holder).tvProfessionItem.setText("护士");
+            } else if (roleType == 1) {
+                ((ItemViewHolder) holder).tvProfessionItem.setText("医生");
+            } else if (roleType == 2) {
+                ((ItemViewHolder) holder).tvProfessionItem.setText("按摩师");
+            }
             if (onItemClickListener != null) {
                 ((ItemViewHolder) holder).rlRootItem.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -97,6 +107,8 @@ public class XzServerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         TextView tvExperienceItem;
         TextView tvBeGoodAtItem;
         TextView tvProfessionItem;
+        TextView tvHospital;
+        TextView tvDepartment;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
@@ -105,9 +117,9 @@ public class XzServerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             tvNameItem = (TextView) itemView.findViewById(R.id.tv_name_item);
             tvExperienceItem = (TextView) itemView.findViewById(R.id.tv_experience_item);
             tvBeGoodAtItem = (TextView) itemView.findViewById(R.id.tv_be_good_at_item);
-            tvProfessionItem = (TextView) itemView.findViewById(R.id.tv_profession_item);
-            //tvProfessionItem = (TextView) itemView.findViewById(R.id.tv_profession_item);
-            //itemView.findViewById(R.id.tv_sign_item);//是否签到的imageview
+            tvProfessionItem = (TextView) itemView.findViewById(R.id.tv_profession);
+            tvHospital = (TextView) itemView.findViewById(R.id.tv_hospital);
+            tvDepartment = (TextView) itemView.findViewById(R.id.tv_department);
         }
     }
 

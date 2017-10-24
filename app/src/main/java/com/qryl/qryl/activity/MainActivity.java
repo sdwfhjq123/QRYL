@@ -1,6 +1,7 @@
 package com.qryl.qryl.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -12,6 +13,8 @@ import com.qryl.qryl.fragment.one.HomeFragment;
 import com.qryl.qryl.fragment.one.MeFragment;
 import com.qryl.qryl.fragment.one.MsgFragment;
 import com.qryl.qryl.fragment.one.OrderFragment;
+
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * 以及样式还未实现
@@ -38,6 +41,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //注册极光唯一registrationId
+        String registrationID = JPushInterface.getRegistrationID(this);
+        Log.i(TAG, "[MyReceiver] 接收Registration Id2 : " + registrationID);
 //        float density = getResources().getDisplayMetrics().density;
 //        Log.e(TAG, "像素密度: " + density);
         initUI();

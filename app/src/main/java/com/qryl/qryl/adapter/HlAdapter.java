@@ -70,7 +70,7 @@ public class HlAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         //修改内容
         if (holder instanceof ItemViewHolder) {
             ((ItemViewHolder) holder).tvAgeItem.setText(datas.get(position).getAge() + "");
-            ((ItemViewHolder) holder).tvExperienceItem.setText(datas.get(position).getWorkYears() + "");
+            ((ItemViewHolder) holder).tvExperienceItem.setText(datas.get(position).getWorkYears() + "年");
             if (datas.get(position).getGender() == 0) {
                 ((ItemViewHolder) holder).tvGenderItem.setText("男");
             } else if (datas.get(position).getGender() == 1) {
@@ -79,12 +79,10 @@ public class HlAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ((ItemViewHolder) holder).tvNameItem.setText(datas.get(position).getRealName());
             ((ItemViewHolder) holder).tvStarItem.setText("★★★★★");
             Glide.with(UIUtils.getContext()).load(ConstantValue.URL + datas.get(position).getHeadshotImg()).into(((ItemViewHolder) holder).ivHeadItem);
-            int id = datas.get(position).getId();
             if (onItemClickListener != null) {
                 ((ItemViewHolder) holder).rlRootItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //int layoutPosition = holder.getLayoutPosition();
                         onItemClickListener.onItemClick(((ItemViewHolder) holder).rlRootItem, position);
                     }
                 });

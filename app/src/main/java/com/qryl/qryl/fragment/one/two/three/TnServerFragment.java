@@ -9,14 +9,10 @@ import android.view.View;
 
 import com.google.gson.Gson;
 import com.qryl.qryl.R;
-import com.qryl.qryl.VO.OrderVO.Order;
-import com.qryl.qryl.VO.OrderVO.OrderInfoArea;
 import com.qryl.qryl.VO.XzVO.Xz;
 import com.qryl.qryl.VO.XzVO.XzData;
 import com.qryl.qryl.VO.XzVO.XzInfo;
 import com.qryl.qryl.activity.H5.XzxqActivity;
-import com.qryl.qryl.adapter.MyServerAdapter;
-import com.qryl.qryl.adapter.OrderUnderwayAdapter;
 import com.qryl.qryl.adapter.XzServerAdapter;
 import com.qryl.qryl.fragment.one.two.BaseFragment;
 import com.qryl.qryl.util.ConstantValue;
@@ -31,8 +27,6 @@ import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
-import static android.R.attr.data;
 
 /**
  * Created by hp on 2017/8/21.
