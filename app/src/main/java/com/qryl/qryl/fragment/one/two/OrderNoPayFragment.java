@@ -129,9 +129,7 @@ public class OrderNoPayFragment extends BaseFragment {
                 swipeRefresh.setRefreshing(false);
             }
         });
-
     }
-
 
     @Override
     public View initView() {
@@ -189,10 +187,83 @@ public class OrderNoPayFragment extends BaseFragment {
             }
 
             @Override
-            public void onDeleteItemClick(View view, int position) {
+            public void onDeleteItemClick(View view, int position) {//删除订单
+                Toast.makeText(getActivity(), "点击了删除按钮", Toast.LENGTH_SHORT).show();
+                deleteOrderItem(position);
+            }
 
+            @Override
+            public void onPayItemClick(View view, int position) {//支付订单
+                Toast.makeText(getActivity(), "点击了支付按钮", Toast.LENGTH_SHORT).show();
+                orderPay(position);
             }
         });
         return view;
+    }
+
+    /**
+     * 删除订单条目
+     *
+     * @param position
+     */
+    private void deleteOrderItem(final int position) {
+        OkHttpClient client = new OkHttpClient();
+        FormBody.Builder builder = new FormBody.Builder();
+        builder.add("orderId", String.valueOf(datas.get(position).getId()));
+        builder.add("orderType", String.valueOf(datas.get(position).getOrderType()));
+        builder.add("puId", userId);
+        FormBody formBody = builder.build();
+        Request request = new Request.Builder()
+                .url(ConstantValue.URL + "/order/delOrder")
+                .post(formBody)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String result = response.body().string();
+                Log.i(TAG, "onResponse: 删除订单接口后的回调数据"+result);
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    String resultCode = jsonObject.getString("resultCode");
+                    if (resultCode.equals("500")) {
+                        final String erroMessage = jsonObject.getString("erroMessage");
+                        if (getActivity() instanceof MainActivity) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getActivity(), erroMessage, Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    } else if (resultCode.equals("200")) {
+                        if (getActivity() instanceof MainActivity) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_SHORT).show();
+                                    datas.remove(position);
+                                    adapter.notifyDataSetChanged();
+                                }
+                            });
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    /**
+     * 支付订单
+     *
+     * @param position 订单条目
+     */
+    private void orderPay(int position) {
     }
 }

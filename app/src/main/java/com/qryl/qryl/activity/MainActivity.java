@@ -1,5 +1,6 @@
 package com.qryl.qryl.activity;
 
+import android.content.pm.ProviderInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,11 @@ import com.qryl.qryl.fragment.one.HomeFragment;
 import com.qryl.qryl.fragment.one.MeFragment;
 import com.qryl.qryl.fragment.one.MsgFragment;
 import com.qryl.qryl.fragment.one.OrderFragment;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXTextObject;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -28,6 +34,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private static final String MSG_FRAGMENT = "MSG_FRAGMENT";
     private static final String ORDER_FRAGMENT = "ORDER_FRAGMENT";
 
+    /**
+     * 微信应用的appKey
+     */
+    private static final String APP_ID_WX = "";
+    /**
+     * IWXAPI是第三方app和微信通信的openapi接口
+     */
+    private IWXAPI api;
+
     private RadioGroup rgMain;
     private TextView tvTitle;
     private RadioButton rbHome, rbOrder, rbMsg, rbMe;
@@ -41,6 +56,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        register2WX();
         //注册极光唯一registrationId
         String registrationID = JPushInterface.getRegistrationID(this);
         Log.i(TAG, "[MyReceiver] 接收Registration Id2 : " + registrationID);
@@ -48,6 +64,28 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //        Log.e(TAG, "像素密度: " + density);
         initUI();
         initData();
+    }
+
+    /**
+     * 注册到微信
+     */
+    private void register2WX() {
+        //通过WXAPIFactroy工厂，获取IWXAPI实例
+        api = WXAPIFactory.createWXAPI(this, APP_ID_WX, true);
+        api.registerApp(APP_ID_WX);
+        //初始化一个微信WXTextObject对象
+        WXTextObject textObject = new WXTextObject();
+        textObject.text = "测试数据";
+        //用WXTextObject对象初始化一个WXMediaMessage对象
+        WXMediaMessage msg = new WXMediaMessage();
+        msg.mediaObject = textObject;
+        msg.description = "测试数据";
+        //构造一个Req
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.transaction = String.valueOf(System.currentTimeMillis());//transaction用于唯一标识一个请求
+        req.message = msg;
+        //调用api接口发送数据到微信
+        api.sendReq(req);
     }
 
     /**

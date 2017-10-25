@@ -50,10 +50,25 @@ public class OrderNopayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ((ItemViewHolder) holder).tvNote.setText(data.get(position).getNote());
             ((ItemViewHolder) holder).tvContent.setText(data.get(position).getContent());
             ((ItemViewHolder) holder).tvTitle.setText(data.get(position).getTitle());
+            //点击条目
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onItemClickListener.onItemClick(holder.itemView, position);
+                }
+            });
+            //点击支付
+            ((ItemViewHolder) holder).btnPay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onItemClickListener.onPayItemClick(((ItemViewHolder) holder).btnPay, position);
+                }
+            });
+            //点击删除订单
+            ((ItemViewHolder) holder).btnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onItemClickListener.onDeleteItemClick(((ItemViewHolder) holder).btnDelete, position);
                 }
             });
         }
@@ -110,6 +125,8 @@ public class OrderNopayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         void onItemClick(View view, int position);
 
         void onDeleteItemClick(View view, int position);
+
+        void onPayItemClick(View view, int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {

@@ -43,7 +43,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity"></activity>
+        <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -192,8 +192,24 @@
         <activity android:name=".activity.H5.LocationActivity" />
         <activity android:name=".activity.H5.XzxqActivity" />
         <activity android:name=".activity.H5.XzServicexqActivity" />
-        <activity android:name=".activity.H5.MyAttentionActivity"></activity>
-        <activity android:name=".activity.H5.OrderInfoActivity"></activity>
+        <activity android:name=".activity.H5.MyAttentionActivity" />
+        <activity android:name=".activity.H5.OrderInfoActivity" />
+        <activity android:name=".wxapi.WXEntryActivity"></activity>
+
+        <!-- alipay -->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+        <activity
+            android:name="com.alipay.sdk.app.H5AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+
     </application>
 
 </manifest>

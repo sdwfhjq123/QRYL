@@ -25,7 +25,7 @@
             android:id="@+id/rb_order"
             style="@style/MainActivityRaodioButtonStyle"
             android:drawableTop="@drawable/selector_rb_order"
-            android:text="定单" />
+            android:text="订单" />
 
         <RadioButton
             android:id="@+id/rb_msg"
@@ -44,8 +44,9 @@
         style="@style/ViewLine"
         android:layout_above="@id/rg_main" />
 
-    <include layout="@layout/title"
-        android:id="@+id/title"/>
+    <include
+        android:id="@+id/title"
+        layout="@layout/title" />
 
     <FrameLayout
         android:id="@+id/fl_home"

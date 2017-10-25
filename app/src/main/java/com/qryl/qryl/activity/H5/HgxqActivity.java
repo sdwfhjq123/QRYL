@@ -23,8 +23,18 @@ public class HgxqActivity extends BaseActivity {
     private static final String TAG = "HgxqActivity";
     private static final String URL = ConstantValue.URL_H5 + "/patient/carer_details.html";
     private WebView webview;
+    /**
+     * 病患端登录的id
+     */
     private String userId;
+    /**
+     * 人员列表的id
+     */
     private int id;
+    /**
+     * 医护端用户登录的id
+     */
+    private int loginId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +42,10 @@ public class HgxqActivity extends BaseActivity {
         setContentView(R.layout.activity_test);
         Intent intent = getIntent();
         id = intent.getIntExtra("id", 0);
+        loginId = intent.getIntExtra("login_id", 0);
         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
-        Log.i(TAG, "用户的id:" + userId + ",点击的护士的id:" + id);
+        Log.i(TAG, "用户的id:" + userId + ",点击的护士的id:" + id + ",医护端登录的id" + loginId);
         initView();
     }
 
@@ -49,7 +60,8 @@ public class HgxqActivity extends BaseActivity {
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
-                webview.loadUrl("javascript:getId(" + id + "," + userId + ")");
+                //医护端登录id 列表id 病患端登录id
+                webview.loadUrl("javascript:getId(" + loginId + "," + id + "," + userId + ")");
             }
         });
         webview.loadUrl(URL);

@@ -157,11 +157,15 @@ public class TnServerFragment extends BaseFragment {
             @Override
             public void onItemClick(View view, int position) {
                 Log.i(TAG, "onItemClick: 点击了条目:" + position);
-                int id = datas.get(position).getId();
-                Log.i(TAG, "onItemClick: 点击的id" + id);
+                //获取医护端登录的id
+                int id = datas.get(position).getLoginId();
+                //获取人员列表的id
+                int listId = datas.get(position).getId();
+                Log.i(TAG, "onItemClick: 点击的巡诊的id" + id);
                 Intent intent = new Intent(getActivity(), XzxqActivity.class);
                 intent.putExtra("id", id);
                 intent.putExtra("type", 3);
+                intent.putExtra("list_id",listId);
                 startActivity(intent);
             }
 

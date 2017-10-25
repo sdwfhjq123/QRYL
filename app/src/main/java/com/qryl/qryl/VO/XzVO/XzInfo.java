@@ -8,6 +8,7 @@ import java.util.List;
 
 public class XzInfo {
     private int id;
+    private int loginId;
     private String realName;
     private int workYears;
     private String headShotImg;
@@ -18,8 +19,9 @@ public class XzInfo {
     private String departmentName;
     private String professionNames;
 
-    public XzInfo(int id, String realName, int workYears, String headShotImg, String professionIds, int status, int roleType, String hospitalName, String departmentName, String professionNames) {
+    public XzInfo(int id, int loginId, String realName, int workYears, String headShotImg, String professionIds, int status, int roleType, String hospitalName, String departmentName, String professionNames) {
         this.id = id;
+        this.loginId = loginId;
         this.realName = realName;
         this.workYears = workYears;
         this.headShotImg = headShotImg;
@@ -29,6 +31,22 @@ public class XzInfo {
         this.hospitalName = hospitalName;
         this.departmentName = departmentName;
         this.professionNames = professionNames;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getLoginId() {
+        return loginId;
+    }
+
+    public void setLoginId(int loginId) {
+        this.loginId = loginId;
     }
 
     public String getProfessionNames() {
@@ -63,13 +81,7 @@ public class XzInfo {
         this.departmentName = departmentName;
     }
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getRealName() {
         return realName;

@@ -58,11 +58,11 @@ public class XzServerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ((ItemViewHolder) holder).tvHospital.setText(datas.get(position).getHospitalName());
             ((ItemViewHolder) holder).tvDepartment.setText(datas.get(position).getDepartmentName());
             int roleType = datas.get(position).getRoleType();
-            if (roleType == 0) {
-                ((ItemViewHolder) holder).tvProfessionItem.setText("护士");
-            } else if (roleType == 1) {
+            if (roleType == 1) {// hg  ys hs am
                 ((ItemViewHolder) holder).tvProfessionItem.setText("医生");
             } else if (roleType == 2) {
+                ((ItemViewHolder) holder).tvProfessionItem.setText("护士");
+            } else if (roleType == 3) {
                 ((ItemViewHolder) holder).tvProfessionItem.setText("按摩师");
             }
             if (onItemClickListener != null) {

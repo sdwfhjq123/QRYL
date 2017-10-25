@@ -26,9 +26,22 @@ public class XzxqActivity extends BaseActivity {
     private static final String URL_MY = ConstantValue.URL_H5 + "/patient/worker_priority_worker_datails_motherBaby.html";
 
     private WebView webview;
+    /**
+     * 病患端用户登录的id
+     */
     private String userId;
+    /**
+     * 医护端人员的id，用于生成订单
+     */
     private int id;
+    /**
+     * 类型
+     */
     private int type;
+    /**
+     * 人员列表表的id，用于显示详情
+     */
+    private int listId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +50,13 @@ public class XzxqActivity extends BaseActivity {
         Intent intent = getIntent();
         id = intent.getIntExtra("id", 0);
         type = intent.getIntExtra("type", 0);
+        listId = intent.getIntExtra("list_id", 0);
         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
-        Log.i(TAG, "onCreate: " + userId);
         Log.i(TAG, "传给H5的类型: " + type);
+        Log.i(TAG, "医护端用户id: " + id);
+        Log.i(TAG, "列表的id: " + listId);
+        Log.i(TAG, "病患端用户id " + userId);
         initView();
     }
 
@@ -55,7 +71,7 @@ public class XzxqActivity extends BaseActivity {
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
-                webview.loadUrl("javascript:getId(" + id + "," + userId + ")");
+                webview.loadUrl("javascript:getId(" + id + "," + listId + "," + userId + ")");
             }
         });
         if (type == 2) {

@@ -1,7 +1,13 @@
 package com.qryl.qryl.util;
 
 import android.app.Activity;
+import android.provider.Settings;
 import android.webkit.JavascriptInterface;
+
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXTextObject;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
 
 
 /**

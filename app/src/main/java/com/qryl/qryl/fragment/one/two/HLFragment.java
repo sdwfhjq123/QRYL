@@ -150,13 +150,14 @@ public class HLFragment extends Fragment {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jo = jsonArray.getJSONObject(i);
                 Log.i(TAG, "handleJson: jo size:" + jo.length());
-                int id = jo.getInt("id");
+                int id = jo.getInt("loginId");
+                int listId = jo.getInt("id");
                 String realName = jo.getString("realName");
                 int gender = jo.getInt("gender");
                 int age = jo.getInt("age");
                 int workYears = jo.getInt("workYears");
                 String headshotImg = jo.getString("headshotImg");
-                datas.add(new DataArea(id, realName, gender, age, workYears, headshotImg));
+                datas.add(new DataArea(listId, id, realName, gender, age, workYears, headshotImg));
             }
             getActivity().runOnUiThread(new Runnable() {
                 @Override
@@ -315,9 +316,12 @@ public class HLFragment extends Fragment {
             public void onItemClick(View view, int position) {
                 Log.i(TAG, "onItemClick: 点击了条目:" + position);
                 int id = datas.get(position).getId();
+                int loginId = datas.get(position).getLoginId();
                 Log.i(TAG, "onItemClick: 点击的id" + id);
+                Log.i(TAG, "onItemClick: 点击的loginId" + loginId);
                 Intent intent = new Intent(getActivity(), HgxqActivity.class);
                 intent.putExtra("id", id);
+                intent.putExtra("login_id", loginId);
                 startActivity(intent);
             }
         });

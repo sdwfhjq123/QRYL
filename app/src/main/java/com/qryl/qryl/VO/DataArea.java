@@ -6,6 +6,7 @@ package com.qryl.qryl.VO;
 
 public class DataArea {
     private int id;
+    private int loginId;
     private String realName;
     private int gender;
     private int age;
@@ -22,13 +23,22 @@ public class DataArea {
 
     //未使用到的
 
-    public DataArea(int id, String realName, int gender, int age, int workYears, String headshotImg) {
+    public DataArea(int id, int loginId, String realName, int gender, int age, int workYears, String headshotImg) {
         this.id = id;
+        this.loginId = loginId;
         this.realName = realName;
         this.gender = gender;
         this.age = age;
         this.workYears = workYears;
         this.headshotImg = headshotImg;
+    }
+
+    public int getLoginId() {
+        return loginId;
+    }
+
+    public void setLoginId(int loginId) {
+        this.loginId = loginId;
     }
 
     public int getId() {
