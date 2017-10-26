@@ -28,6 +28,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import cn.jpush.android.api.JPushInterface;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -46,6 +47,7 @@ public class LoginActivity extends BaseActivity {
     private ProgressDialog progressDialog;
     private int id;
     private SharedPreferences prefs;
+    private String registrationID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +106,10 @@ public class LoginActivity extends BaseActivity {
             public void onClick(View v) {
                 String psd = etPsd.getText().toString();
                 String user = etUser.getText().toString();
+                //注册极光唯一registrationId
+                registrationID = JPushInterface.getRegistrationID(LoginActivity.this);
+                Log.i(TAG, "登录时需要提交的registrationID: " + registrationID);
+
                 if (!TextUtils.isEmpty(psd) && !TextUtils.isEmpty(user)) {
                     postData(user, psd);
                 } else {
@@ -135,6 +141,7 @@ public class LoginActivity extends BaseActivity {
         FormBody.Builder builder = new FormBody.Builder();
         builder.add("loginName", user);
         builder.add("password", psd);
+        builder.add("registrationId",String.valueOf(registrationID));
         FormBody formBody = builder.build();
         Request request = new Request.Builder()
                 .url(ConstantValue.URL + "/patientUser/login")

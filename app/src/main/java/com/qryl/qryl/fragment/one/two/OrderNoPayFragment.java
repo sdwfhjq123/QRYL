@@ -226,7 +226,7 @@ public class OrderNoPayFragment extends BaseFragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String result = response.body().string();
-                Log.i(TAG, "onResponse: 删除订单接口后的回调数据"+result);
+                Log.i(TAG, "onResponse: 删除订单接口后的回调数据" + result);
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     String resultCode = jsonObject.getString("resultCode");
@@ -265,5 +265,6 @@ public class OrderNoPayFragment extends BaseFragment {
      * @param position 订单条目
      */
     private void orderPay(int position) {
+
     }
 }
