@@ -120,15 +120,18 @@ public class OrderNoPayFragment extends BaseFragment {
         for (int i = 0; i < data.size(); i++) {
             datas.add(data.get(i));
         }
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                adapter.setData(datas);
-                adapter.notifyDataSetChanged();
-                adapter.notifyItemRemoved(adapter.getItemCount());
-                swipeRefresh.setRefreshing(false);
-            }
-        });
+        if(getActivity() instanceof MainActivity){
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    adapter.setData(datas);
+                    adapter.notifyDataSetChanged();
+                    adapter.notifyItemRemoved(adapter.getItemCount());
+                    swipeRefresh.setRefreshing(false);
+                }
+            });
+        }
+
     }
 
     @Override
