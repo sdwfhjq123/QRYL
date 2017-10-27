@@ -1,6 +1,5 @@
 package com.qryl.qryl.activity;
 
-import android.content.pm.ProviderInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -110,7 +109,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      * 初始化UI
      */
     private void initUI() {
-
         rgMain = (RadioGroup) findViewById(R.id.rg_main);
         rbHome = (RadioButton) findViewById(R.id.rb_home);
         rbOrder = (RadioButton) findViewById(R.id.rb_order);
