@@ -72,7 +72,7 @@ public class OrderMakeListFragment extends BaseFragment {
         OkHttpClient client = new OkHttpClient();
         FormBody.Builder builder = new FormBody.Builder();
 //        builder.add("puId", userId);//动态获取，需要写缓存
-        builder.add("puId", "1");//动态获取，需要写缓存
+        builder.add("puId", userId);//动态获取，需要写缓存
         builder.add("page", page);
         builder.add("limit", "1");
         FormBody formBody = builder.build();
