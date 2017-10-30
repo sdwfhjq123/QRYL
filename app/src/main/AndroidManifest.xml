@@ -194,6 +194,9 @@
         <activity android:name=".activity.H5.XzServicexqActivity" />
         <activity android:name=".activity.H5.MyAttentionActivity" />
         <activity android:name=".activity.H5.OrderInfoActivity" />
+        <activity android:name=".activity.H5.MakeListActivity" />
+
+
         <activity android:name=".wxapi.WXEntryActivity"></activity>
 
         <!-- alipay -->

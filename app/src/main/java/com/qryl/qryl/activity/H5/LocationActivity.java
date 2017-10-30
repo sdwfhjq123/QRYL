@@ -42,7 +42,7 @@ public class LocationActivity extends BaseActivity {
         webview.getSettings().setDomStorageEnabled(true);
         webview.getSettings().setDatabaseEnabled(true);
         webview.getSettings().setDatabasePath(LocationActivity.this.getApplicationContext().getCacheDir().getAbsolutePath());
-        webview.addJavascriptInterface(new HgxqAndroidToJs(this), "site");
+        webview.addJavascriptInterface(new HgxqAndroidToJs(this), "qrylhg");
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {

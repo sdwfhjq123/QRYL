@@ -1,17 +1,22 @@
 package com.qryl.qryl.fragment.one.two;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alipay.sdk.app.PayTask;
 import com.google.gson.Gson;
 import com.qryl.qryl.R;
 import com.qryl.qryl.VO.OrderVO.Order;
@@ -21,6 +26,7 @@ import com.qryl.qryl.activity.MainActivity;
 import com.qryl.qryl.adapter.OrderNopayAdapter;
 import com.qryl.qryl.adapter.OrderUnderwayAdapter;
 import com.qryl.qryl.util.ConstantValue;
+import com.qryl.qryl.util.PayResult;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +34,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -53,6 +60,32 @@ public class OrderNoPayFragment extends BaseFragment {
     private int lastVisibleItemPosition;
     private boolean isLoading;
     private String userId;
+
+    private static final int SDK_PAY_FLAG = 1001;
+    public static final String APPID = "";
+
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case SDK_PAY_FLAG:
+                    PayResult payResult = new PayResult((Map<String, String>) msg.obj);
+                    //同步获取结果
+                    String resultInfo = payResult.getResult();
+                    Log.i("Pay", "Pay:" + resultInfo);
+                    String resultStatus = payResult.getResultStatus();
+                    // 判断resultStatus 为9000则代表支付成功
+                    if (TextUtils.equals(resultStatus, "9000")) {
+                        Toast.makeText(getActivity(), "支付成功", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), "支付失败", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+            }
+        }
+    };
 
     @Override
     public void loadData() {
@@ -86,7 +119,7 @@ public class OrderNoPayFragment extends BaseFragment {
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String result = response.body().string();
-                    Log.i(TAG, "onResponse: 页数" + page);
+                    //Log.i(TAG, "onResponse: 页数" + page);
                     //判断data里面resultCode是否有500然后判断是否有数据或者
                     try {
                         JSONObject jsonObject = new JSONObject(result);
@@ -97,7 +130,7 @@ public class OrderNoPayFragment extends BaseFragment {
                             JSONObject data = jsonObject.getJSONObject("data");
                             if (data != null) {
                                 handleJson(result);
-                                Log.i(TAG, "onResponse: " + result);
+                                //Log.i(TAG, "onResponse: " + result);
                             }
                         }
                     } catch (JSONException e) {
@@ -120,7 +153,7 @@ public class OrderNoPayFragment extends BaseFragment {
         for (int i = 0; i < data.size(); i++) {
             datas.add(data.get(i));
         }
-        if(getActivity() instanceof MainActivity){
+        if (getActivity() instanceof MainActivity) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -198,7 +231,9 @@ public class OrderNoPayFragment extends BaseFragment {
             @Override
             public void onPayItemClick(View view, int position) {//支付订单
                 Toast.makeText(getActivity(), "点击了支付按钮", Toast.LENGTH_SHORT).show();
-                orderPay(position);
+                int orderId = datas.get(position).getId();
+                int orderType = datas.get(position).getOrderType();
+                orderPay(orderId, orderType);
             }
         });
         return view;
@@ -265,9 +300,20 @@ public class OrderNoPayFragment extends BaseFragment {
     /**
      * 支付订单
      *
-     * @param position 订单条目
+     * @param orderId   订单id
+     * @param orderType 订单类型
      */
-    private void orderPay(int position) {
+    private void orderPay(int orderId, int orderType) {
+        final String orderInfo = null;//获取下来的订单信息
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                PayTask alipay = new PayTask(getActivity());
+                Map<String, String> result = alipay.payV2(orderInfo, true);
 
+                Message msg = new Message();
+                //msg.what=SDK_PAY_FLAG:
+            }
+        };
     }
 }

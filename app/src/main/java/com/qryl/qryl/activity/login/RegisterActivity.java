@@ -221,15 +221,12 @@ public class RegisterActivity extends BaseActivity {
                                     progressDialog.dismiss();
                                 }
                                 Toast.makeText(RegisterActivity.this, erroMessage, Toast.LENGTH_SHORT).show();
-
                             }
                         });
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         });
     }

@@ -45,7 +45,7 @@ public class ContactsActivity extends BaseActivity {
         webview.getSettings().setDomStorageEnabled(true);
         webview.getSettings().setDatabaseEnabled(true);
         webview.getSettings().setDatabasePath(ContactsActivity.this.getApplicationContext().getCacheDir().getAbsolutePath());
-        webview.addJavascriptInterface(new HgxqAndroidToJs(this), "contacts");
+        webview.addJavascriptInterface(new HgxqAndroidToJs(this), "qrylhg");
         webSettings.setAppCacheEnabled(false);
         webview.setWebViewClient(new WebViewClient() {
             @Override

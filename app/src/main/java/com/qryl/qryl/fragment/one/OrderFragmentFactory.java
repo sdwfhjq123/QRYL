@@ -1,12 +1,10 @@
 package com.qryl.qryl.fragment.one;
 
 import com.qryl.qryl.fragment.one.two.BaseFragment;
-import com.qryl.qryl.fragment.one.two.OrderAllFragment;
 import com.qryl.qryl.fragment.one.two.OrderFinishedFragment;
 import com.qryl.qryl.fragment.one.two.OrderNoPayFragment;
 import com.qryl.qryl.fragment.one.two.OrderUnderwayFragment;
-import com.qryl.qryl.fragment.one.two.three.XzServerFragment;
-import com.qryl.qryl.fragment.one.two.three.XzServiceFragment;
+import com.qryl.qryl.fragment.one.two.OrderMakeListFragment;
 
 import java.util.HashMap;
 
@@ -27,7 +25,7 @@ public class OrderFragmentFactory {
         if (baseFragment == null) {
             switch (pos) {
                 case 0:
-                    baseFragment = new OrderAllFragment();//全部订单
+                    baseFragment = new OrderMakeListFragment();//开单子
                     break;
                 case 1:
                     baseFragment = new OrderNoPayFragment();//未付款订单

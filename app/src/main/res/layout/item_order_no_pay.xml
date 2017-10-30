@@ -49,6 +49,7 @@
             android:layout_height="20dp"
             android:ellipsize="end"
             android:singleLine="true"
+            android:textColor="#666"
             android:text="本处显示简明扼要病历，现病史、既往史、各种阳性和阴性体征、诊断或印象及医生治疗处理意见等" />
 
         <TextView
@@ -57,6 +58,7 @@
             android:layout_height="20dp"
             android:ellipsize="end"
             android:singleLine="true"
+            android:textColor="#666"
             android:text="本处显示简明扼要病历，现病史、既往史、各种阳性和阴性体征、诊断或印象及医生治疗处理意见等" />
 
     </LinearLayout>

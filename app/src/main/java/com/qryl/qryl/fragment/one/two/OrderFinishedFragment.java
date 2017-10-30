@@ -84,7 +84,7 @@ public class OrderFinishedFragment extends BaseFragment {
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String result = response.body().string();
-                    Log.i(TAG, "onResponse: 页数" + page);
+                    //Log.i(TAG, "onResponse: 页数" + page);
                     //判断data里面resultCode是否有500然后判断是否有数据或者
                     try {
                         JSONObject jsonObject = new JSONObject(result);
@@ -95,7 +95,7 @@ public class OrderFinishedFragment extends BaseFragment {
                             JSONObject data = jsonObject.getJSONObject("data");
                             if (data != null) {
                                 handleJson(result);
-                                Log.i(TAG, "onResponse: " + result);
+                                //Log.i(TAG, "onResponse: " + result);
                             }
                         }
                     } catch (JSONException e) {
