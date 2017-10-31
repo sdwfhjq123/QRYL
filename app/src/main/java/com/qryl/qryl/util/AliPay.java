@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.alipay.sdk.app.PayTask;
 
@@ -23,6 +24,8 @@ import java.util.Random;
  */
 
 public class AliPay {
+    private static final String TAG = "AliPay";
+
     public static class Builder {
         private Activity mActivity;
 
@@ -37,9 +40,9 @@ public class AliPay {
         // 商户收款账号
         private String SELLER = "";
         // 商户私钥，pkcs8格式
-        private String RSA_PRIVATE = "";
+        private String RSA_PRIVATE = "MIIEogIBAAKCAQEAul06bnuk3ZXIG8jC/RlRlBCGaIdYAsXUHDPbFyCi3Sr06liauPB5uMbWVxwBVlIbejCYjdPynMO2FPEZlaYUPS+z581bhNuhhzun3M089KlY4zqQP21Cy/SUU7DjO+egc50LFGZXFU2hVSwTxunRrsIQUS8DxuOcTP+2sapRm+r3dFtO61l5sbPjOQMLfuiuB6qWhk0gMZOIHlnlx1IargRQY1G9ROFoWAn/7fSj0RnKMw9bVLelkuoNwS/SCvu9uUfYzLO5TJw2MDDqI5AlWmH1nRaK7QrEFI8k2if64yJQHd8jI1pxZ5uAyBbb1eZELduknE5U0XQludrF7a4rCwIDAQABAoIBAH0ISUiQmca0U+IYKoHmN64v/A0rKKgLk8gsHkSA9+OMi26ibYPAitmmRW2B83+3bInpCqC03yO/xmx8aV7WYuO+GmRdiZY0SEXTh0aDR+8ZovIoe1iidFsjx1Py7DFnsGWAqktQcgJv59qdzNL6Ulx+BLaC5XTNhjK+qRK/oysILRJGac9ZOkopueJJyrTDnqL8dxfa742CmzMnr4RjjXmGUVrvukHdcv0rPsmI78hiiEm9GpyAdNMDXjRRu5W2+P8m2trpdjvhaYhqhRkgDLpR1eqxQTqxBDCjRBQ1tMdarV0SmNwYMsg5IMk8u+nJNEGZ9nZeRPUE3vZXUMn9bgECgYEA9yyFQAmqDKDnBEBKaz8vHsjNg4+KSQJpkFULCz69pmiaQiCgIkHu3HpwRSIQAHmuWe653DwtOvMYXfkb8Kpln9pPV+J1kudMiIwxxtc9jmeQUuimpPCEjhts0uFP3xyYfcFR0F1E8M9aEtq2pMCNNrzypNpxfkN5F6EYKWPqywECgYEAwQTUm56E6HL+NXAvSL4Z9+pA6Id8RajTUQmcKHPklkpRXrMgnizmEe6HxKelKuBmEoJVS+WhV77nNFzTYzMxT7QDyAMkkOaaWjzF5t7nUJ52XTN+7RiCs2Ajpjq3/6jNIoG4w4eoOX8TIWuZlM05/wa13gzWd3UjU/IHXDkxcgsCgYA0a5m68hHBaeJ0sVnXEuhgY//J9ghC4aMXvCGCegTopOiKO7cabNdGpSToVIgGQcgrRIjgX1bMWMADNhCp4sl4tGj9X4bF6A4AK5Nm80EX0Xj3TGYDNws1xDU5KBWzYLIqgXRjd1RmqeMVepMfr8KDKGFhev5048RrsXuZU5p5AQKBgD0i4Iyh+wr9UVNvwypRPDxwMDr2nwAZZ0Vlu9Z8TszjoT5TkmNHaWAIo2xAhWo9RVdbfNTbWO1IBEdrl3D2SAosxH3XsP9Ma1tloHFt7Op2JpuCshM7DjrumpwOQTVzK/ZgDDuyfjAn9dFCGZUuI86JO5Wnj06rBZOTN42Yd/bdAoGAd5/8k0CendL2QpMSuTxfJiiyaw1Mr6kFUHDxwZMYdc/V0Q7TA6cPoHXFxn9ZjmLK6OhSY0FL+npncmBKadic6brk6MRtP8fNNnWaC0Lzig0+vCFPb1JFuptoFGKqlz+oi5vrl6+RRKs6LYDLLrYkU6q07ojHrZgR3TkfUvNmacM=";
         // 支付宝公钥
-        private String RSA_PUBLIC = "";
+        private String RSA_PUBLIC = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtBd6JlTX5PCqM1LmjGe8YEhMSjWtSlwnD3EIO5Hhr+PDKulZsDNVcXFSLztGpveH1Y+Lu4i0dbF5AElPzAo0MJtTobyEx/kQ7JCqwl2NGdIwvcmeva8gNdzogzbGvW5Cc4Pg4P/OOo3R1AXdSIRgeBA5lrbCacGy/ANt30mcdr4lF5R+Qk41MeSs4DCodTyRWkm6qyaE5RSXWBDUyFBKsNu4z8x0J8nTiQk/NU5WFoCGl4JnouEhdfxPJRkMl22EIxBHj9jD5nI694VCd953wJNfIRQ9n97IybtFHI6lT2bf5elGgkrq9MHlwmom+uuIfNLQS1zJIZ2BchW9WW0ZHQIDAQAB";
         private int SDK_PAY_FLAG = 6406;
 
         private String orderTitle = "";
@@ -111,6 +114,9 @@ public class AliPay {
             return this;
         }
 
+        /**
+         * 处理调用请求
+         */
         @SuppressLint("HandlerLeak")
         private Handler mHandler = new Handler() {
             @SuppressWarnings("unused")
@@ -167,44 +173,45 @@ public class AliPay {
                 return;
             }
             String orderInfo = getOrderInfo(orderTitle, subTitle, price, notifyURL);
+            Log.i(TAG, "pay: 阿里支付订单信息" + orderInfo);
 
             /**
              * 特别注意，这里的签名逻辑需要放在服务端，切勿将私钥泄露在代码中！
              */
-            String sign = sign(orderInfo);
+            /**
+             * 仅需对sign 做URL编码
+             */
             try {
+                String sign1 = sign(orderInfo);
+                String sign = URLEncoder.encode(
+                        sign(orderInfo), "UTF-8");
                 /**
-                 * 仅需对sign 做URL编码
+                 * 完整的符合支付宝参数规范的订单信息
                  */
-                sign = URLEncoder.encode(sign, "UTF-8");
+                final String payInfo = orderInfo + "&sign=\"" + sign + "\"&" + getSignType();
+
+                Runnable payRunnable = new Runnable() {
+
+                    @Override
+                    public void run() {
+                        // 构造PayTask 对象
+                        PayTask alipay = new PayTask(mActivity);
+                        // 调用支付接口，获取支付结果
+                        String result = alipay.pay(payInfo, true);
+
+                        Message msg = new Message();
+                        msg.what = SDK_PAY_FLAG;
+                        msg.obj = result;
+                        mHandler.sendMessage(msg);
+                    }
+                };
+
+                // 必须异步调用
+                Thread payThread = new Thread(payRunnable);
+                payThread.start();
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-
-            /**
-             * 完整的符合支付宝参数规范的订单信息
-             */
-            final String payInfo = orderInfo + "&sign=\"" + sign + "\"&" + getSignType();
-
-            Runnable payRunnable = new Runnable() {
-
-                @Override
-                public void run() {
-                    // 构造PayTask 对象
-                    PayTask alipay = new PayTask(mActivity);
-                    // 调用支付接口，获取支付结果
-                    String result = alipay.pay(payInfo, true);
-
-                    Message msg = new Message();
-                    msg.what = SDK_PAY_FLAG;
-                    msg.obj = result;
-                    mHandler.sendMessage(msg);
-                }
-            };
-
-            // 必须异步调用
-            Thread payThread = new Thread(payRunnable);
-            payThread.start();
 
         }
 

@@ -1,7 +1,9 @@
 package com.qryl.qryl.fragment.one.two;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -23,8 +25,10 @@ import com.qryl.qryl.VO.OrderVO.Order;
 import com.qryl.qryl.VO.OrderVO.OrderInfoArea;
 import com.qryl.qryl.activity.H5.OrderInfoActivity;
 import com.qryl.qryl.activity.MainActivity;
+import com.qryl.qryl.activity.PayActivity;
 import com.qryl.qryl.adapter.OrderNopayAdapter;
 import com.qryl.qryl.adapter.OrderUnderwayAdapter;
+import com.qryl.qryl.util.AliPay;
 import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.PayResult;
 
@@ -223,17 +227,37 @@ public class OrderNoPayFragment extends BaseFragment {
             }
 
             @Override
-            public void onDeleteItemClick(View view, int position) {//删除订单
-                Toast.makeText(getActivity(), "点击了删除按钮", Toast.LENGTH_SHORT).show();
-                deleteOrderItem(position);
+            public void onDeleteItemClick(View view, final int position) {//删除订单
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("取消订单");
+                builder.setMessage("您确定要取消订单吗");
+                builder.setCancelable(false);
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteOrderItem(position);
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
+
             }
 
             @Override
             public void onPayItemClick(View view, int position) {//支付订单
-                Toast.makeText(getActivity(), "点击了支付按钮", Toast.LENGTH_SHORT).show();
-                int orderId = datas.get(position).getId();
-                int orderType = datas.get(position).getOrderType();
-                orderPay(orderId, orderType);
+//                int orderId = datas.get(position).getId();
+//                int orderType = datas.get(position).getOrderType();
+
+//                orderPay(orderId, orderType);
+                if (getActivity() instanceof MainActivity) {
+                    //点击跳转PayActivity
+                    PayActivity.actionStart(getActivity(), datas.get(position).getPrice());
+                }
             }
         });
         return view;
@@ -304,16 +328,23 @@ public class OrderNoPayFragment extends BaseFragment {
      * @param orderType 订单类型
      */
     private void orderPay(int orderId, int orderType) {
-        final String orderInfo = null;//获取下来的订单信息
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                PayTask alipay = new PayTask(getActivity());
-                Map<String, String> result = alipay.payV2(orderInfo, true);
+        if (getActivity() instanceof MainActivity) {
+            AliPay.Builder builder = new AliPay.Builder(getActivity());
+            builder.setSELLER("2354507474@qq.com")
+                    .setPARTNER("2222")
+                    .setNotifyURL("alipay.trade.app.pay")
+                    .setPrice("0.01")
+                    .setOrderTitle("测试商品")
+                    .setSubTitle("测试")
+                    .setPayCallBackListener(new AliPay.Builder.PayCallBackListener() {
+                        @Override
+                        public void onPayCallBack(int status, String resultStatus, String progress) {
+                            Toast.makeText(getActivity(), progress + "123", Toast.LENGTH_LONG).show();
+                            Log.i(TAG, "onPayCallBack: 支付宝测试" + resultStatus);
+                        }
+                    });
+            builder.pay();
+        }
 
-                Message msg = new Message();
-                //msg.what=SDK_PAY_FLAG:
-            }
-        };
     }
 }

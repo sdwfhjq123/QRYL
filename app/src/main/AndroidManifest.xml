@@ -195,9 +195,7 @@
         <activity android:name=".activity.H5.MyAttentionActivity" />
         <activity android:name=".activity.H5.OrderInfoActivity" />
         <activity android:name=".activity.H5.MakeListActivity" />
-
-
-        <activity android:name=".wxapi.WXEntryActivity"></activity>
+        <activity android:name=".wxapi.WXEntryActivity" />
 
         <!-- alipay -->
         <activity
@@ -205,14 +203,14 @@
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name="com.alipay.sdk.app.H5AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
-
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity android:name=".activity.PayActivity"></activity>
     </application>
 
 </manifest>
