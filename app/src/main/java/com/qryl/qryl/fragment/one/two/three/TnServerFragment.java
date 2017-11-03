@@ -13,6 +13,7 @@ import com.qryl.qryl.VO.XzVO.Xz;
 import com.qryl.qryl.VO.XzVO.XzData;
 import com.qryl.qryl.VO.XzVO.XzInfo;
 import com.qryl.qryl.activity.H5.XzxqActivity;
+import com.qryl.qryl.activity.MainActivity;
 import com.qryl.qryl.adapter.XzServerAdapter;
 import com.qryl.qryl.fragment.one.two.BaseFragment;
 import com.qryl.qryl.util.ConstantValue;
@@ -94,15 +95,18 @@ public class TnServerFragment extends BaseFragment {
         for (int i = 0; i < data.size(); i++) {
             datas.add(data.get(i));
         }
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                adapter.setData(datas);
-                adapter.notifyDataSetChanged();
-                adapter.notifyItemRemoved(adapter.getItemCount());
-                swipeRefresh.setRefreshing(false);
-            }
-        });
+
+        if (getActivity() instanceof MainActivity){
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    adapter.setData(datas);
+                    adapter.notifyDataSetChanged();
+                    adapter.notifyItemRemoved(adapter.getItemCount());
+                    swipeRefresh.setRefreshing(false);
+                }
+            });
+        }
 
     }
 

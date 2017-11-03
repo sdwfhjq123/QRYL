@@ -54,13 +54,11 @@ public class MyReceiver extends BroadcastReceiver {
     private void handleJson(String result, Context context) {
         try {
             JSONObject jsonObject = new JSONObject(result);
-            int orderId = jsonObject.getInt("orderId");
-            int orderType = jsonObject.getInt("orderType");
+            int prescribeId = jsonObject.getInt("prescribeId");
             // 在这里可以自己写代码去定义用户点击后的行为
             Intent i = new Intent(context, OrderInfoActivity.class);  //自定义打开的界面
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            i.putExtra("orderId", orderId);
-            i.putExtra("orderType", orderType);
+            i.putExtra("prescribeId", prescribeId);
             context.startActivity(i);
         } catch (JSONException e) {
             e.printStackTrace();

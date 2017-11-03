@@ -1,6 +1,7 @@
 package com.qryl.qryl.fragment.one.two;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -190,7 +191,10 @@ public class OrderMakeListFragment extends BaseFragment {
                 if (getActivity() instanceof MainActivity) {
                     if (getActivity() instanceof MainActivity) {
                         //启动h5开单子详情
-                        MakeListActivity.actionStart(getActivity(), datas.get(position).getId());
+                        //MakeListActivity.actionStart(getActivity(), datas.get(position).getId());
+                        Intent intent = new Intent(getActivity(), MakeListActivity.class);
+                        intent.putExtra("prescribeId", datas.get(position).getId());
+                        getActivity().startActivity(intent);
                     }
                 }
             }

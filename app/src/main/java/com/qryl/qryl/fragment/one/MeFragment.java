@@ -176,6 +176,9 @@ public class MeFragment extends android.support.v4.app.Fragment implements View.
         tvYbh = (TextView) view.findViewById(R.id.tv_ybh);
         tvTel = (TextView) view.findViewById(R.id.tv_tel);
         tvLocation = (TextView) view.findViewById(R.id.tv_location);
+        //隐藏地址,功能未实现
+        tvLocation.setVisibility(View.GONE);
+
         Button btnExit = (Button) view.findViewById(R.id.btn_exit);
         btnExit.setOnClickListener(this);
         //编辑资料

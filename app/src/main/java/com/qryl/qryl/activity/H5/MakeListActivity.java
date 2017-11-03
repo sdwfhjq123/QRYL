@@ -22,17 +22,7 @@ public class MakeListActivity extends BaseActivity {
     private WebView webview;
     private SharedPreferences prefs;
     private String userId;
-    private int orderId;
-
-    /**
-     * @param context
-     * @param orderId 订单id
-     */
-    public static void actionStart(Context context, int orderId) {
-        Intent intent = new Intent(context, MakeListActivity.class);
-        intent.putExtra("order_id", orderId);
-        context.startActivity(intent);
-    }
+    private int prescribeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +31,7 @@ public class MakeListActivity extends BaseActivity {
         prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
         Log.i(TAG, "onCreate: 截获的id " + userId);
-        orderId = getIntent().getIntExtra("order_id", 0);
+        prescribeId = getIntent().getIntExtra("prescribeId", 0);
         initView();
     }
 
@@ -58,7 +48,7 @@ public class MakeListActivity extends BaseActivity {
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
-                webview.loadUrl("javascript:getId(" + orderId + "," + userId + ")");
+                webview.loadUrl("javascript:getId(" + prescribeId + "," + userId + ")");
             }
         });
         webview.setWebChromeClient(new WebChromeClient());

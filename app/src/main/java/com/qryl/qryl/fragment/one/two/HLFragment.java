@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.qryl.qryl.R;
 import com.qryl.qryl.VO.DataArea;
 import com.qryl.qryl.activity.H5.HgxqActivity;
+import com.qryl.qryl.activity.MainActivity;
 import com.qryl.qryl.adapter.HlAdapter;
 import com.qryl.qryl.adapter.MenuListAdapter;
 import com.qryl.qryl.util.ConstantValue;
@@ -159,16 +160,19 @@ public class HLFragment extends Fragment {
                 String headshotImg = jo.getString("headshotImg");
                 datas.add(new DataArea(listId, id, realName, gender, age, workYears, headshotImg));
             }
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Log.i(TAG, "run: data.size()" + datas.size());
-                    adapter.setData(datas);
-                    adapter.notifyDataSetChanged();
-                    adapter.notifyItemRemoved(adapter.getItemCount());
-                    swipeRefresh.setRefreshing(false);
-                }
-            });
+            if (getActivity() instanceof MainActivity) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.i(TAG, "run: data.size()" + datas.size());
+                        adapter.setData(datas);
+                        adapter.notifyDataSetChanged();
+                        adapter.notifyItemRemoved(adapter.getItemCount());
+                        swipeRefresh.setRefreshing(false);
+                    }
+                });
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

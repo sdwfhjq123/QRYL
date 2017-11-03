@@ -13,6 +13,7 @@ import com.qryl.qryl.VO.ServiceVO.Data;
 import com.qryl.qryl.VO.ServiceVO.ItemList;
 import com.qryl.qryl.VO.ServiceVO.ServiceVO;
 import com.qryl.qryl.activity.H5.XzServicexqActivity;
+import com.qryl.qryl.activity.MainActivity;
 import com.qryl.qryl.adapter.XzServiceAdapter;
 import com.qryl.qryl.fragment.one.two.BaseFragment;
 import com.qryl.qryl.util.HttpUtil;
@@ -80,13 +81,16 @@ public class MyServiceFragment extends BaseFragment {
             }
         }
 
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                adapter.notifyDataSetChanged();
-                swipeRefresh.setRefreshing(false);
-            }
-        });
+        if (getActivity() instanceof MainActivity){
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    adapter.notifyDataSetChanged();
+                    swipeRefresh.setRefreshing(false);
+                }
+            });
+        }
+
     }
 
     @Override
