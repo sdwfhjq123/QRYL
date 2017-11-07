@@ -59,4 +59,13 @@ public class LocationActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (webview != null) {
+            webview.destroy();
+            webview = null;
+        }
+    }
 }

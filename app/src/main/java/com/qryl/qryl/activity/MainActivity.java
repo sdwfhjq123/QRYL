@@ -69,6 +69,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      * 注册到微信
      */
     private void register2WX() {
+        //AppId wxd06bc8ef2fb9118b
         //通过WXAPIFactroy工厂，获取IWXAPI实例
         api = WXAPIFactory.createWXAPI(this, APP_ID_WX, true);
         api.registerApp(APP_ID_WX);

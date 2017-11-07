@@ -68,6 +68,9 @@ public class ContactsActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        webview.destroy();
+        if (webview != null) {
+            webview.destroy();
+            webview = null;
+        }
     }
 }

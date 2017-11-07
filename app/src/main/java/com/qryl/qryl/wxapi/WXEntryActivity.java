@@ -1,15 +1,10 @@
 package com.qryl.qryl.wxapi;
 
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
-import com.qryl.qryl.R;
+/**
+ * Created by hp on 2017/11/6.
+ */
 
 public class WXEntryActivity extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wxentry);
-    }
 }
