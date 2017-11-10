@@ -59,7 +59,7 @@ public class MyReceiver extends BroadcastReceiver {
             Intent i = new Intent(context, OrderInfoActivity.class);  //自定义打开的界面
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             i.putExtra("prescribeId", prescribeId);
-            context.startActivity(i);
+            //context.startActivity(i);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -27,7 +27,7 @@ public class RollPagerAdapter extends StaticPagerAdapter {
     @Override
     public View getView(ViewGroup container, int position) {
         ImageView view = new ImageView(container.getContext());
-        Glide.with(container.getContext()).load(ConstantValue.URL  + data.get(position).getImgUrl()).into(view);
+        Glide.with(container.getContext()).load(ConstantValue.URL + data.get(position).getImgUrl()).into(view);
         //Glide.with(container.getContext()).load("http://192.168.2.134:8080/qryl/uploads/adver/1.jpg").into(view);
         view.setScaleType(ImageView.ScaleType.CENTER_CROP);//按比例扩大图片的size居中显示，使得图片长(宽)等于或大于View的长(宽)
         view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));

@@ -42,8 +42,10 @@ public class MakeListActivity extends BaseActivity {
         webSettings.setJavaScriptEnabled(true);// 为WebView使能JavaScript
         webview.getSettings().setDomStorageEnabled(true);
         webview.getSettings().setDatabaseEnabled(true);
+        webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
+        webSettings.setBlockNetworkImage(true);
         webview.getSettings().setDatabasePath(MakeListActivity.this.getApplicationContext().getCacheDir().getAbsolutePath());
-        webview.addJavascriptInterface(new HgxqAndroidToJs(this), "qrylhg");
+        webview.addJavascriptInterface(new HgxqAndroidToJs(this,this), "qrylhg");
         webSettings.setAppCacheEnabled(false);
         webview.setWebViewClient(new WebViewClient() {
             @Override

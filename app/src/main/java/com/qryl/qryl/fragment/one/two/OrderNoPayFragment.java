@@ -3,6 +3,7 @@ package com.qryl.qryl.fragment.one.two;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -171,6 +172,7 @@ public class OrderNoPayFragment extends BaseFragment {
                 }
             }
         });
+
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -179,12 +181,14 @@ public class OrderNoPayFragment extends BaseFragment {
                 postData(String.valueOf(1));
             }
         });
+
         adapter.setOnItemClickListener(new OrderNopayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Log.i(TAG, "onItemClick: 点击了订单列表" + position);
                 if (getActivity() instanceof MainActivity) {
                     //OrderInfoActivity.actionStart(getActivity(), datas.get(position).getId(), datas.get(position).getOrderType());
+                    Toast.makeText(getActivity(), datas.get(position).getId(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -212,13 +216,17 @@ public class OrderNoPayFragment extends BaseFragment {
 
             @Override
             public void onPayItemClick(View view, int position) {//支付订单
-//                int orderId = datas.get(position).getId();
+//                String orderId = datas.get(position).getId();
 //                int orderType = datas.get(position).getOrderType();
 
 //                orderPay(orderId, orderType);
                 if (getActivity() instanceof MainActivity) {
                     //点击跳转PayActivity
-                    PayActivity.actionStart(getActivity(), datas.get(position).getPrice());
+                    Intent intent = new Intent(getActivity(), PayActivity.class);
+                    intent.putExtra("order_price", datas.get(position).getPrice());
+                    intent.putExtra("order_id", datas.get(position).getId());
+                    intent.putExtra("order_type", datas.get(position).getOrderType());
+                    getActivity().startActivity(intent);
                 }
             }
         });

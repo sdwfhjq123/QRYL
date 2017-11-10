@@ -42,10 +42,14 @@ public class ContactsActivity extends BaseActivity {
         WebSettings webSettings = webview.getSettings();
         webSettings.setDefaultTextEncodingName("utf-8");
         webSettings.setJavaScriptEnabled(true);// 为WebView使能JavaScript
+
+        webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
+        webSettings.setBlockNetworkImage(true);
+
         webview.getSettings().setDomStorageEnabled(true);
         webview.getSettings().setDatabaseEnabled(true);
         webview.getSettings().setDatabasePath(ContactsActivity.this.getApplicationContext().getCacheDir().getAbsolutePath());
-        webview.addJavascriptInterface(new HgxqAndroidToJs(this), "qrylhg");
+        webview.addJavascriptInterface(new HgxqAndroidToJs(this,this), "qrylhg");
         webSettings.setAppCacheEnabled(false);
         webview.setWebViewClient(new WebViewClient() {
             @Override

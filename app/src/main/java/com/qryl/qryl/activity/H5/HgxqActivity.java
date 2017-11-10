@@ -46,6 +46,7 @@ public class HgxqActivity extends BaseActivity {
         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
         Log.i(TAG, "用户的id:" + userId + ",点击的护士的id:" + id + ",医护端登录的id" + loginId);
+        new HgxqAndroidToJs(this, this);
         initView();
     }
 
@@ -55,8 +56,11 @@ public class HgxqActivity extends BaseActivity {
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
         webSettings.setDatabaseEnabled(true);
+        webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
+        webSettings.setBlockNetworkImage(true);
+
         webSettings.setDatabasePath(HgxqActivity.this.getApplicationContext().getCacheDir().getAbsolutePath());
-        webview.addJavascriptInterface(new HgxqAndroidToJs(this), "qrylhg");
+        webview.addJavascriptInterface(new HgxqAndroidToJs(this, this), "qrylhg");
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {

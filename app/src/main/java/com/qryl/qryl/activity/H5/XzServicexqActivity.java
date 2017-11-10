@@ -41,8 +41,10 @@ public class XzServicexqActivity extends BaseActivity {
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
         webSettings.setDatabaseEnabled(true);
+        webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
+        webSettings.setBlockNetworkImage(true);
         webSettings.setDatabasePath(XzServicexqActivity.this.getApplicationContext().getCacheDir().getAbsolutePath());
-        webview.addJavascriptInterface(new HgxqAndroidToJs(this), "qrylhg");
+        webview.addJavascriptInterface(new HgxqAndroidToJs(this,this), "qrylhg");
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {

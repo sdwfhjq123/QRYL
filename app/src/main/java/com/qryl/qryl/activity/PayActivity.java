@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.qryl.qryl.R;
-import com.qryl.qryl.util.AuthResult;
 import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.PayResult;
 import com.tencent.mm.opensdk.modelpay.PayReq;
@@ -50,7 +49,9 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
     /**
      * 订单的价格
      */
-    private double orderPrice;
+    private String orderPrice;
+    private String orderId;
+    private int orderType;
     /**
      * 支付宝订单信息
      */
@@ -72,7 +73,7 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
                      */
                     String resultInfo = payResult.getResult();// 同步返回需要验证的信息
                     String resultStatus = payResult.getResultStatus();
-                    Log.i(TAG, "handleMessage: " + resultStatus);
+                    Log.i(TAG, "handleMessage:交易返回的状态码: " + resultStatus);
                     // 判断resultStatus 为9000则代表支付成功
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
@@ -85,46 +86,22 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
                     }
                     break;
                 }
-                case SDK_AUTH_FLAG: {
-                    @SuppressWarnings("unchecked")
-                    AuthResult authResult = new AuthResult((Map<String, String>) msg.obj, true);
-                    String resultStatus = authResult.getResultStatus();
-
-                    // 判断resultStatus 为“9000”且result_code
-                    // 为“200”则代表授权成功，具体状态码代表含义可参考授权接口文档
-                    if (TextUtils.equals(resultStatus, "9000") && TextUtils.equals(authResult.getResultCode(), "200")) {
-                        // 获取alipay_open_id，调支付时作为参数extern_token 的value
-                        // 传入，则支付账户为该授权账户
-                        Toast.makeText(PayActivity.this,
-                                "授权成功\n" + String.format("authCode:%s", authResult.getAuthCode()), Toast.LENGTH_SHORT)
-                                .show();
-                    } else {
-                        // 其他状态值则为授权失败
-                        Toast.makeText(PayActivity.this,
-                                "授权失败" + String.format("authCode:%s", authResult.getAuthCode()), Toast.LENGTH_SHORT).show();
-                    }
-                    break;
-                }
                 default:
                     break;
             }
         }
-
-        ;
     };
-
-    public static void actionStart(Context context, Double price) {
-        Intent intent = new Intent(context, PayActivity.class);
-        intent.putExtra("order_price", price);
-        context.startActivity(intent);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay);
         Intent intent = getIntent();
-        orderPrice = intent.getDoubleExtra("order_price", 0);
+        orderPrice = intent.getStringExtra("order_price");
+        orderId = intent.getStringExtra("order_id");
+        orderType = intent.getIntExtra("order_type", 4);
+
+        Log.i(TAG, "pay: order_price" + orderPrice + ",order_id" + orderId + ",order_type" + orderType);
         initView();
     }
 
@@ -189,7 +166,7 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
                 } else if (!cbWx.isChecked() && cbZfb.isChecked()) {
                     Log.i(TAG, "onClick: 调用了支付宝支付");
                     //支付宝支付
-                    aliPay(0, 0);
+                    aliPay();
                 }
                 break;
         }
@@ -198,31 +175,38 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
     /**
      * 支付宝支付
      */
-    private void aliPay(int orderId, int orderType) {
+    private void aliPay() {
         //从服务器获取支付宝订单信息
         postOrderInfoOnServer();
-        Log.i(TAG, "aliPay: 支付宝订单信息" + dataAlipay);
-        Runnable payRunnable = new Runnable() {
-            @Override
-            public void run() {
-                // 构造PayTask 对象
-                PayTask alipay = new PayTask(PayActivity.this);
-                // 调用支付接口，获取支付结果
-                Map<String, String> result = alipay.payV2(dataAlipay, true);
-                Message msg = new Message();
-                msg.what = SDK_PAY_FLAG;
-                msg.obj = result;
-                mHandler.sendMessage(msg);
-            }
-        };
-        // 必须异步调用
-        Thread payThread = new Thread(payRunnable);
-        payThread.start();
+        if (!TextUtils.isEmpty(dataAlipay)) {
+            Log.i(TAG, "aliPay: 支付宝订单信息" + dataAlipay);
+            Runnable payRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    // 构造PayTask 对象
+                    PayTask alipay = new PayTask(PayActivity.this);
+                    // 调用支付接口，获取支付结果
+                    Map<String, String> result = alipay.payV2(dataAlipay, true);
+                    Message msg = new Message();
+                    msg.what = SDK_PAY_FLAG;
+                    msg.obj = result;
+                    mHandler.sendMessage(msg);
+                }
+            };
+            // 必须异步调用
+            Thread payThread = new Thread(payRunnable);
+            payThread.start();
+        } else {
+            Toast.makeText(this, "网络繁忙，请稍后重试", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private String postOrderInfoOnServer() {
         OkHttpClient client = new OkHttpClient();
         FormBody.Builder builder = new FormBody.Builder();
+        builder.add("orderId", orderId);
+        builder.add("orderType", String.valueOf(orderType));
         FormBody formBody = builder.build();
         Request request = new Request.Builder()
                 .url(ConstantValue.URL + "/order/buildOrderInfo")
@@ -242,7 +226,17 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
                 JSONObject jsonObject = null;
                 try {
                     jsonObject = new JSONObject(result);
-                    dataAlipay = jsonObject.getString("data");
+                    String resultCode = jsonObject.getString("resultCode");
+                    if (resultCode.equals("500")) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(PayActivity.this, "下单失败", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else if (resultCode.equals("200")) {
+                        dataAlipay = jsonObject.getString("data");
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -264,8 +258,8 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
         payReq.partnerId = "1900006771";
         payReq.prepayId = "wx20171106144014928044f27d0489404279";
         payReq.packageValue = "Sign=WXPay";
-        payReq.nonceStr = "b3593d71a7ce427127b363c16a203313";//随机字符串
-        payReq.timeStamp = "1509950414";//时间戳
+        payReq.nonceStr = "b3593d71a7ce427127b363116a203313";//随机字符串
+        payReq.timeStamp = "1509950411";//时间戳
         payReq.sign = "91E57E4B8A53F4AD17D21AD42993BB6F";
         wxapi.sendReq(payReq);
     }

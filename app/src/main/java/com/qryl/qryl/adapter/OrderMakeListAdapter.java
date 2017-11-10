@@ -14,6 +14,7 @@ import com.qryl.qryl.VO.MakeList.MakeList;
 import com.qryl.qryl.VO.OrderVO.OrderInfoArea;
 import com.qryl.qryl.util.UIUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 

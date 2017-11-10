@@ -24,10 +24,10 @@ public class OrderInfoActivity extends BaseActivity {
 
     private WebView webview;
     private String userId;
-    private int orderId;
+    private String orderId;
     private int orderType;
 
-    public static void actionStart(Context context, int params, int params2) {
+    public static void actionStart(Context context, String params, int params2) {
         Intent intent = new Intent(context, OrderInfoActivity.class);
         intent.putExtra("orderId", params);
         intent.putExtra("orderType", params2);
@@ -39,7 +39,7 @@ public class OrderInfoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         Intent intent = getIntent();
-        orderId = intent.getIntExtra("orderId", 0);
+        orderId = intent.getStringExtra("orderId");
         orderType = intent.getIntExtra("orderType", 0);
         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
@@ -53,8 +53,10 @@ public class OrderInfoActivity extends BaseActivity {
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
         webSettings.setDatabaseEnabled(true);
+        webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
+        webSettings.setBlockNetworkImage(true);
         webSettings.setDatabasePath(OrderInfoActivity.this.getApplicationContext().getCacheDir().getAbsolutePath());
-        webview.addJavascriptInterface(new HgxqAndroidToJs(this), "qrylhg");
+        webview.addJavascriptInterface(new HgxqAndroidToJs(this,this), "qrylhg");
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {

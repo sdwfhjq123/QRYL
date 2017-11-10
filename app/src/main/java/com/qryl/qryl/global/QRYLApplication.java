@@ -81,21 +81,9 @@ public class QRYLApplication extends LitePalApplication {
         //通过WXAPIFactroy工厂，获取IWXAPI实例
         api = WXAPIFactory.createWXAPI(this, APP_ID_WX, true);
         api.registerApp(APP_ID_WX);
-        //初始化一个微信WXTextObject对象
-        WXTextObject textObject = new WXTextObject();
-        textObject.text = "测试数据";
-        //用WXTextObject对象初始化一个WXMediaMessage对象
-        WXMediaMessage msg = new WXMediaMessage();
-        msg.mediaObject = textObject;
-        msg.description = "测试数据的描述";
-        //构造一个Req
-        SendMessageToWX.Req req = new SendMessageToWX.Req();
-        req.transaction = String.valueOf(System.currentTimeMillis());//transaction用于唯一标识一个请求
-        req.message = msg;
-        //调用api接口发送数据到微信
-        api.sendReq(req);
+        boolean wxAppSupportAPI = api.isWXAppSupportAPI();
         boolean wxAppInstalled = api.isWXAppInstalled();
-        Log.i(TAG, "register2WX: 是否安装了微信app:" + wxAppInstalled);
+        Log.i(TAG, "register2WX: 是否安装了微信app: " + wxAppInstalled + " ,是否支持wxapi: " + wxAppSupportAPI);
     }
 
 }
