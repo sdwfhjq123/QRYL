@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.webkit.ValueCallback;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -16,6 +17,7 @@ import com.qryl.qryl.R;
 import com.qryl.qryl.activity.BaseActivity;
 import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.HgxqAndroidToJs;
+import com.qryl.qryl.view.ProgressWebview;
 
 import static android.view.KeyEvent.KEYCODE_BACK;
 
@@ -25,7 +27,7 @@ public class XzxqActivity extends BaseActivity {
     private static final String URL_AM = ConstantValue.URL_H5 + "/patient/worker_priority_worker_datails_massager.html";
     private static final String URL_MY = ConstantValue.URL_H5 + "/patient/worker_priority_worker_datails_motherBaby.html";
 
-    private WebView webview;
+    private ProgressWebview webview;
     /**
      * 病患端用户登录的id
      */
@@ -61,18 +63,19 @@ public class XzxqActivity extends BaseActivity {
     }
 
     private void initView() {
-        webview = (WebView) findViewById(R.id.webview);
+        webview = (ProgressWebview) findViewById(R.id.webview);
         WebSettings webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
         webSettings.setDatabaseEnabled(true);
-
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
         webSettings.setBlockNetworkImage(true);
 
         webSettings.setDatabasePath(XzxqActivity.this.getApplicationContext().getCacheDir().getAbsolutePath());
         webview.addJavascriptInterface(new HgxqAndroidToJs(this, this), "qrylhg");
         webview.setWebViewClient(new WebViewClient() {
+
             @Override
             public void onPageFinished(WebView view, String url) {
                 webview.loadUrl("javascript:getId(" + id + "," + listId + "," + userId + ")");

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -14,6 +15,7 @@ import com.qryl.qryl.R;
 import com.qryl.qryl.activity.BaseActivity;
 import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.HgxqAndroidToJs;
+import com.qryl.qryl.view.ProgressWebview;
 
 public class OrderInfoActivity extends BaseActivity {
     private static final String TAG = "XzxqActivity";
@@ -22,7 +24,7 @@ public class OrderInfoActivity extends BaseActivity {
     private static final String URL_AM = ConstantValue.URL_H5 + "/medical/order_details_massager.html";
     private static final String URL_MY = ConstantValue.URL_H5 + "/medical/order_details_motherBaby.html";
 
-    private WebView webview;
+    private ProgressWebview webview;
     private String userId;
     private String orderId;
     private int orderType;
@@ -48,16 +50,18 @@ public class OrderInfoActivity extends BaseActivity {
     }
 
     private void initView() {
-        webview = (WebView) findViewById(R.id.webview);
+        webview = (ProgressWebview) findViewById(R.id.webview);
         WebSettings webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
         webSettings.setDatabaseEnabled(true);
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
         webSettings.setBlockNetworkImage(true);
         webSettings.setDatabasePath(OrderInfoActivity.this.getApplicationContext().getCacheDir().getAbsolutePath());
         webview.addJavascriptInterface(new HgxqAndroidToJs(this,this), "qrylhg");
         webview.setWebViewClient(new WebViewClient() {
+
             @Override
             public void onPageFinished(WebView view, String url) {
                 webview.loadUrl("javascript:getId(" + orderId + ")");

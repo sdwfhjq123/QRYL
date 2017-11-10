@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -14,12 +15,13 @@ import com.qryl.qryl.R;
 import com.qryl.qryl.activity.BaseActivity;
 import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.HgxqAndroidToJs;
+import com.qryl.qryl.view.ProgressWebview;
 
 public class MakeListActivity extends BaseActivity {
 
     private static final String TAG = "MakeListActivity";
     private static final String URL = ConstantValue.URL_H5 + "/medical/make_list_details.html";
-    private WebView webview;
+    private ProgressWebview webview;
     private SharedPreferences prefs;
     private String userId;
     private int prescribeId;
@@ -36,18 +38,20 @@ public class MakeListActivity extends BaseActivity {
     }
 
     private void initView() {
-        webview = (WebView) findViewById(R.id.webview);
+        webview = (ProgressWebview) findViewById(R.id.webview);
         WebSettings webSettings = webview.getSettings();
         webSettings.setDefaultTextEncodingName("utf-8");
         webSettings.setJavaScriptEnabled(true);// 为WebView使能JavaScript
         webview.getSettings().setDomStorageEnabled(true);
         webview.getSettings().setDatabaseEnabled(true);
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
         webSettings.setBlockNetworkImage(true);
         webview.getSettings().setDatabasePath(MakeListActivity.this.getApplicationContext().getCacheDir().getAbsolutePath());
         webview.addJavascriptInterface(new HgxqAndroidToJs(this,this), "qrylhg");
         webSettings.setAppCacheEnabled(false);
         webview.setWebViewClient(new WebViewClient() {
+
             @Override
             public void onPageFinished(WebView view, String url) {
                 webview.loadUrl("javascript:getId(" + prescribeId + "," + userId + ")");

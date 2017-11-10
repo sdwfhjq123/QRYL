@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.webkit.ValueCallback;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -16,13 +17,14 @@ import com.qryl.qryl.R;
 import com.qryl.qryl.activity.BaseActivity;
 import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.HgxqAndroidToJs;
+import com.qryl.qryl.view.ProgressWebview;
 
 import static android.view.KeyEvent.KEYCODE_BACK;
 
 public class HgxqActivity extends BaseActivity {
     private static final String TAG = "HgxqActivity";
     private static final String URL = ConstantValue.URL_H5 + "/patient/carer_details.html";
-    private WebView webview;
+    private ProgressWebview webview;
     /**
      * 病患端登录的id
      */
@@ -51,17 +53,18 @@ public class HgxqActivity extends BaseActivity {
     }
 
     private void initView() {
-        webview = (WebView) findViewById(R.id.webview);
+        webview = (ProgressWebview) findViewById(R.id.webview);
         WebSettings webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
         webSettings.setDatabaseEnabled(true);
         webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
         webSettings.setBlockNetworkImage(true);
-
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webSettings.setDatabasePath(HgxqActivity.this.getApplicationContext().getCacheDir().getAbsolutePath());
         webview.addJavascriptInterface(new HgxqAndroidToJs(this, this), "qrylhg");
         webview.setWebViewClient(new WebViewClient() {
+
             @Override
             public void onPageFinished(WebView view, String url) {
                 //医护端登录id 列表id 病患端登录id
