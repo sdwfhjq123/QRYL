@@ -57,7 +57,6 @@ public class OrderInfoActivity extends BaseActivity {
         webSettings.setDatabaseEnabled(true);
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
-        webSettings.setBlockNetworkImage(true);
         webSettings.setDatabasePath(OrderInfoActivity.this.getApplicationContext().getCacheDir().getAbsolutePath());
         webview.addJavascriptInterface(new HgxqAndroidToJs(this,this), "qrylhg");
         webview.setWebViewClient(new WebViewClient() {

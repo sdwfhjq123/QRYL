@@ -3,6 +3,7 @@ package com.qryl.qryl.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.provider.Settings;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
@@ -21,6 +22,8 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 
 public class HgxqAndroidToJs {
     private static final String TAG = "HgxqAndroidToJs";
+    private static final int ORDER_NORMAL = 111;
+    private static final int ORDER_MAKELIST = 222;
 
     private Activity activity;
     private Context context;
@@ -47,8 +50,22 @@ public class HgxqAndroidToJs {
         intent.putExtra("order_price", price);
         intent.putExtra("order_id", orderId);
         intent.putExtra("order_type", orderType);
+        intent.putExtra("order_normal", ORDER_NORMAL);
         context.startActivity(intent);
         activity.finish();
+    }
+
+    @JavascriptInterface
+    public String getToken() {
+        SharedPreferences prefs = context.getSharedPreferences("user_id", Context.MODE_PRIVATE);
+        String token = prefs.getString("token", "");
+        return token;
+    }
+
+    @JavascriptInterface
+    public void forceOffline() {
+        Intent intent = new Intent("com.qryl.qryl.activity.BaseActivity.MustForceOfflineReceiver");
+        context.sendBroadcast(intent);
     }
 
 }

@@ -85,7 +85,9 @@ public class XzServiceFragment extends BaseFragment {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    adapter.setData(datas);
                     adapter.notifyDataSetChanged();
+                    adapter.notifyItemRemoved(adapter.getItemCount());
                     swipeRefresh.setRefreshing(false);
                 }
             });

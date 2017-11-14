@@ -31,6 +31,10 @@ public class XzServiceAdapter extends RecyclerView.Adapter<XzServiceAdapter.View
         datas = list;
     }
 
+    public void setData(List<ItemList> datas) {
+        this.datas=datas;
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
 
         CardView cardView;

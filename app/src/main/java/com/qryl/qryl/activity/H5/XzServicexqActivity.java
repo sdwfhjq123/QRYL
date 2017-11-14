@@ -23,6 +23,7 @@ public class XzServicexqActivity extends BaseActivity {
     private String userId;
     private int id;
     private int type;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +33,10 @@ public class XzServicexqActivity extends BaseActivity {
         id = intent.getIntExtra("id", 0);
         type = intent.getIntExtra("type", 0);
         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+        token = prefs.getString("token", "");
         userId = prefs.getString("user_id", "");
         Log.i(TAG, "onCreate: " + userId);
+        Log.i(TAG, "onCreate: Token:"+token);
         initView();
     }
 
@@ -45,13 +48,12 @@ public class XzServicexqActivity extends BaseActivity {
         webSettings.setDatabaseEnabled(true);
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
-        webSettings.setBlockNetworkImage(true);
         webSettings.setDatabasePath(XzServicexqActivity.this.getApplicationContext().getCacheDir().getAbsolutePath());
-        webview.addJavascriptInterface(new HgxqAndroidToJs(this,this), "qrylhg");
+        webview.addJavascriptInterface(new HgxqAndroidToJs(this, this), "qrylhg");
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
-                webview.loadUrl("javascript:getId(" + type + "," + id + "," + userId + ")");
+                webview.loadUrl("javascript:getId(" + type + "," + id + "," + userId + "," + "'" + token + "'" + ")");
             }
         });
         webview.loadUrl(URL);

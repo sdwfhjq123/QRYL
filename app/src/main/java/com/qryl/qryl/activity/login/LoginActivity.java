@@ -27,6 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.security.MessageDigest;
 
 import cn.jpush.android.api.JPushInterface;
 import okhttp3.Call;
@@ -48,6 +49,7 @@ public class LoginActivity extends BaseActivity {
     private int id;
     private SharedPreferences prefs;
     private String registrationID;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,17 +82,19 @@ public class LoginActivity extends BaseActivity {
         TextView tvForgot = (TextView) findViewById(R.id.tv_forgot);
         Button btnRegister = (Button) findViewById(R.id.btn_register);
         Button btnLogin = (Button) findViewById(R.id.btn_login);
-        //判断是否登录
+        //判断是否自动登录
         cbAuto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (cbAuto.isChecked()) {
                     cbAuto.setChecked(true);
+                    prefs.edit().putBoolean("is_auto_login", cbAuto.isChecked()).apply();
+                    Log.i(TAG, "保存checkbox状态:" + cbAuto.isChecked());
                 } else {
                     cbAuto.setChecked(false);
+                    prefs.edit().clear().apply();
                 }
-                prefs.edit().putBoolean("is_auto_login", cbAuto.isChecked()).commit();
-                Log.i(TAG, "保存checkbox状态:" + cbAuto.isChecked());
+
             }
         });
         //注册
@@ -104,16 +108,21 @@ public class LoginActivity extends BaseActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String psd = etPsd.getText().toString();
-                String user = etUser.getText().toString();
-                //注册极光唯一registrationId
-                registrationID = JPushInterface.getRegistrationID(LoginActivity.this);
-                Log.i(TAG, "登录时需要提交的registrationID: " + registrationID);
+                //如果点击自动登录但是用户名字为空
+                if (cbAuto.isChecked() && TextUtils.isEmpty(etUser.getText().toString())) {
+                    Toast.makeText(LoginActivity.this, "自动登录无法保存您的账号", Toast.LENGTH_SHORT).show();
+                } else if (cbAuto.isChecked() || !cbAuto.isChecked()) {
+                    String psd = etPsd.getText().toString();
+                    String user = etUser.getText().toString();
+                    //注册极光唯一registrationId
+                    registrationID = JPushInterface.getRegistrationID(LoginActivity.this);
+                    Log.i(TAG, "登录时需要提交的registrationID: " + registrationID);
 
-                if (!TextUtils.isEmpty(psd) && !TextUtils.isEmpty(user)) {
-                    postData(user, psd);
-                } else {
-                    Toast.makeText(LoginActivity.this, "请输入用户名和密码", Toast.LENGTH_SHORT).show();
+                    if (!TextUtils.isEmpty(psd) && !TextUtils.isEmpty(user)) {
+                        postData(user, psd);
+                    } else {
+                        Toast.makeText(LoginActivity.this, "请输入用户名和密码", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -141,7 +150,7 @@ public class LoginActivity extends BaseActivity {
         FormBody.Builder builder = new FormBody.Builder();
         builder.add("loginName", user);
         builder.add("password", psd);
-        builder.add("registrationId",String.valueOf(registrationID));
+        builder.add("registrationId", String.valueOf(registrationID));
         FormBody formBody = builder.build();
         Request request = new Request.Builder()
                 .url(ConstantValue.URL + "/patientUser/login")
@@ -168,6 +177,8 @@ public class LoginActivity extends BaseActivity {
                     if (resultCode.equals("200")) {
                         JSONObject data = jsonObject.getJSONObject("data");
                         id = data.getInt("loginId");
+                        token = data.getString("token");
+                        Log.i(TAG, "onResponse: token" + token);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -175,7 +186,9 @@ public class LoginActivity extends BaseActivity {
                                     progressDialog.dismiss();
                                 }
                                 prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
-                                prefs.edit().putString("user_id", String.valueOf(id)).commit();
+                                prefs.edit().putString("user_id", String.valueOf(id)).apply();
+                                prefs.edit().putString("token", token).apply();
+                                Log.i(TAG, "run: Token:" + token);
                                 Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);

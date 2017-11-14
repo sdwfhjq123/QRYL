@@ -56,7 +56,8 @@
         android:id="@+id/ll_wx"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="60dp"

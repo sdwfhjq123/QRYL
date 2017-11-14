@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.qryl.qryl.R;
@@ -145,7 +147,7 @@ public class MeFragment extends android.support.v4.app.Fragment implements View.
                         tvGender.setText(gender == 0 ? "男" : "女");
                         tvYbh.setText(healthCareNum);
                         tvTel.setText(mobile);
-                        tvLocation.setText(provinceName + cityName + districtName);
+                        //tvLocation.setText(provinceName + cityName + districtName);
                     }
                 });
             }
@@ -178,7 +180,6 @@ public class MeFragment extends android.support.v4.app.Fragment implements View.
         tvLocation = (TextView) view.findViewById(R.id.tv_location);
         //隐藏地址,功能未实现
         tvLocation.setVisibility(View.GONE);
-
         Button btnExit = (Button) view.findViewById(R.id.btn_exit);
         btnExit.setOnClickListener(this);
         //编辑资料
@@ -192,8 +193,16 @@ public class MeFragment extends android.support.v4.app.Fragment implements View.
         //常用联系人页面
         RelativeLayout rlContacts = (RelativeLayout) view.findViewById(R.id.rl_contacts);
         RelativeLayout rlLocation = (RelativeLayout) view.findViewById(R.id.rl_location);
+        RelativeLayout rlWallet = (RelativeLayout) view.findViewById(R.id.rl_wallet);
+        RelativeLayout rlAttention = (RelativeLayout) view.findViewById(R.id.rl_attention);
+        RelativeLayout rlFeedback = (RelativeLayout) view.findViewById(R.id.rl_feedback);
+        RelativeLayout rlCustomerService = (RelativeLayout) view.findViewById(R.id.rl_customer_service);
         rlContacts.setOnClickListener(this);
         rlLocation.setOnClickListener(this);
+        rlWallet.setOnClickListener(this);
+        rlAttention.setOnClickListener(this);
+        rlFeedback.setOnClickListener(this);
+        rlCustomerService.setOnClickListener(this);
     }
 
     @Override
@@ -205,9 +214,59 @@ public class MeFragment extends android.support.v4.app.Fragment implements View.
             case R.id.rl_location:
                 startActivity(new Intent(getActivity(), LocationActivity.class));
                 break;
-            case R.id.btn_exit:
-                Intent intent = new Intent("com.qryl.qryl.activity.BaseActivity.ForceOfflineReceiver");
-                getActivity().sendBroadcast(intent);
+            case R.id.btn_exit://退出登录
+                OkHttpClient client = new OkHttpClient();
+                FormBody.Builder builder = new FormBody.Builder();
+                builder.add("loginId", userId);
+                FormBody formBody = builder.build();
+                final Request request = new Request.Builder()
+                        .url(ConstantValue.URL + "/patientUser/logout")
+                        .post(formBody)
+                        .build();
+                client.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        String result = response.body().string();
+                        try {
+                            JSONObject jsonObject = new JSONObject(result);
+                            String resultCode = jsonObject.getString("resultCode");
+                            if (getActivity() instanceof MainActivity) {
+                                if (resultCode.equals("500")) {
+                                    Toast.makeText(getActivity(), "退出失败，请重试", Toast.LENGTH_SHORT).show();
+                                } else if (resultCode.equals("200")) {
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Intent intent = new Intent("com.qryl.qryl.activity.BaseActivity.ForceOfflineReceiver");
+                                            getActivity().sendBroadcast(intent);
+                                        }
+                                    });
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                break;
+            case R.id.rl_wallet://我的钱包
+                Toast.makeText(getActivity(),"该功能暂未开放",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.rl_attention://我的关注
+                Toast.makeText(getActivity(),"该功能暂未开放",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.rl_feedback://意见反馈
+                Toast.makeText(getActivity(),"该功能暂未开放",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.rl_customer_service://我的客服
+                Intent intent1=  new Intent(Intent.ACTION_DIAL);
+                intent1.setData(Uri.parse("tel:400-8181800"));
+                startActivity(intent1);
                 break;
         }
     }

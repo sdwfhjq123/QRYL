@@ -45,6 +45,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:scaleType="centerCrop"
                 android:src="@mipmap/ic_loading" />
 
             <LinearLayout
@@ -175,6 +176,7 @@
     <View style="@style/ViewLine" />
 
     <RelativeLayout
+        android:id="@+id/rl_wallet"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:padding="5dp">
@@ -273,6 +275,7 @@
     <View style="@style/ViewLine" />
 
     <RelativeLayout
+        android:id="@+id/rl_attention"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:padding="5dp">
@@ -309,6 +312,7 @@
     <View style="@style/ViewLine" />
 
     <RelativeLayout
+        android:id="@+id/rl_feedback"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:padding="5dp">
@@ -342,6 +346,7 @@
 
 
     <RelativeLayout
+        android:id="@+id/rl_customer_service"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:padding="5dp">

@@ -3,6 +3,7 @@ package com.qryl.qryl.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.alipay.sdk.app.PayTask;
 import com.qryl.qryl.R;
 import com.qryl.qryl.util.ConstantValue;
+import com.qryl.qryl.util.EncryptionByMD5;
 import com.qryl.qryl.util.PayResult;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -41,6 +43,16 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
 
     private static final String TAG = "PayActivity";
 
+    /**
+     * 判断makelist还是normal的标识
+     */
+    private static final int ORDER_NORMAL = 111;
+    private static final int ORDER_MAKELIST = 222;
+
+    private static final int SDK_PAY_FLAG = 1;
+    private static final int SDK_AUTH_FLAG = 2;
+
+
     private LinearLayout llWx;
     private LinearLayout llZfb;
     private CheckBox cbWx;
@@ -57,8 +69,8 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
      */
     private String dataAlipay;
 
-    private static final int SDK_PAY_FLAG = 1;
-    private static final int SDK_AUTH_FLAG = 2;
+    private String token;
+
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
@@ -91,6 +103,7 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
             }
         }
     };
+    private int orderNormal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,8 +113,11 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
         orderPrice = intent.getStringExtra("order_price");
         orderId = intent.getStringExtra("order_id");
         orderType = intent.getIntExtra("order_type", 4);
-
+        orderNormal = intent.getIntExtra("order_normal", 0);
         Log.i(TAG, "pay: order_price" + orderPrice + ",order_id" + orderId + ",order_type" + orderType);
+
+        SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+        token = prefs.getString("token", "");
         initView();
     }
 
@@ -163,7 +179,7 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
                     Log.i(TAG, "onClick: 调用了微信支付");
                     //微信支付
                     wxPay();
-                } else if (!cbWx.isChecked() && cbZfb.isChecked()) {
+                } else if (cbZfb.isChecked()) {//!cbWx.isChecked() &&
                     Log.i(TAG, "onClick: 调用了支付宝支付");
                     //支付宝支付
                     aliPay();
@@ -177,7 +193,11 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
      */
     private void aliPay() {
         //从服务器获取支付宝订单信息
-        postOrderInfoOnServer();
+        if (orderNormal == ORDER_NORMAL) {//普通的订单
+            postOrderInfoOnServer();
+        } else if (orderNormal == ORDER_MAKELIST) {
+            //开单子的订单
+        }
         if (!TextUtils.isEmpty(dataAlipay)) {
             Log.i(TAG, "aliPay: 支付宝订单信息" + dataAlipay);
             Runnable payRunnable = new Runnable() {
@@ -202,11 +222,19 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
 
     }
 
+    /**
+     * 支付宝推送
+     *
+     * @return 返回签名后的数据
+     */
     private String postOrderInfoOnServer() {
+        byte[] bytes = ("/order/buildOrderInfo-" + token + "-" + System.currentTimeMillis()).getBytes();
+        String sign = EncryptionByMD5.getMD5(bytes);
         OkHttpClient client = new OkHttpClient();
         FormBody.Builder builder = new FormBody.Builder();
         builder.add("orderId", orderId);
         builder.add("orderType", String.valueOf(orderType));
+        builder.add("sign", sign);
         FormBody formBody = builder.build();
         Request request = new Request.Builder()
                 .url(ConstantValue.URL + "/order/buildOrderInfo")
@@ -216,7 +244,7 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
 
             @Override
             public void onFailure(Call call, IOException e) {
-
+                e.printStackTrace();
             }
 
             @Override
@@ -236,6 +264,14 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
                         });
                     } else if (resultCode.equals("200")) {
                         dataAlipay = jsonObject.getString("data");
+                    } else if (resultCode.equals("400")) {//错误时
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent("com.qryl.qryl.activity.BaseActivity.MustForceOfflineReceiver");
+                                sendBroadcast(intent);
+                            }
+                        });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

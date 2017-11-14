@@ -21,6 +21,7 @@ import com.qryl.qryl.VO.OrderVO.OrderInfoArea;
 import com.qryl.qryl.activity.H5.MakeListActivity;
 import com.qryl.qryl.activity.H5.OrderInfoActivity;
 import com.qryl.qryl.activity.MainActivity;
+import com.qryl.qryl.activity.PayActivity;
 import com.qryl.qryl.activity.login.LoginActivity;
 import com.qryl.qryl.adapter.OrderMakeListAdapter;
 import com.qryl.qryl.adapter.OrderNopayAdapter;
@@ -49,6 +50,9 @@ import okhttp3.Response;
 public class OrderMakeListFragment extends BaseFragment {
 
     private static final String TAG = "OrderMakeListFragment";
+
+    private static final int ORDER_NORMAL = 111;
+    private static final int ORDER_MAKELIST = 222;
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefresh;
@@ -207,29 +211,18 @@ public class OrderMakeListFragment extends BaseFragment {
             @Override
             public void onPayItemClick(View view, int position) {//支付订单
                 Log.i(TAG, "onItemClick: 点击了支付按钮" + position);
+                //传递一个区别开单子与普通订单的标识  1,2
+                if (getActivity() instanceof MainActivity) {
+                    //点击跳转PayActivity
+                    Intent intent = new Intent(getActivity(), PayActivity.class);
+                    intent.putExtra("order_price", datas.get(position).getPrice());
+                    intent.putExtra("order_id", datas.get(position).getId());
+                    intent.putExtra("order_normal", ORDER_MAKELIST);
+                    getActivity().startActivity(intent);
+                }
             }
         });
         return view;
     }
 
-
-    /**
-     * 支付订单
-     *
-     * @param orderId   订单id
-     * @param orderType 订单类型
-     */
-    private void orderPay(int orderId, int orderType) {
-        final String orderInfo = null;//获取下来的订单信息
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                PayTask alipay = new PayTask(getActivity());
-                Map<String, String> result = alipay.payV2(orderInfo, true);
-
-                Message msg = new Message();
-                //msg.what=SDK_PAY_FLAG:
-            }
-        };
-    }
 }

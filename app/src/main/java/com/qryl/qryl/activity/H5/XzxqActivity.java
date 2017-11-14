@@ -44,6 +44,7 @@ public class XzxqActivity extends BaseActivity {
      * 人员列表表的id，用于显示详情
      */
     private int listId;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +56,12 @@ public class XzxqActivity extends BaseActivity {
         listId = intent.getIntExtra("list_id", 0);
         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
+        token = prefs.getString("token", "");
         Log.i(TAG, "传给H5的类型: " + type);
         Log.i(TAG, "医护端用户id: " + id);
         Log.i(TAG, "列表的id: " + listId);
         Log.i(TAG, "病患端用户id " + userId);
+        Log.i(TAG, "onCreate: Token:" + token);
         initView();
     }
 
@@ -70,15 +73,14 @@ public class XzxqActivity extends BaseActivity {
         webSettings.setDatabaseEnabled(true);
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
-        webSettings.setBlockNetworkImage(true);
-
         webSettings.setDatabasePath(XzxqActivity.this.getApplicationContext().getCacheDir().getAbsolutePath());
         webview.addJavascriptInterface(new HgxqAndroidToJs(this, this), "qrylhg");
         webview.setWebViewClient(new WebViewClient() {
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                webview.loadUrl("javascript:getId(" + id + "," + listId + "," + userId + ")");
+                webview.loadUrl("javascript:getId(" + id + "," + listId + "," + userId + "," + "'" + token + "'" + ")");
+                //webview.loadUrl("javascript:getId(" + id + "," + listId + "," + userId + ")");
             }
         });
         if (type == 2) {

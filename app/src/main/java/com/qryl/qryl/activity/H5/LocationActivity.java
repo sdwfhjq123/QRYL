@@ -42,7 +42,6 @@ public class LocationActivity extends BaseActivity {
         webSettings.setJavaScriptEnabled(true);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
-        webSettings.setBlockNetworkImage(true);
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webview.getSettings().setDomStorageEnabled(true);
         webview.getSettings().setDatabaseEnabled(true);

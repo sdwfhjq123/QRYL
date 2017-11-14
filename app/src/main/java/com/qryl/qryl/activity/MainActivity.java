@@ -68,8 +68,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void initFragment() {
         fm = getSupportFragmentManager();
         ft = fm.beginTransaction();
+        setTitleName("亲仁医疗护理");
         ft.replace(R.id.fl_home, new HomeFragment(), HOME_FRAGMENT);
-        //ft.addToBackStack(null);
+        //ft.addToBackStack(null);//模拟栈
         ft.commit();
     }
 

@@ -37,6 +37,7 @@ public class HgxqActivity extends BaseActivity {
      * 医护端用户登录的id
      */
     private int loginId;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +48,8 @@ public class HgxqActivity extends BaseActivity {
         loginId = intent.getIntExtra("login_id", 0);
         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
+        token = prefs.getString("token", "");
         Log.i(TAG, "用户的id:" + userId + ",点击的护士的id:" + id + ",医护端登录的id" + loginId);
-        new HgxqAndroidToJs(this, this);
         initView();
     }
 
@@ -59,7 +60,6 @@ public class HgxqActivity extends BaseActivity {
         webSettings.setDomStorageEnabled(true);
         webSettings.setDatabaseEnabled(true);
         webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
-        webSettings.setBlockNetworkImage(true);
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webSettings.setDatabasePath(HgxqActivity.this.getApplicationContext().getCacheDir().getAbsolutePath());
         webview.addJavascriptInterface(new HgxqAndroidToJs(this, this), "qrylhg");
@@ -68,7 +68,7 @@ public class HgxqActivity extends BaseActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 //医护端登录id 列表id 病患端登录id
-                webview.loadUrl("javascript:getId(" + loginId + "," + id + "," + userId + ")");
+                webview.loadUrl("javascript:getId(" + loginId + "," + id + "," + userId + "," + "'" + token + "'" + ")");
             }
         });
         webview.loadUrl(URL);

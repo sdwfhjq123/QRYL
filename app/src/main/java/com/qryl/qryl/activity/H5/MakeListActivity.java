@@ -46,7 +46,6 @@ public class MakeListActivity extends BaseActivity {
         webview.getSettings().setDatabaseEnabled(true);
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
-        webSettings.setBlockNetworkImage(true);
         webview.getSettings().setDatabasePath(MakeListActivity.this.getApplicationContext().getCacheDir().getAbsolutePath());
         webview.addJavascriptInterface(new HgxqAndroidToJs(this,this), "qrylhg");
         webSettings.setAppCacheEnabled(false);

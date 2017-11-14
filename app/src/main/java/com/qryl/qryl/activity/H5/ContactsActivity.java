@@ -46,7 +46,6 @@ public class ContactsActivity extends BaseActivity {
         webSettings.setJavaScriptEnabled(true);// 为WebView使能JavaScript
 
         webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
-        webSettings.setBlockNetworkImage(true);
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webview.getSettings().setDomStorageEnabled(true);
         webview.getSettings().setDatabaseEnabled(true);

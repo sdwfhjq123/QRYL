@@ -21,6 +21,7 @@ import com.qryl.qryl.activity.MainActivity;
 import com.qryl.qryl.activity.PayActivity;
 import com.qryl.qryl.adapter.OrderNopayAdapter;
 import com.qryl.qryl.util.ConstantValue;
+import com.qryl.qryl.util.EncryptionByMD5;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,6 +45,9 @@ public class OrderNoPayFragment extends BaseFragment {
 
     private static final String TAG = "OrderNoPayFragment";
 
+    private static final int ORDER_NORMAL = 111;
+    private static final int ORDER_MAKELIST = 222;
+
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefresh;
 
@@ -53,6 +57,8 @@ public class OrderNoPayFragment extends BaseFragment {
     private int lastVisibleItemPosition;
     private boolean isLoading;
     private String userId;
+    private SharedPreferences prefs;
+    private String token;
 
     @Override
     public void loadData() {
@@ -64,6 +70,8 @@ public class OrderNoPayFragment extends BaseFragment {
      * 请求网络数据
      */
     private void postData(final String page) {
+        byte[] bytes = ("/order/getOrderListByStatus-" + token + "-" + System.currentTimeMillis()).getBytes();
+        String sign = EncryptionByMD5.getMD5(bytes);
         for (int i = 0; i < 3; i++) {
             OkHttpClient client = new OkHttpClient();
             FormBody.Builder builder = new FormBody.Builder();
@@ -72,6 +80,7 @@ public class OrderNoPayFragment extends BaseFragment {
             builder.add("puId", userId);//动态获取，需要写缓存
             builder.add("page", page);
             builder.add("limit", "20");
+            builder.add("sign", sign);
             FormBody formBody = builder.build();
             final Request request = new Request.Builder()
                     .url(ConstantValue.URL + "/order/getOrderListByStatus")
@@ -98,6 +107,16 @@ public class OrderNoPayFragment extends BaseFragment {
                             if (data != null) {
                                 handleJson(result);
                                 //Log.i(TAG, "onResponse: " + result);
+                            }
+                        } else if (resultCode.equals("400")) {//错误时
+                            if (getActivity() instanceof MainActivity) {
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Intent intent = new Intent("com.qryl.qryl.activity.BaseActivity.MustForceOfflineReceiver");
+                                        getActivity().sendBroadcast(intent);
+                                    }
+                                });
                             }
                         }
                     } catch (JSONException e) {
@@ -136,8 +155,9 @@ public class OrderNoPayFragment extends BaseFragment {
 
     @Override
     public View initView() {
-        SharedPreferences prefs = getActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE);
+        prefs = getActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
+        token = prefs.getString("token", "");
         View view = View.inflate(getActivity(), R.layout.fragment_order_container, null);
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
@@ -226,6 +246,7 @@ public class OrderNoPayFragment extends BaseFragment {
                     intent.putExtra("order_price", datas.get(position).getPrice());
                     intent.putExtra("order_id", datas.get(position).getId());
                     intent.putExtra("order_type", datas.get(position).getOrderType());
+                    intent.putExtra("order_normal",ORDER_NORMAL );
                     getActivity().startActivity(intent);
                 }
             }
