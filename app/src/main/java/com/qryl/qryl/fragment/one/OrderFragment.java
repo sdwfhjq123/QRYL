@@ -1,6 +1,9 @@
 package com.qryl.qryl.fragment.one;
 
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.qryl.qryl.R;
+import com.qryl.qryl.activity.MainActivity;
 import com.qryl.qryl.fragment.one.two.BaseFragment;
 import com.qryl.qryl.util.UIUtils;
 
@@ -28,16 +33,19 @@ import java.lang.reflect.Field;
  */
 
 public class OrderFragment extends android.support.v4.app.Fragment {
+    private static final String TAG = "OrderFragment";
 
     private View view;
     private ViewPager viewPager;
     private TabLayout tabLayout;
+    private SharedPreferences prefs;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         //view = UIUtils.inflate(R.layout.fragment_order);
         view = View.inflate(getActivity(), R.layout.fragment_order, null);
+        prefs = UIUtils.getContext().getSharedPreferences("user_id", Context.MODE_PRIVATE);
         initUI();
         initData();
         return view;
@@ -64,6 +72,18 @@ public class OrderFragment extends android.support.v4.app.Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {//点击第一次的tab选项回调
                 //Toast.makeText(UIUtils.getContext(), tab.getText(), Toast.LENGTH_SHORT).show();
+                /**
+                 * 是否强制下线的标识
+                 */
+                if (prefs.getBoolean("is_force_offline", false)) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent("com.qryl.qryl.activity.BaseActivity.MustForceOfflineReceiver");
+                            getActivity().sendBroadcast(intent);
+                        }
+                    });
+                }
             }
 
             @Override
@@ -74,6 +94,15 @@ public class OrderFragment extends android.support.v4.app.Fragment {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {//再次点击同一个tab的回调
                 //Toast.makeText(UIUtils.getContext(), tab.getText(), Toast.LENGTH_SHORT).show();
+                if (prefs.getBoolean("is_force_offline", false)) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent("com.qryl.qryl.activity.BaseActivity.MustForceOfflineReceiver");
+                            getActivity().sendBroadcast(intent);
+                        }
+                    });
+                }
             }
         });
     }

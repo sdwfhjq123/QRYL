@@ -27,6 +27,7 @@ import com.qryl.qryl.adapter.OrderMakeListAdapter;
 import com.qryl.qryl.adapter.OrderNopayAdapter;
 import com.qryl.qryl.fragment.one.two.BaseFragment;
 import com.qryl.qryl.util.ConstantValue;
+import com.qryl.qryl.util.EncryptionByMD5;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,6 +64,8 @@ public class OrderMakeListFragment extends BaseFragment {
     private int lastVisibleItemPosition;
     private boolean isLoading;
     private String userId;
+    private String token;
+    private SharedPreferences prefs;
 
     @Override
     public void loadData() {
@@ -74,12 +77,19 @@ public class OrderMakeListFragment extends BaseFragment {
      * 请求网络数据
      */
     private void postData(final String page) {
+        Log.i(TAG, "postData: userId" + userId);
+        String currentTimeMillis = String.valueOf(System.currentTimeMillis());
+        byte[] bytes = ("/order/getOrderListByStatus-" + token + "-" + currentTimeMillis).getBytes();
+        String sign = EncryptionByMD5.getMD5(bytes);
         OkHttpClient client = new OkHttpClient();
         FormBody.Builder builder = new FormBody.Builder();
 //        builder.add("puId", userId);//动态获取，需要写缓存
         builder.add("puId", userId);//动态获取，需要写缓存
         builder.add("page", page);
         builder.add("limit", "1");
+        builder.add("sign", sign);
+        builder.add("tokenUserId", userId + "bh");
+        builder.add("timeStamp", currentTimeMillis);
         FormBody formBody = builder.build();
         final Request request = new Request.Builder()
                 .url(ConstantValue.URL + "/order/getPrescribeList")
@@ -107,6 +117,8 @@ public class OrderMakeListFragment extends BaseFragment {
                         if (data != null) {
                             handleJson(result);
                         }
+                    }else if (resultCode.equals("400")) {//错误时
+                        prefs.edit().putBoolean("is_force_offline",true).apply();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -144,8 +156,9 @@ public class OrderMakeListFragment extends BaseFragment {
 
     @Override
     public View initView() {
-        SharedPreferences prefs = getActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE);
+        prefs = getActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
+        token = prefs.getString("token", "");
         View view = View.inflate(getActivity(), R.layout.fragment_order_container, null);
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);

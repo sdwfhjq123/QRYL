@@ -104,6 +104,7 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
         }
     };
     private int orderNormal;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +119,7 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
 
         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         token = prefs.getString("token", "");
+        userId = prefs.getString("user_id", "");
         initView();
     }
 
@@ -228,13 +230,16 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
      * @return 返回签名后的数据
      */
     private String postOrderInfoOnServer() {
-        byte[] bytes = ("/order/buildOrderInfo-" + token + "-" + System.currentTimeMillis()).getBytes();
+        String currentTimeMillis = String.valueOf(System.currentTimeMillis());
+        byte[] bytes = ("/order/buildOrderInfo-" + token + "-" + currentTimeMillis).getBytes();
         String sign = EncryptionByMD5.getMD5(bytes);
         OkHttpClient client = new OkHttpClient();
         FormBody.Builder builder = new FormBody.Builder();
         builder.add("orderId", orderId);
         builder.add("orderType", String.valueOf(orderType));
         builder.add("sign", sign);
+        builder.add("tokenUserId ", userId + "bh");
+        builder.add("timeStamp", currentTimeMillis);
         FormBody formBody = builder.build();
         Request request = new Request.Builder()
                 .url(ConstantValue.URL + "/order/buildOrderInfo")

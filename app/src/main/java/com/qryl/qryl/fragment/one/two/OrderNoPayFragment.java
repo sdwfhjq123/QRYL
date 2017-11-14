@@ -59,6 +59,9 @@ public class OrderNoPayFragment extends BaseFragment {
     private String userId;
     private SharedPreferences prefs;
     private String token;
+    private String resultCode;
+
+
 
     @Override
     public void loadData() {
@@ -70,7 +73,9 @@ public class OrderNoPayFragment extends BaseFragment {
      * 请求网络数据
      */
     private void postData(final String page) {
-        byte[] bytes = ("/order/getOrderListByStatus-" + token + "-" + System.currentTimeMillis()).getBytes();
+        Log.i(TAG, "postData: userId" + userId);
+        String currentTimeMillis = String.valueOf(System.currentTimeMillis());
+        byte[] bytes = ("/order/getOrderListByStatus-" + token + "-" + currentTimeMillis).getBytes();
         String sign = EncryptionByMD5.getMD5(bytes);
         for (int i = 0; i < 3; i++) {
             OkHttpClient client = new OkHttpClient();
@@ -81,6 +86,8 @@ public class OrderNoPayFragment extends BaseFragment {
             builder.add("page", page);
             builder.add("limit", "20");
             builder.add("sign", sign);
+            builder.add("tokenUserId", userId + "bh");
+            builder.add("timeStamp", currentTimeMillis);
             FormBody formBody = builder.build();
             final Request request = new Request.Builder()
                     .url(ConstantValue.URL + "/order/getOrderListByStatus")
@@ -99,7 +106,7 @@ public class OrderNoPayFragment extends BaseFragment {
                     //判断data里面resultCode是否有500然后判断是否有数据或者
                     try {
                         JSONObject jsonObject = new JSONObject(result);
-                        String resultCode = jsonObject.getString("resultCode");
+                        resultCode = jsonObject.getString("resultCode");
                         if (resultCode.equals("500")) {
                             return;
                         } else if (resultCode.equals("200")) {
@@ -109,15 +116,7 @@ public class OrderNoPayFragment extends BaseFragment {
                                 //Log.i(TAG, "onResponse: " + result);
                             }
                         } else if (resultCode.equals("400")) {//错误时
-                            if (getActivity() instanceof MainActivity) {
-                                getActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Intent intent = new Intent("com.qryl.qryl.activity.BaseActivity.MustForceOfflineReceiver");
-                                        getActivity().sendBroadcast(intent);
-                                    }
-                                });
-                            }
+                            prefs.edit().putBoolean("is_force_offline",true).apply();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -246,7 +245,7 @@ public class OrderNoPayFragment extends BaseFragment {
                     intent.putExtra("order_price", datas.get(position).getPrice());
                     intent.putExtra("order_id", datas.get(position).getId());
                     intent.putExtra("order_type", datas.get(position).getOrderType());
-                    intent.putExtra("order_normal",ORDER_NORMAL );
+                    intent.putExtra("order_normal", ORDER_NORMAL);
                     getActivity().startActivity(intent);
                 }
             }

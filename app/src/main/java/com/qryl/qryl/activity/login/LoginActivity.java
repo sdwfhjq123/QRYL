@@ -188,6 +188,7 @@ public class LoginActivity extends BaseActivity {
                                 prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
                                 prefs.edit().putString("user_id", String.valueOf(id)).apply();
                                 prefs.edit().putString("token", token).apply();
+                                prefs.edit().putBoolean("is_force_offline",false).apply();
                                 Log.i(TAG, "run: Token:" + token);
                                 Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
