@@ -192,12 +192,14 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String result = response.body().string();
+                Log.i(TAG, "onResponse: 验证成功后获取的数据: " + result);
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     String resultCode = jsonObject.getString("resultCode");
                     if (resultCode.equals("200")) {
                         JSONObject data = jsonObject.getJSONObject("data");
                         id = data.getInt("loginId");
+                        final String token = data.getString("token");
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -207,6 +209,8 @@ public class RegisterActivity extends BaseActivity {
                                 Toast.makeText(RegisterActivity.this, "注册成功!", Toast.LENGTH_SHORT).show();
                                 SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
                                 prefs.edit().putString("user_id", String.valueOf(id)).apply();
+                                prefs.edit().putString("token", token).apply();
+                                prefs.edit().putBoolean("is_force_offline", false).apply();
                                 Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                                 startActivity(intent);
                                 finish();

@@ -231,7 +231,7 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
      */
     private String postOrderInfoOnServer() {
         String currentTimeMillis = String.valueOf(System.currentTimeMillis());
-        byte[] bytes = ("/order/buildOrderInfo-" + token + "-" + currentTimeMillis).getBytes();
+        byte[] bytes = ("/test/order/buildOrderInfo-" + token + "-" + currentTimeMillis).getBytes();
         String sign = EncryptionByMD5.getMD5(bytes);
         OkHttpClient client = new OkHttpClient();
         FormBody.Builder builder = new FormBody.Builder();

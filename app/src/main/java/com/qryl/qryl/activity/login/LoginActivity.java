@@ -172,6 +172,7 @@ public class LoginActivity extends BaseActivity {
             public void onResponse(Call call, final Response response) {
                 try {
                     String result = response.body().string();
+                    Log.i(TAG, "onResponse: 登陆后返回的数据" + result);
                     JSONObject jsonObject = new JSONObject(result);
                     String resultCode = jsonObject.getString("resultCode");
                     if (resultCode.equals("200")) {
@@ -188,7 +189,7 @@ public class LoginActivity extends BaseActivity {
                                 prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
                                 prefs.edit().putString("user_id", String.valueOf(id)).apply();
                                 prefs.edit().putString("token", token).apply();
-                                prefs.edit().putBoolean("is_force_offline",false).apply();
+                                prefs.edit().putBoolean("is_force_offline", false).apply();
                                 Log.i(TAG, "run: Token:" + token);
                                 Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);

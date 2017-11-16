@@ -36,7 +36,6 @@ public class HgxqAndroidToJs {
     /**
      * 根布局点击返回销毁页面
      */
-
     @JavascriptInterface
     public void finishActivity() {
         this.activity.finish();

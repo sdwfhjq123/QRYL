@@ -66,7 +66,7 @@ public class OrderUnderwayFragment extends BaseFragment {
     private void postData(final String page) {
         Log.i(TAG, "postData: userId" + userId);
         String currentTimeMillis = String.valueOf(System.currentTimeMillis());
-        byte[] bytes = ("/order/getOrderListByStatus-" + token + "-" + currentTimeMillis).getBytes();
+        byte[] bytes = ("/test/order/getOrderListByStatus-" + token + "-" + currentTimeMillis).getBytes();
         String sign = EncryptionByMD5.getMD5(bytes);
         for (int i = 0; i < 3; i++) {
             OkHttpClient client = new OkHttpClient();

@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.qryl.qryl.R;
 import com.qryl.qryl.VO.ServiceVO.Data;
 import com.qryl.qryl.VO.ServiceVO.ItemList;
+import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.UIUtils;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class XzServiceAdapter extends RecyclerView.Adapter<XzServiceAdapter.View
     }
 
     public void setData(List<ItemList> datas) {
-        this.datas=datas;
+        this.datas = datas;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -62,7 +63,7 @@ public class XzServiceAdapter extends RecyclerView.Adapter<XzServiceAdapter.View
     public void onBindViewHolder(final XzServiceAdapter.ViewHolder holder, final int position) {
         //修改内容
         holder.tvTitleItem.setText(datas.get(position).getName());
-        Glide.with(UIUtils.getContext()).load(datas.get(position).getHeadshotImg()).into(holder.ivServiceItem);
+        Glide.with(UIUtils.getContext()).load(ConstantValue.URL + datas.get(position).getHeadshotImg()).into(holder.ivServiceItem);
         holder.tvInfoItem.setText(datas.get(position).getAbstracts());
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
