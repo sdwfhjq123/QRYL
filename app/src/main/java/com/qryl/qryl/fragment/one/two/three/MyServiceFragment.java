@@ -51,6 +51,9 @@ public class MyServiceFragment extends BaseFragment {
     }
 
     private void postData() {
+        datas.clear();
+        swipeRefresh.setRefreshing(true);
+
         HttpUtil.handleDataFromService("4", new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -77,15 +80,17 @@ public class MyServiceFragment extends BaseFragment {
         for (int i = 0; i < data.size(); i++) {
             List<ItemList> itemList = data.get(i).getItemList();
             for (int j = 0; j < itemList.size(); j++) {
-                datas.add(new ItemList(itemList.get(i).getId(), itemList.get(i).getName(), itemList.get(i).getHeadshotImg(), itemList.get(i).getAbstracts()));
+                datas.add(new ItemList(itemList.get(j).getId(), itemList.get(j).getName(), itemList.get(j).getHeadshotImg(), itemList.get(j).getAbstracts()));
             }
         }
 
-        if (getActivity() instanceof MainActivity){
+        if (getActivity() instanceof MainActivity) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    adapter.setData(datas);
                     adapter.notifyDataSetChanged();
+                    adapter.notifyItemRemoved(adapter.getItemCount());
                     swipeRefresh.setRefreshing(false);
                 }
             });

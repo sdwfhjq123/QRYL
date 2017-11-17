@@ -50,6 +50,9 @@ public class XzServiceFragment extends BaseFragment {
     }
 
     private void postData() {
+        datas.clear();
+        swipeRefresh.setRefreshing(true);
+
         HttpUtil.handleDataFromService("2", new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -59,7 +62,7 @@ public class XzServiceFragment extends BaseFragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String result = response.body().string();
-                Log.i(TAG, "onResponse: " + result);
+                Log.i(TAG, "onResponse: 巡诊服务获取到的数据" + result);
                 handleJson(result);
             }
         });

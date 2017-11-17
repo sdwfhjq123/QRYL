@@ -51,7 +51,7 @@ public class XzServerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof ItemViewHolder) {
-            Glide.with(UIUtils.getContext()).load(ConstantValue.URL + datas.get(position).getProfessionIds()).into(((ItemViewHolder) holder).ivHeadItem);
+            Glide.with(UIUtils.getContext()).load(ConstantValue.URL + datas.get(position).getHeadShotImg()).into(((ItemViewHolder) holder).ivHeadItem);
             ((ItemViewHolder) holder).tvNameItem.setText(datas.get(position).getRealName());
             ((ItemViewHolder) holder).tvExperienceItem.setText(datas.get(position).getWorkYears() + "");
             ((ItemViewHolder) holder).tvBeGoodAtItem.setText(datas.get(position).getProfessionNames());

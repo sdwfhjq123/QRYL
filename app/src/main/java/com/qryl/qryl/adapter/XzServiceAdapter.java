@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.qryl.qryl.R;
 import com.qryl.qryl.VO.ServiceVO.Data;
 import com.qryl.qryl.VO.ServiceVO.ItemList;
+import com.qryl.qryl.VO.ServiceVO.ServiceVO;
 import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.UIUtils;
 

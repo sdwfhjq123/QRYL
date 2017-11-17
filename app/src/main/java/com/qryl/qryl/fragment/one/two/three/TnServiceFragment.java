@@ -51,6 +51,9 @@ public class TnServiceFragment extends BaseFragment {
     }
 
     private void postData() {
+        datas.clear();
+        swipeRefresh.setRefreshing(true);
+
         HttpUtil.handleDataFromService("3", new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -86,7 +89,9 @@ public class TnServiceFragment extends BaseFragment {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    adapter.setData(datas);
                     adapter.notifyDataSetChanged();
+                    adapter.notifyItemRemoved(adapter.getItemCount());
                     swipeRefresh.setRefreshing(false);
                 }
             });
