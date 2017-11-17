@@ -123,6 +123,7 @@ public class OrderUnderwayFragment extends BaseFragment {
      * @param result
      */
     private void handleJson(String result) {
+        Log.i(TAG, "handleJson: 进行中得到的"+result);
         Gson gson = new Gson();
         Order order = gson.fromJson(result, Order.class);
         List<OrderInfoArea> data = order.getData().getData();
@@ -164,6 +165,7 @@ public class OrderUnderwayFragment extends BaseFragment {
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
                 super.onScrolled(recyclerView, dx, dy);
                 lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
                 if (lastVisibleItemPosition + 1 == adapter.getItemCount()) {

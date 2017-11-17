@@ -70,6 +70,8 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
     private String dataAlipay;
 
     private String token;
+    private int orderNormal;
+    private String userId;
 
 
     @SuppressLint("HandlerLeak")
@@ -103,8 +105,6 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
             }
         }
     };
-    private int orderNormal;
-    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,20 +120,17 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         token = prefs.getString("token", "");
         userId = prefs.getString("user_id", "");
+        Log.i(TAG, "onCreate: userId:" + userId);
         initView();
     }
 
     private void initView() {
         hiddenView();
-        llWx = (LinearLayout) findViewById(R.id.ll_wx);
         llZfb = (LinearLayout) findViewById(R.id.ll_zfb);
-        cbWx = (CheckBox) findViewById(R.id.cb_wx);
         cbZfb = (CheckBox) findViewById(R.id.cb_zfb);
         Button btnPay = (Button) findViewById(R.id.btn_pay);
         tvMoney = (TextView) findViewById(R.id.tv_money);
-        llWx.setOnClickListener(this);
         llZfb.setOnClickListener(this);
-        cbWx.setOnClickListener(this);
         cbZfb.setOnClickListener(this);
         btnPay.setOnClickListener(this);
 
@@ -143,46 +140,37 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.ll_wx:
-                if (cbWx.isChecked()) {
-                    cbWx.setChecked(false);
-                    if (cbZfb.isChecked()) {
-                        cbZfb.setChecked(false);
-                    }
-                } else if (!cbWx.isChecked()) {
-                    cbWx.setChecked(true);
-                    if (cbZfb.isChecked()) {
-                        cbZfb.setChecked(false);
-                    }
-                }
-                break;
             case R.id.ll_zfb:
                 if (cbZfb.isChecked()) {
                     cbZfb.setChecked(false);
-                    if (cbWx.isChecked()) {
-                        cbWx.setChecked(false);
-                    }
                 } else if (!cbZfb.isChecked()) {
                     cbZfb.setChecked(true);
-                    if (cbWx.isChecked()) {
-                        cbWx.setChecked(false);
-                    }
                 }
-                break;
-            case R.id.cb_wx:
                 break;
             case R.id.cb_zfb:
                 break;
             case R.id.btn_pay:
-                //支付
-                if (cbWx.isChecked() && cbZfb.isChecked()) {
-                    Toast.makeText(this, "只能选择一个应用进行支付", Toast.LENGTH_SHORT).show();
-                } else if (cbWx.isChecked() && !cbZfb.isChecked()) {
-                    Log.i(TAG, "onClick: 调用了微信支付");
-                    //微信支付
-                    wxPay();
-                } else if (cbZfb.isChecked()) {//!cbWx.isChecked() &&
+//                //支付
+//                if (cbWx.isChecked()) {//&& cbZfb.isChecked()
+//                    Toast.makeText(this, "只能选择一个应用进行支付", Toast.LENGTH_SHORT).show();
+//                } else if (cbWx.isChecked() && !cbZfb.isChecked()) {
+//                    Log.i(TAG, "onClick: 调用了微信支付");
+//                    //微信支付
+//                    wxPay();
+//                } else
+                if (cbZfb.isChecked()) {//!cbWx.isChecked() &&
                     Log.i(TAG, "onClick: 调用了支付宝支付");
+                    //从服务器获取支付宝订单信息
+                    if (orderNormal == ORDER_NORMAL) {//普通的订单
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                postOrderInfoOnServer();
+                            }
+                        }.start();
+                    } else if (orderNormal == ORDER_MAKELIST) {
+                        //开单子的订单
+                    }
                     //支付宝支付
                     aliPay();
                 }
@@ -194,12 +182,12 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
      * 支付宝支付
      */
     private void aliPay() {
-        //从服务器获取支付宝订单信息
-        if (orderNormal == ORDER_NORMAL) {//普通的订单
-            postOrderInfoOnServer();
-        } else if (orderNormal == ORDER_MAKELIST) {
-            //开单子的订单
+        try {
+            Thread.sleep(200L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+
         if (!TextUtils.isEmpty(dataAlipay)) {
             Log.i(TAG, "aliPay: 支付宝订单信息" + dataAlipay);
             Runnable payRunnable = new Runnable() {
@@ -221,7 +209,6 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
         } else {
             Toast.makeText(this, "网络繁忙，请稍后重试", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     /**
@@ -238,7 +225,7 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
         builder.add("orderId", orderId);
         builder.add("orderType", String.valueOf(orderType));
         builder.add("sign", sign);
-        builder.add("tokenUserId ", userId + "bh");
+        builder.add("tokenUserId", userId + "bh");
         builder.add("timeStamp", currentTimeMillis);
         FormBody formBody = builder.build();
         Request request = new Request.Builder()

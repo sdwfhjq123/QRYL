@@ -43,8 +43,8 @@ public class HgxqAndroidToJs {
 
     @JavascriptInterface
     public void pay(String orderId, int orderType, String price) {
-        Log.i(TAG, "pay: order_price" + price + ",order_id" + orderId + ",order_type" + orderType);
-        Toast.makeText(context, "pay: order_price" + price + ",order_id" + orderId + ",order_type" + orderType, Toast.LENGTH_LONG).show();
+        //Log.i(TAG, "pay: order_price" + price + ",order_id" + orderId + ",order_type" + orderType);
+        //Toast.makeText(context, "pay: order_price" + price + ",order_id" + orderId + ",order_type" + orderType, Toast.LENGTH_LONG).show();
         Intent intent = new Intent(context, PayActivity.class);
         intent.putExtra("order_price", price);
         intent.putExtra("order_id", orderId);

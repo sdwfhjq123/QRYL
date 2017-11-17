@@ -11,7 +11,7 @@ public class XzInfo {
     private int loginId;
     private String realName;
     private int workYears;
-    private String headShotImg;
+    private String headshotImg;
     private String professionIds;
     private int status;
     private int roleType;
@@ -19,12 +19,12 @@ public class XzInfo {
     private String departmentName;
     private String professionNames;
 
-    public XzInfo(int id, int loginId, String realName, int workYears, String headShotImg, String professionIds, int status, int roleType, String hospitalName, String departmentName, String professionNames) {
+    public XzInfo(int id, int loginId, String realName, int workYears, String headshotImg, String professionIds, int status, int roleType, String hospitalName, String departmentName, String professionNames) {
         this.id = id;
         this.loginId = loginId;
         this.realName = realName;
         this.workYears = workYears;
-        this.headShotImg = headShotImg;
+        this.headshotImg = headshotImg;
         this.professionIds = professionIds;
         this.status = status;
         this.roleType = roleType;
@@ -82,7 +82,6 @@ public class XzInfo {
     }
 
 
-
     public String getRealName() {
         return realName;
     }
@@ -99,14 +98,6 @@ public class XzInfo {
         this.workYears = workYears;
     }
 
-    public String getHeadShotImg() {
-        return headShotImg;
-    }
-
-    public void setHeadShotImg(String headShotImg) {
-        this.headShotImg = headShotImg;
-    }
-
     public String getProfessionIds() {
         return professionIds;
     }
@@ -121,5 +112,13 @@ public class XzInfo {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getHeadshotImg() {
+        return headshotImg;
+    }
+
+    public void setHeadshotImg(String headshotImg) {
+        this.headshotImg = headshotImg;
     }
 }

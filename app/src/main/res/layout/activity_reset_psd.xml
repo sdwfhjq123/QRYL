@@ -34,6 +34,8 @@
                 android:textColor="#666" />
 
             <android.support.v7.widget.AppCompatEditText
+                android:cursorVisible="true"
+                android:textCursorDrawable="@null"
                 android:id="@+id/et_tel_register"
                 style="@style/et_lab"
                 android:hint="请输入手机号"
@@ -64,6 +66,8 @@
                 android:textColor="#666" />
 
             <android.support.v7.widget.AppCompatEditText
+                android:cursorVisible="true"
+                android:textCursorDrawable="@null"
                 android:id="@+id/et_verification_register"
                 style="@style/et_lab"
                 android:layout_weight="1"
@@ -102,6 +106,8 @@
                 android:textColor="#666" />
 
             <android.support.v7.widget.AppCompatEditText
+                android:cursorVisible="true"
+                android:textCursorDrawable="@null"
                 android:id="@+id/et_psd_register"
                 style="@style/et_lab"
                 android:hint="密码为6至12个数字或字母" />
@@ -129,6 +135,8 @@
                 android:textColor="#666" />
 
             <android.support.v7.widget.AppCompatEditText
+                android:cursorVisible="true"
+                android:textCursorDrawable="@null"
                 android:id="@+id/et_psd_confirm_register"
                 style="@style/et_lab"
                 android:hint="请再次确认密码" />

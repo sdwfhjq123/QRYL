@@ -61,8 +61,6 @@ public class OrderNoPayFragment extends BaseFragment {
     private String token;
     private String resultCode;
 
-
-
     @Override
     public void loadData() {
         //请求网络数据
@@ -116,7 +114,7 @@ public class OrderNoPayFragment extends BaseFragment {
                                 //Log.i(TAG, "onResponse: " + result);
                             }
                         } else if (resultCode.equals("400")) {//错误时
-                            prefs.edit().putBoolean("is_force_offline",true).apply();
+                            prefs.edit().putBoolean("is_force_offline", true).apply();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -242,7 +240,7 @@ public class OrderNoPayFragment extends BaseFragment {
                 if (getActivity() instanceof MainActivity) {
                     //点击跳转PayActivity
                     Intent intent = new Intent(getActivity(), PayActivity.class);
-                    intent.putExtra("order_price", datas.get(position).getPrice());
+                    intent.putExtra("order_price", String.valueOf(datas.get(position).getPrice()));
                     intent.putExtra("order_id", datas.get(position).getId());
                     intent.putExtra("order_type", datas.get(position).getOrderType());
                     intent.putExtra("order_normal", ORDER_NORMAL);

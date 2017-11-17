@@ -41,7 +41,9 @@
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/et_user"
                 style="@style/et_lab"
-                android:hint="请输入用户名" />
+                android:cursorVisible="true"
+                android:hint="请输入用户名"
+                android:textCursorDrawable="@null" />
 
         </LinearLayout>
 
@@ -68,7 +70,9 @@
             <com.qryl.qryl.view.PasswordToggleEditText
                 android:id="@+id/et_psd"
                 style="@style/et_lab"
-                android:hint="请输入密码" />
+                android:cursorVisible="true"
+                android:hint="请输入密码"
+                android:textCursorDrawable="@null" />
 
         </LinearLayout>
 

@@ -168,7 +168,6 @@ public class OrderFinishedFragment extends BaseFragment {
                 super.onScrolled(recyclerView, dx, dy);
                 lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
                 if (lastVisibleItemPosition + 1 == adapter.getItemCount()) {
-
                     boolean isRefreshing = swipeRefresh.isRefreshing();
                     if (isRefreshing) {
                         page = 1;

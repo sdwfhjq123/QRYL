@@ -45,11 +45,11 @@ public class OrderFinishedAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        if (holder instanceof OrderNopayAdapter.ItemViewHolder) {
-            ((OrderFinishedAdapter.ItemViewHolder) holder).tvMoney.setText(data.get(position).getPrice() + "");
-            ((OrderFinishedAdapter.ItemViewHolder) holder).tvNote.setText(data.get(position).getNote());
-            ((OrderFinishedAdapter.ItemViewHolder) holder).tvContent.setText(data.get(position).getContent());
-            ((OrderFinishedAdapter.ItemViewHolder) holder).tvTitle.setText(data.get(position).getTitle());
+        if (holder instanceof ItemViewHolder) {
+            ((ItemViewHolder) holder).tvMoney.setText(data.get(position).getPrice() + "");
+            ((ItemViewHolder) holder).tvNote.setText(data.get(position).getNote());
+            ((ItemViewHolder) holder).tvContent.setText(data.get(position).getContent());
+            ((ItemViewHolder) holder).tvTitle.setText(data.get(position).getTitle());
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

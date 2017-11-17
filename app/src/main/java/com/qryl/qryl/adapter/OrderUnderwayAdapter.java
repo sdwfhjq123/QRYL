@@ -2,6 +2,7 @@ package com.qryl.qryl.adapter;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,15 +46,16 @@ public class OrderUnderwayAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        if (holder instanceof OrderNopayAdapter.ItemViewHolder) {
-            ((OrderUnderwayAdapter.ItemViewHolder) holder).tvMoney.setText(data.get(position).getPrice() + "");
-            ((OrderUnderwayAdapter.ItemViewHolder) holder).tvNote.setText(data.get(position).getNote());
-            ((OrderUnderwayAdapter.ItemViewHolder) holder).tvContent.setText(data.get(position).getContent());
-            ((OrderUnderwayAdapter.ItemViewHolder) holder).tvTitle.setText(data.get(position).getTitle());
+        if (holder instanceof ItemViewHolder) {
+            ((ItemViewHolder) holder).tvMoney.setText(data.get(position).getPrice() + "");
+            ((ItemViewHolder) holder).tvNote.setText(data.get(position).getNote());
+            ((ItemViewHolder) holder).tvContent.setText(data.get(position).getContent());
+            ((ItemViewHolder) holder).tvTitle.setText(data.get(position).getTitle());
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onItemClickListener.onItemClick(holder.itemView, position);
+                    Log.i(TAG, "onClick: 点击了条目" + position);
                 }
             });
         }
@@ -90,7 +92,6 @@ public class OrderUnderwayAdapter extends RecyclerView.Adapter<RecyclerView.View
             tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
             tvContent = (TextView) itemView.findViewById(R.id.tv_content);
             tvMoney = (TextView) itemView.findViewById(R.id.tv_money);
-
         }
     }
 
