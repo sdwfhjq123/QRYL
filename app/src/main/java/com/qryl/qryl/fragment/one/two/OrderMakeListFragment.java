@@ -3,29 +3,20 @@ package com.qryl.qryl.fragment.one.two;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
-import com.alipay.sdk.app.PayTask;
 import com.google.gson.Gson;
 import com.qryl.qryl.R;
 import com.qryl.qryl.VO.MakeList.DataArea;
 import com.qryl.qryl.VO.MakeList.MakeList;
-import com.qryl.qryl.VO.OrderVO.Order;
-import com.qryl.qryl.VO.OrderVO.OrderInfoArea;
 import com.qryl.qryl.activity.H5.MakeListActivity;
-import com.qryl.qryl.activity.H5.OrderInfoActivity;
 import com.qryl.qryl.activity.MainActivity;
 import com.qryl.qryl.activity.PayActivity;
-import com.qryl.qryl.activity.login.LoginActivity;
 import com.qryl.qryl.adapter.OrderMakeListAdapter;
-import com.qryl.qryl.adapter.OrderNopayAdapter;
-import com.qryl.qryl.fragment.one.two.BaseFragment;
 import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.EncryptionByMD5;
 
@@ -35,7 +26,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;

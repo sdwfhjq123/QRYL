@@ -7,9 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 
-import com.qryl.qryl.VO.OrderVO.Order;
-import com.qryl.qryl.activity.H5.OrderInfoActivity;
-import com.qryl.qryl.activity.MainActivity;
+import com.qryl.qryl.activity.H5.MakeListActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,10 +54,11 @@ public class MyReceiver extends BroadcastReceiver {
             JSONObject jsonObject = new JSONObject(result);
             int prescribeId = jsonObject.getInt("prescribeId");
             // 在这里可以自己写代码去定义用户点击后的行为
-            Intent i = new Intent(context, OrderInfoActivity.class);  //自定义打开的界面
+            Intent i = new Intent(context, MakeListActivity.class);  //自定义打开的界面
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             i.putExtra("prescribeId", prescribeId);
-            //context.startActivity(i);
+            Log.i(TAG, "prescribeId: " + prescribeId);
+            context.startActivity(i);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -202,8 +202,8 @@
         <activity android:name=".activity.H5.LocationActivity" />
         <activity android:name=".activity.H5.XzxqActivity" />
         <activity android:name=".activity.H5.XzServicexqActivity" />
-        <activity android:name=".activity.H5.OrderInfoActivity" />
         <activity android:name=".activity.H5.MakeListActivity" />
+        <activity android:name=".activity.H5.OrderInfoActivity" />
         <activity android:name=".activity.PayActivity" />
 
 

@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/QRYL.iml" filepath="$PROJECT_DIR$/QRYL.iml" />
+      <module fileurl="file://F:\AndroidStudioProjects\QRYL\QRYL.iml" filepath="F:\AndroidStudioProjects\QRYL\QRYL.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://F:\AndroidStudioProjects\QRYL\app\app.iml" filepath="F:\AndroidStudioProjects\QRYL\app\app.iml" />
     </modules>
   </component>
 </project>

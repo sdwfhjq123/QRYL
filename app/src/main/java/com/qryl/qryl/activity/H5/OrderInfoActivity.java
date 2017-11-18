@@ -26,7 +26,7 @@ public class OrderInfoActivity extends BaseActivity {
 
     private ProgressWebview webview;
     private String userId;
-    private String orderId;
+    private int orderId;
     private int orderType;
 
     public static void actionStart(Context context, String params, int params2) {
@@ -41,8 +41,8 @@ public class OrderInfoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         Intent intent = getIntent();
-        orderId = intent.getStringExtra("orderId");
-        orderType = intent.getIntExtra("orderType", 0);
+        orderId = intent.getIntExtra("orderId", 0);
+        orderType = intent.getIntExtra("orderType", 1);
         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
         Log.i(TAG, "onCreate: " + userId);
@@ -58,7 +58,7 @@ public class OrderInfoActivity extends BaseActivity {
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
         webSettings.setDatabasePath(OrderInfoActivity.this.getApplicationContext().getCacheDir().getAbsolutePath());
-        webview.addJavascriptInterface(new HgxqAndroidToJs(this,this), "qrylhg");
+        webview.addJavascriptInterface(new HgxqAndroidToJs(this, this), "qrylhg");
         webview.setWebViewClient(new WebViewClient() {
 
             @Override

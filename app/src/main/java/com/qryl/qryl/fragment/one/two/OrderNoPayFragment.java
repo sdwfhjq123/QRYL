@@ -16,7 +16,6 @@ import com.google.gson.Gson;
 import com.qryl.qryl.R;
 import com.qryl.qryl.VO.OrderVO.Order;
 import com.qryl.qryl.VO.OrderVO.OrderInfoArea;
-import com.qryl.qryl.activity.H5.OrderInfoActivity;
 import com.qryl.qryl.activity.MainActivity;
 import com.qryl.qryl.activity.PayActivity;
 import com.qryl.qryl.adapter.OrderNopayAdapter;
