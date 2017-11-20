@@ -71,7 +71,7 @@ public class MyServiceFragment extends BaseFragment {
     /**
      * 解析json
      *
-     * @param result
+     * @param result 获取的网络数据
      */
     private void handleJson(String result) {
         Gson gson = new Gson();

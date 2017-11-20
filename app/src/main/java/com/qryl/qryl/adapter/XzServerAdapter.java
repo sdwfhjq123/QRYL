@@ -1,5 +1,6 @@
 package com.qryl.qryl.adapter;
 
+import android.annotation.SuppressLint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.qryl.qryl.R;
@@ -49,11 +49,11 @@ public class XzServerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         if (holder instanceof ItemViewHolder) {
             Glide.with(UIUtils.getContext()).load(ConstantValue.URL + datas.get(position).getHeadshotImg()).into(((ItemViewHolder) holder).ivHeadItem);
             ((ItemViewHolder) holder).tvNameItem.setText(datas.get(position).getRealName());
-            ((ItemViewHolder) holder).tvExperienceItem.setText(datas.get(position).getWorkYears() + "");
+            ((ItemViewHolder) holder).tvExperienceItem.setText(String.valueOf(datas.get(position).getWorkYears()));
             ((ItemViewHolder) holder).tvBeGoodAtItem.setText(datas.get(position).getProfessionNames());
             ((ItemViewHolder) holder).tvHospital.setText(datas.get(position).getHospitalName());
             ((ItemViewHolder) holder).tvDepartment.setText(datas.get(position).getDepartmentName());
@@ -94,7 +94,7 @@ public class XzServerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     class FooterViewHolder extends RecyclerView.ViewHolder {
 
-        public FooterViewHolder(View itemView) {
+        FooterViewHolder(View itemView) {
             super(itemView);
         }
     }
@@ -110,7 +110,7 @@ public class XzServerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         TextView tvHospital;
         TextView tvDepartment;
 
-        public ItemViewHolder(View itemView) {
+        ItemViewHolder(View itemView) {
             super(itemView);
             rlRootItem = (RelativeLayout) itemView;
             ivHeadItem = (ImageView) itemView.findViewById(R.id.iv_head_item);
@@ -129,7 +129,6 @@ public class XzServerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
 
-        void onDeleteItemClick(View view, int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {

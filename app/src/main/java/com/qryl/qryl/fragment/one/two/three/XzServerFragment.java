@@ -84,7 +84,7 @@ public class XzServerFragment extends BaseFragment {
     /**
      * 处理获取下来的json
      *
-     * @param result
+     * @param result 获取的网络数据
      */
     private void handleJson(String result) {
         Gson gson = new Gson();
@@ -171,10 +171,6 @@ public class XzServerFragment extends BaseFragment {
                 startActivity(intent);
             }
 
-            @Override
-            public void onDeleteItemClick(View view, int position) {
-
-            }
         });
         return view;
     }

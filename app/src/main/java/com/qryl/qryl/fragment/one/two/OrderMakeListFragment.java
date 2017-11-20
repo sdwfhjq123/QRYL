@@ -67,7 +67,6 @@ public class OrderMakeListFragment extends BaseFragment {
      * 请求网络数据
      */
     private void postData(final String page) {
-        Log.i(TAG, "postData: userId" + userId);
         String currentTimeMillis = String.valueOf(System.currentTimeMillis());
         byte[] bytes = ("/test/order/getPrescribeList-" + token + "-" + currentTimeMillis).getBytes();
         String sign = EncryptionByMD5.getMD5(bytes);
@@ -76,7 +75,7 @@ public class OrderMakeListFragment extends BaseFragment {
 //        builder.add("puId", userId);//动态获取，需要写缓存
         builder.add("puId", userId);//动态获取，需要写缓存
         builder.add("page", page);
-        builder.add("limit", "1");
+        builder.add("limit", "3");
         builder.add("sign", sign);
         builder.add("tokenUserId", userId + "bh");
         builder.add("timeStamp", currentTimeMillis);
@@ -94,21 +93,17 @@ public class OrderMakeListFragment extends BaseFragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String result = response.body().string();
-                Log.i(TAG, "开单子获取的数据 " + result);
-                Log.i(TAG, "onResponse: 页数" + page);
                 //判断data里面resultCode是否有500然后判断是否有数据或者
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     String resultCode = jsonObject.getString("resultCode");
-                    if (resultCode.equals("500")) {
-                        return;
-                    } else if (resultCode.equals("200")) {
+                    if (resultCode.equals("200")) {
                         JSONObject data = jsonObject.getJSONObject("data");
                         if (data != null) {
                             handleJson(result);
                         }
-                    }else if (resultCode.equals("400")) {//错误时
-                        prefs.edit().putBoolean("is_force_offline",true).apply();
+                    } else if (resultCode.equals("400")) {//错误时
+                        prefs.edit().putBoolean("is_force_offline", true).apply();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -123,12 +118,12 @@ public class OrderMakeListFragment extends BaseFragment {
      * @param result
      */
     private void handleJson(String result) {
+        Log.i(TAG, "开单子写病历的数据" + result);
         Gson gson = new Gson();
         MakeList makeList = gson.fromJson(result, MakeList.class);
-        final List<DataArea> data = makeList.getData().getData();
+        List<DataArea> data = makeList.getData().getData();
         for (int i = 0; i < data.size(); i++) {
             datas.add(data.get(i));
-            Log.i(TAG, "run: 是否存储了drug" + datas.get(i).getDrugsList().get(i).getDrugName());
         }
         if (getActivity() instanceof MainActivity) {
             getActivity().runOnUiThread(new Runnable() {
@@ -176,7 +171,6 @@ public class OrderMakeListFragment extends BaseFragment {
                     if (!isLoading) {
                         isLoading = true;
                         page += 1;
-                        Log.i(TAG, "onScrolled: page=" + page);
                         postData(String.valueOf(page));
                         isLoading = false;
                     }
@@ -194,7 +188,6 @@ public class OrderMakeListFragment extends BaseFragment {
         adapter.setOnItemClickListener(new OrderMakeListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Log.i(TAG, "onItemClick: 点击了订单列表" + position);
                 if (getActivity() instanceof MainActivity) {
                     if (getActivity() instanceof MainActivity) {
                         //启动h5开单子详情

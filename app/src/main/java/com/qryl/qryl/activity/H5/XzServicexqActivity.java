@@ -1,5 +1,6 @@
 package com.qryl.qryl.activity.H5;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -40,6 +41,7 @@ public class XzServicexqActivity extends BaseActivity {
         initView();
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private void initView() {
         webview = (ProgressWebview) findViewById(R.id.webview);
         WebSettings webSettings = webview.getSettings();
@@ -58,14 +60,6 @@ public class XzServicexqActivity extends BaseActivity {
         });
         webview.loadUrl(URL);
     }
-
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if ((keyCode == KEYCODE_BACK) && webview.canGoBack()) {
-//            webview.goBack();
-//            return true;
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
 
     @Override
     protected void onDestroy() {

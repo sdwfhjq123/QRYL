@@ -2,13 +2,11 @@ package com.qryl.qryl.fragment.one.two;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -19,13 +17,16 @@ import com.qryl.qryl.activity.MainActivity;
 import com.qryl.qryl.adapter.OrderUnderwayAdapter;
 import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.EncryptionByMD5;
+import com.qryl.qryl.util.HttpUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -64,7 +65,6 @@ public class OrderUnderwayFragment extends BaseFragment {
      * 请求网络数据
      */
     private void postData(final String page) {
-        Log.i(TAG, "postData: userId" + userId);
         String currentTimeMillis = String.valueOf(System.currentTimeMillis());
         byte[] bytes = ("/test/order/getOrderListByStatus-" + token + "-" + currentTimeMillis).getBytes();
         String sign = EncryptionByMD5.getMD5(bytes);
@@ -107,7 +107,7 @@ public class OrderUnderwayFragment extends BaseFragment {
                                 //Log.i(TAG, "onResponse: " + result);
                             }
                         } else if (resultCode.equals("400")) {//错误时
-                            prefs.edit().putBoolean("is_force_offline",true).apply();
+                            prefs.edit().putBoolean("is_force_offline", true).apply();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -123,7 +123,6 @@ public class OrderUnderwayFragment extends BaseFragment {
      * @param result
      */
     private void handleJson(String result) {
-        Log.i(TAG, "handleJson: 进行中得到的"+result);
         Gson gson = new Gson();
         Order order = gson.fromJson(result, Order.class);
         List<OrderInfoArea> data = order.getData().getData();
@@ -179,7 +178,6 @@ public class OrderUnderwayFragment extends BaseFragment {
                     if (!isLoading) {
                         isLoading = true;
                         page += 1;
-                        Log.i(TAG, "onScrolled: page=" + page);
                         postData(String.valueOf(page));
                         isLoading = false;
                     }
@@ -192,6 +190,49 @@ public class OrderUnderwayFragment extends BaseFragment {
                 page = 1;
                 datas.clear();
                 postData(String.valueOf(1));
+            }
+        });
+
+        adapter.setOnItemClickListener(new OrderUnderwayAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Log.i(TAG, "onItemClick: " + datas.get(position).getOrderType());
+            }
+
+            @Override
+            public void onFinishItemClick(View view, final int position) {//结束服务
+                Toast.makeText(getActivity(), "此服务已成功结束", Toast.LENGTH_SHORT).show();
+                Map<String, String> map = new HashMap<>();
+                map.put("puId", userId);
+                map.put("orderId", datas.get(position).getId());
+                HttpUtil.postAsyn(ConstantValue.URL + "/order/finishCarerOrder", map, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        String result = response.body().string();
+                        try {
+                            JSONObject jsonObject = new JSONObject(result);
+                            String resultCode = jsonObject.getString("resultCode");
+                            if (resultCode.equals("200")) {
+                                if (getActivity() instanceof MainActivity) {
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            datas.remove(position);
+                                            adapter.notifyDataSetChanged();
+                                        }
+                                    });
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
             }
         });
         return view;

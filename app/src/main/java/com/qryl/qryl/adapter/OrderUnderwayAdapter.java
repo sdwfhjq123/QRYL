@@ -1,11 +1,12 @@
 package com.qryl.qryl.adapter;
 
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.annotation.SuppressLint;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.qryl.qryl.R;
@@ -45,12 +46,26 @@ public class OrderUnderwayAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         if (holder instanceof ItemViewHolder) {
             ((ItemViewHolder) holder).tvMoney.setText(String.valueOf(data.get(position).getPrice()));
             ((ItemViewHolder) holder).tvNote.setText(data.get(position).getNote());
             ((ItemViewHolder) holder).tvContent.setText(data.get(position).getContent());
             ((ItemViewHolder) holder).tvTitle.setText(data.get(position).getTitle());
+
+            if (data.get(position).getOrderType() == 0) {//如果是护工订单,让其显示
+                ((ItemViewHolder) holder).btnFinishService.setVisibility(View.VISIBLE);
+                ((ItemViewHolder) holder).btnFinishService.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //结束护工服务的按钮
+                        onItemClickListener.onFinishItemClick(v, position);
+                    }
+                });
+            } else if (data.get(position).getOrderType() == 1 || data.get(position).getOrderType() == 2) {
+                ((ItemViewHolder) holder).btnFinishService.setVisibility(View.GONE);
+            }
+
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -85,19 +100,21 @@ public class OrderUnderwayAdapter extends RecyclerView.Adapter<RecyclerView.View
         TextView tvTitle;
         TextView tvContent;
         TextView tvMoney;
+        Button btnFinishService;
 
-        public ItemViewHolder(View itemView) {
+        ItemViewHolder(View itemView) {
             super(itemView);
             tvNote = (TextView) itemView.findViewById(R.id.tv_note);
             tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
             tvContent = (TextView) itemView.findViewById(R.id.tv_content);
             tvMoney = (TextView) itemView.findViewById(R.id.tv_money);
+            btnFinishService = (Button) itemView.findViewById(R.id.btn_finish_service);
         }
     }
 
     static class FooterViewHolder extends RecyclerView.ViewHolder {
 
-        public FooterViewHolder(View itemView) {
+        FooterViewHolder(View itemView) {
             super(itemView);
         }
     }
@@ -107,7 +124,7 @@ public class OrderUnderwayAdapter extends RecyclerView.Adapter<RecyclerView.View
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
 
-        void onDeleteItemClick(View view, int position);
+        void onFinishItemClick(View view, int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {

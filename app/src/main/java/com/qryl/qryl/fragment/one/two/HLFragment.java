@@ -1,5 +1,6 @@
 package com.qryl.qryl.fragment.one.two;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -139,7 +140,7 @@ public class HLFragment extends Fragment {
     /**
      * 解析json
      *
-     * @param result
+     * @param result 获取的网络的数据
      */
     private void handleJson(String result) {
         try {
@@ -181,7 +182,7 @@ public class HLFragment extends Fragment {
     /**
      * 加载布局
      *
-     * @param view
+     * @param view fragment
      */
     private void initView(View view) {
         mDropDownMenu = (DropDownMenu) view.findViewById(R.id.dropDownMenu);
@@ -234,6 +235,7 @@ public class HLFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 timeSelectorEnd = new TimeSelector(getActivity(), new TimeSelector.ResultHandler() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void handle(String time) {
                         tvTime.setText(time + ":00");
@@ -248,6 +250,7 @@ public class HLFragment extends Fragment {
                 timeSelectorEnd.show();
 
                 timeSelectorStart = new TimeSelector(getActivity(), new TimeSelector.ResultHandler() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void handle(String time) {
                         tvTime.setText(time + ":00");
@@ -332,12 +335,16 @@ public class HLFragment extends Fragment {
     }
 
     private void assessValueOfSex(String position) {
-        if (position.equals("男")) {
-            gender = String.valueOf(0);
-        } else if (position.equals("女")) {
-            gender = String.valueOf(1);
-        } else if (position.equals("不限")) {
-            gender = "";
+        switch (position) {
+            case "男":
+                gender = String.valueOf(0);
+                break;
+            case "女":
+                gender = String.valueOf(1);
+                break;
+            case "不限":
+                gender = "";
+                break;
         }
         page = 1;
         datas.clear();
@@ -346,14 +353,19 @@ public class HLFragment extends Fragment {
 
     private void assessValueOfWork(String position) {
         //private String[] workTimes = {"不限", "8小时", "12小时", "24小时"};
-        if (position.equals("不限")) {
-            hours = "";
-        } else if (position.equals("8小时")) {
-            hours = String.valueOf("8");
-        } else if (position.equals("12小时")) {
-            hours = String.valueOf("12");
-        } else if (position.equals("24小时")) {
-            hours = String.valueOf("24");
+        switch (position) {
+            case "不限":
+                hours = "";
+                break;
+            case "8小时":
+                hours = String.valueOf("8");
+                break;
+            case "12小时":
+                hours = String.valueOf("12");
+                break;
+            case "24小时":
+                hours = String.valueOf("24");
+                break;
         }
         page = 1;
         datas.clear();
@@ -361,6 +373,7 @@ public class HLFragment extends Fragment {
     }
 
     public String getCurrentTime() {
+        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss");
         String date = sDateFormat.format(new java.util.Date());
         Toast.makeText(getActivity(), date, Toast.LENGTH_SHORT).show();

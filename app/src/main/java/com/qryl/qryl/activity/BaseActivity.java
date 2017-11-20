@@ -1,5 +1,6 @@
 package com.qryl.qryl.activity;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,10 +16,8 @@ import com.qryl.qryl.activity.login.LoginActivity;
 import com.qryl.qryl.util.ActivityCollector;
 
 
-/**
- * Created by yinhao on 2017/10/11.
- */
 
+@SuppressLint("Registered")
 public class BaseActivity extends AppCompatActivity {
 
     private ForceOfflineReceiver receiver;
@@ -81,9 +80,9 @@ public class BaseActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     SharedPreferences prefsUserId = context.getSharedPreferences("user_id", Context.MODE_PRIVATE);
-                    prefsUserId.edit().clear().commit();
+                    prefsUserId.edit().clear().apply();
                     SharedPreferences prefsImg = context.getSharedPreferences("image", Context.MODE_PRIVATE);
-                    prefsImg.edit().clear().commit();
+                    prefsImg.edit().clear().apply();
                     ActivityCollector.finishAll();
                     Intent intent = new Intent(context, LoginActivity.class);
                     context.startActivity(intent);
@@ -105,9 +104,9 @@ public class BaseActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     SharedPreferences prefsUserId = context.getSharedPreferences("user_id", Context.MODE_PRIVATE);
-                    prefsUserId.edit().clear().commit();
+                    prefsUserId.edit().clear().apply();
                     SharedPreferences prefsImg = context.getSharedPreferences("image", Context.MODE_PRIVATE);
-                    prefsImg.edit().clear().commit();
+                    prefsImg.edit().clear().apply();
                     ActivityCollector.finishAll();
                     Intent intent = new Intent(context, LoginActivity.class);
                     context.startActivity(intent);

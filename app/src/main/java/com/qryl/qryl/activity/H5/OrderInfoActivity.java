@@ -1,12 +1,10 @@
 package com.qryl.qryl.activity.H5;
 
-import android.app.Activity;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -25,7 +23,6 @@ public class OrderInfoActivity extends BaseActivity {
     private static final String URL_MY = ConstantValue.URL_H5 + "/medical/order_details_motherBaby.html";
 
     private ProgressWebview webview;
-    private String userId;
     private int orderId;
     private int orderType;
 
@@ -44,11 +41,11 @@ public class OrderInfoActivity extends BaseActivity {
         orderId = intent.getIntExtra("orderId", 0);
         orderType = intent.getIntExtra("orderType", 1);
         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
-        userId = prefs.getString("user_id", "");
-        Log.i(TAG, "onCreate: " + userId);
+        String userId = prefs.getString("user_id", "");
         initView();
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private void initView() {
         webview = (ProgressWebview) findViewById(R.id.webview);
         WebSettings webSettings = webview.getSettings();

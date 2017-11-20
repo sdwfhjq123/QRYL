@@ -2,14 +2,10 @@ package com.qryl.qryl.fragment.one.two;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.qryl.qryl.R;
@@ -17,7 +13,6 @@ import com.qryl.qryl.VO.OrderVO.Order;
 import com.qryl.qryl.VO.OrderVO.OrderInfoArea;
 import com.qryl.qryl.activity.MainActivity;
 import com.qryl.qryl.adapter.OrderFinishedAdapter;
-import com.qryl.qryl.adapter.OrderUnderwayAdapter;
 import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.EncryptionByMD5;
 
@@ -41,9 +36,8 @@ import okhttp3.Response;
 
 public class OrderFinishedFragment extends BaseFragment {
 
-    private static final String TAG = "OrderFinishedFragment";
+    //private static final String TAG = "OrderFinishedFragment";
 
-    private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefresh;
 
     private List<OrderInfoArea> datas = new ArrayList<>();
@@ -65,7 +59,6 @@ public class OrderFinishedFragment extends BaseFragment {
      * 请求网络数据
      */
     private void postData(final String page) {
-        Log.i(TAG, "postData: userId" + userId);
         String currentTimeMillis = String.valueOf(System.currentTimeMillis());
         byte[] bytes = ("/test/order/getOrderListByStatus-" + token + "-" + currentTimeMillis).getBytes();
         String sign = EncryptionByMD5.getMD5(bytes);
@@ -99,9 +92,7 @@ public class OrderFinishedFragment extends BaseFragment {
                     try {
                         JSONObject jsonObject = new JSONObject(result);
                         String resultCode = jsonObject.getString("resultCode");
-                        if (resultCode.equals("500")) {
-                            return;
-                        } else if (resultCode.equals("200")) {
+                        if (resultCode.equals("200")) {
                             JSONObject data = jsonObject.getJSONObject("data");
                             if (data != null) {
                                 handleJson(result);
@@ -153,7 +144,7 @@ public class OrderFinishedFragment extends BaseFragment {
         token = prefs.getString("token", "");
         View view = View.inflate(getActivity(), R.layout.fragment_order_container, null);
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -177,7 +168,6 @@ public class OrderFinishedFragment extends BaseFragment {
                     if (!isLoading) {
                         isLoading = true;
                         page += 1;
-                        Log.i(TAG, "onScrolled: page=" + page);
                         postData(String.valueOf(page));
                         isLoading = false;
                     }

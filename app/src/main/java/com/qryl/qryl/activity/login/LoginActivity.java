@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,11 +21,9 @@ import com.qryl.qryl.activity.MainActivity;
 import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.view.PasswordToggleEditText;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.security.MessageDigest;
 
 import cn.jpush.android.api.JPushInterface;
 import okhttp3.Call;
@@ -39,9 +35,6 @@ import okhttp3.Response;
 
 public class LoginActivity extends BaseActivity {
 
-    private static final String TAG = "LoginActivity";
-
-    private RelativeLayout rlIsCheck;//相对布局包裹tv和cb
     private PasswordToggleEditText etPsd;//输入密码
     private AppCompatEditText etUser;//输入用户名
     private CheckBox cbAuto;
@@ -58,16 +51,11 @@ public class LoginActivity extends BaseActivity {
         initView();
         //自动登录逻辑
         prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
-        String userId = prefs.getString("user_id", "");
-        if (prefs.getBoolean("is_auto_login", false) == true) {
-            Log.i(TAG, "onCreate: 得到的cb的值" + prefs.getBoolean("is_auto_login", false));
+        if (prefs.getBoolean("is_auto_login", false)) {
             cbAuto.setChecked(true);
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
-        } else if (prefs.getBoolean("is_auto_login", false) == false) {
-            Log.i(TAG, "onCreate: 得到的cb的值" + prefs.getBoolean("is_auto_login", false));
-            return;
         }
 
     }
@@ -75,7 +63,6 @@ public class LoginActivity extends BaseActivity {
     private void initView() {
         //隐藏标题部分控件
         hiddenView();
-        rlIsCheck = (RelativeLayout) findViewById(R.id.rl_isCheck);
         etPsd = (PasswordToggleEditText) findViewById(R.id.et_psd);
         etUser = (AppCompatEditText) findViewById(R.id.et_user);
         cbAuto = (CheckBox) findViewById(R.id.cb_auto_login);
@@ -89,7 +76,6 @@ public class LoginActivity extends BaseActivity {
                 if (cbAuto.isChecked()) {
                     cbAuto.setChecked(true);
                     prefs.edit().putBoolean("is_auto_login", cbAuto.isChecked()).apply();
-                    Log.i(TAG, "保存checkbox状态:" + cbAuto.isChecked());
                 } else {
                     cbAuto.setChecked(false);
                     prefs.edit().clear().apply();
@@ -116,7 +102,6 @@ public class LoginActivity extends BaseActivity {
                     String user = etUser.getText().toString();
                     //注册极光唯一registrationId
                     registrationID = JPushInterface.getRegistrationID(LoginActivity.this);
-                    Log.i(TAG, "登录时需要提交的registrationID: " + registrationID);
 
                     if (!TextUtils.isEmpty(psd) && !TextUtils.isEmpty(user)) {
                         postData(user, psd);
@@ -139,8 +124,8 @@ public class LoginActivity extends BaseActivity {
     /**
      * 请求网络
      *
-     * @param user
-     * @param psd
+     * @param user 用户输入的登录的id
+     * @param psd  用户输入的登录的密码
      */
     private void postData(String user, String psd) {
         progressDialog = new ProgressDialog(this);
@@ -172,14 +157,12 @@ public class LoginActivity extends BaseActivity {
             public void onResponse(Call call, final Response response) {
                 try {
                     String result = response.body().string();
-                    Log.i(TAG, "onResponse: 登陆后返回的数据" + result);
                     JSONObject jsonObject = new JSONObject(result);
                     String resultCode = jsonObject.getString("resultCode");
                     if (resultCode.equals("200")) {
                         JSONObject data = jsonObject.getJSONObject("data");
                         id = data.getInt("loginId");
                         token = data.getString("token");
-                        Log.i(TAG, "onResponse: token" + token);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -190,7 +173,6 @@ public class LoginActivity extends BaseActivity {
                                 prefs.edit().putString("user_id", String.valueOf(id)).apply();
                                 prefs.edit().putString("token", token).apply();
                                 prefs.edit().putBoolean("is_force_offline", false).apply();
-                                Log.i(TAG, "run: Token:" + token);
                                 Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);

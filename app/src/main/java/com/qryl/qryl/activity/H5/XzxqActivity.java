@@ -1,14 +1,11 @@
 package com.qryl.qryl.activity.H5;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.webkit.ValueCallback;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -19,7 +16,6 @@ import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.HgxqAndroidToJs;
 import com.qryl.qryl.view.ProgressWebview;
 
-import static android.view.KeyEvent.KEYCODE_BACK;
 
 public class XzxqActivity extends BaseActivity {
     private static final String TAG = "XzxqActivity";
@@ -65,6 +61,7 @@ public class XzxqActivity extends BaseActivity {
         initView();
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private void initView() {
         webview = (ProgressWebview) findViewById(R.id.webview);
         WebSettings webSettings = webview.getSettings();
@@ -90,17 +87,7 @@ public class XzxqActivity extends BaseActivity {
         } else if (type == 4) {
             webview.loadUrl(URL_MY);
         }
-        // webview.loadUrl(URL_XZ);
-
     }
-
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if ((keyCode == KEYCODE_BACK) && webview.canGoBack()) {
-//            webview.goBack();
-//            return true;
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
 
     @Override
     protected void onDestroy() {

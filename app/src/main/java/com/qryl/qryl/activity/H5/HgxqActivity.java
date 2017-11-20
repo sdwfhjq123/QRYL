@@ -1,14 +1,10 @@
 package com.qryl.qryl.activity.H5;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.webkit.ValueCallback;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -19,10 +15,8 @@ import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.HgxqAndroidToJs;
 import com.qryl.qryl.view.ProgressWebview;
 
-import static android.view.KeyEvent.KEYCODE_BACK;
 
 public class HgxqActivity extends BaseActivity {
-    private static final String TAG = "HgxqActivity";
     private static final String URL = ConstantValue.URL_H5 + "/patient/carer_details.html";
     private ProgressWebview webview;
     /**
@@ -49,10 +43,10 @@ public class HgxqActivity extends BaseActivity {
         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
         token = prefs.getString("token", "");
-        Log.i(TAG, "用户的id:" + userId + ",点击的护士的id:" + id + ",医护端登录的id" + loginId);
         initView();
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private void initView() {
         webview = (ProgressWebview) findViewById(R.id.webview);
         WebSettings webSettings = webview.getSettings();
@@ -73,14 +67,6 @@ public class HgxqActivity extends BaseActivity {
         });
         webview.loadUrl(URL);
     }
-
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if ((keyCode == KEYCODE_BACK) && webview.canGoBack()) {
-//            webview.goBack();
-//            return true;
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
 
     @Override
     protected void onDestroy() {

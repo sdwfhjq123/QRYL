@@ -42,7 +42,7 @@ import okhttp3.Response;
 
 public class OrderNoPayFragment extends BaseFragment {
 
-    private static final String TAG = "OrderNoPayFragment";
+    //private static final String TAG = "OrderNoPayFragment";
 
     private static final int ORDER_NORMAL = 111;
     private static final int ORDER_MAKELIST = 222;
@@ -70,7 +70,6 @@ public class OrderNoPayFragment extends BaseFragment {
      * 请求网络数据
      */
     private void postData(final String page) {
-        Log.i(TAG, "postData: userId" + userId);
         String currentTimeMillis = String.valueOf(System.currentTimeMillis());
         byte[] bytes = ("/test/order/getOrderListByStatus-" + token + "-" + currentTimeMillis).getBytes();
         String sign = EncryptionByMD5.getMD5(bytes);
@@ -181,7 +180,6 @@ public class OrderNoPayFragment extends BaseFragment {
                     if (!isLoading) {
                         isLoading = true;
                         page += 1;
-                        Log.i(TAG, "onScrolled: page=" + page);
                         postData(String.valueOf(page));
                         isLoading = false;
                     }
@@ -201,7 +199,6 @@ public class OrderNoPayFragment extends BaseFragment {
         adapter.setOnItemClickListener(new OrderNopayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Log.i(TAG, "onItemClick: 点击了订单列表" + position);
                 if (getActivity() instanceof MainActivity) {
                     //OrderInfoActivity.actionStart(getActivity(), datas.get(position).getId(), datas.get(position).getOrderType());
                     Toast.makeText(getActivity(), datas.get(position).getId(), Toast.LENGTH_SHORT).show();
@@ -275,7 +272,6 @@ public class OrderNoPayFragment extends BaseFragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String result = response.body().string();
-                Log.i(TAG, "onResponse: 删除订单接口后的回调数据" + result);
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     String resultCode = jsonObject.getString("resultCode");

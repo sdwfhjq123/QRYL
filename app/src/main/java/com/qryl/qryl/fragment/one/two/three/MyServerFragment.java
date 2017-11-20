@@ -171,11 +171,6 @@ public class MyServerFragment extends BaseFragment {
                 intent.putExtra("list_id", listId);
                 startActivity(intent);
             }
-
-            @Override
-            public void onDeleteItemClick(View view, int position) {
-
-            }
         });
         return view;
     }

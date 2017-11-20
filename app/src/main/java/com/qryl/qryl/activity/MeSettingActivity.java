@@ -1,6 +1,6 @@
 package com.qryl.qryl.activity;
 
-import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,12 +16,11 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -37,7 +36,6 @@ import com.bumptech.glide.Glide;
 import com.qryl.qryl.R;
 import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.DialogUtil;
-import com.qryl.qryl.util.HttpUtil;
 import com.qryl.qryl.view.MyAlertDialog;
 
 import org.json.JSONException;
@@ -63,15 +61,23 @@ public class MeSettingActivity extends BaseActivity {
 
     private static final String TAG = "MeSettingActivity";
 
-    private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE};
-
-    private TextView tvTitle;
     private TextView tvReturn;
 
-    private TextView tvName, tvIdentity, tvGender, tvTel, tvLocation, tvYbh, tvStature, tvWeight;
-    private RelativeLayout myHead, realName, identity, gender, tel, location, ybh, stature, weight;
+    private TextView tvName;
+    private TextView tvIdentity;
+    private TextView tvGender;
+    private TextView tvTel;
+    private TextView tvYbh;
+    private TextView tvStature;
+    private TextView tvWeight;
+    private RelativeLayout myHead;
+    private RelativeLayout realName;
+    private RelativeLayout identity;
+    private RelativeLayout gender;
+    private RelativeLayout tel;
+    private RelativeLayout ybh;
+    private RelativeLayout stature;
+    private RelativeLayout weight;
 
     private static final int TAKE_PHOTO = 1;
     private static final int CHOOSE_PHOTO = 2;
@@ -94,12 +100,15 @@ public class MeSettingActivity extends BaseActivity {
     private String userId;
     private SharedPreferences sp;
 
+    public MeSettingActivity() {
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_me_setting);
         sp = getSharedPreferences("image", Context.MODE_PRIVATE);
-        sp.edit().putString(HEAD_KEY, "").commit();
+        sp.edit().putString(HEAD_KEY, "").apply();
 
         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
@@ -159,12 +168,12 @@ public class MeSettingActivity extends BaseActivity {
                     public void run() {
                         tvCustomId.setText(userName);
                         tvYbh.setText(healthCareNum);
-                        Glide.with(MeSettingActivity.this).load(ConstantValue.URL + headshotImg).skipMemoryCache(true).thumbnail(0.1f).into(civHead);
+                        Glide.with(MeSettingActivity.this).load(ConstantValue.URL + headshotImg).thumbnail(0.1f).into(civHead);
                         tvTel.setText(mobile);
                         tvName.setText(realName);
                         tvIdentity.setText(idNum);
-                        tvWeight.setText(weight + "");
-                        tvStature.setText(height + "");
+                        tvWeight.setText(String.valueOf(weight));
+                        tvStature.setText(String.valueOf(height));
                         tvGender.setText(gender == 0 ? "男" : "女");
                     }
                 });
@@ -311,6 +320,7 @@ public class MeSettingActivity extends BaseActivity {
         });
         //我的身高
         stature.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
                 View view = View.inflate(MeSettingActivity.this, R.layout.text_item_dialog_num, null);
@@ -332,6 +342,7 @@ public class MeSettingActivity extends BaseActivity {
         });
         //我的体重
         weight.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
                 View view = View.inflate(MeSettingActivity.this, R.layout.text_item_dialog_num, null);
@@ -452,7 +463,7 @@ public class MeSettingActivity extends BaseActivity {
         Button btnPopCancel = (Button) popView.findViewById(R.id.btn_pop_cancel);
         //获取屏幕宽高
         int widthPixels = getResources().getDisplayMetrics().widthPixels;
-        int heightPixels = getResources().getDisplayMetrics().heightPixels * 1 / 3;
+        int heightPixels = getResources().getDisplayMetrics().heightPixels / 3;
         final PopupWindow popupWindow = new PopupWindow(popView, widthPixels, heightPixels);
         popupWindow.setAnimationStyle(R.style.anim_popup_dir);
         popupWindow.setFocusable(true);
@@ -611,6 +622,7 @@ public class MeSettingActivity extends BaseActivity {
         displayImage(imagePath);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void handleImageOnKitKat(Intent data) {
         String imagePath = null;
         Uri uri = data.getData();
@@ -703,7 +715,7 @@ public class MeSettingActivity extends BaseActivity {
     }
 
     private void initView() {
-        tvTitle = (TextView) findViewById(R.id.tv_title);
+        TextView tvTitle = (TextView) findViewById(R.id.tv_title);
         tvTitle.setText("编辑资料");
         findViewById(R.id.tv_location).setVisibility(View.GONE);
         tvReturn = (TextView) findViewById(R.id.tv_return);

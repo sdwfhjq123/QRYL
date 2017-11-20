@@ -1,5 +1,6 @@
 package com.qryl.qryl.fragment.one.two;
 
+import android.annotation.SuppressLint;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,11 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
-
 import com.qryl.qryl.R;
 import com.qryl.qryl.util.UIUtils;
-
 import java.lang.reflect.Field;
 
 /**
@@ -31,6 +29,7 @@ public class MyFragment extends Fragment {
     private ViewPager viewPager;
     private TabLayout tabLayout;
 
+    @SuppressLint("InflateParams")
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -87,15 +86,14 @@ public class MyFragment extends Fragment {
 
         private final String[] mTabNames;
 
-        public mTabLayoutAdapter(FragmentManager fm) {
+        mTabLayoutAdapter(FragmentManager fm) {
             super(fm);
             mTabNames = UIUtils.getStringArray(R.array.tab_names);
         }
 
         @Override
         public Fragment getItem(int position) {
-            BaseFragment fragment = MyFragmentFactory.createFragment(position);
-            return fragment;
+            return MyFragmentFactory.createFragment(position);
         }
 
         @Override

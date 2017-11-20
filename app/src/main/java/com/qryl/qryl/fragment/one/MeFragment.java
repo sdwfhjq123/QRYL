@@ -3,8 +3,6 @@ package com.qryl.qryl.fragment.one;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -31,12 +29,7 @@ import com.qryl.qryl.util.UIUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -53,8 +46,6 @@ public class MeFragment extends android.support.v4.app.Fragment implements View.
 
     private static final String TAG = "MeFragment";
 
-    private LinearLayout llSetting;
-    private TextView tvHelp;
     private TextView tvInfo;
     private ImageView imageView;
     private TextView tvId;
@@ -62,7 +53,6 @@ public class MeFragment extends android.support.v4.app.Fragment implements View.
     private TextView tvGender;
     private TextView tvYbh;
     private TextView tvTel;
-    private TextView tvLocation;
     private String userId;
 
     @Nullable
@@ -111,7 +101,7 @@ public class MeFragment extends android.support.v4.app.Fragment implements View.
     /**
      * 解析json
      *
-     * @param result
+     * @param result 获取网络的数据
      */
     private void handleJson(String result) {
         try {
@@ -147,7 +137,6 @@ public class MeFragment extends android.support.v4.app.Fragment implements View.
                         tvGender.setText(gender == 0 ? "男" : "女");
                         tvYbh.setText(healthCareNum);
                         tvTel.setText(mobile);
-                        //tvLocation.setText(provinceName + cityName + districtName);
                     }
                 });
             }
@@ -164,8 +153,8 @@ public class MeFragment extends android.support.v4.app.Fragment implements View.
     private void initView(View view) {
         //修改标头
         View viewTitle = View.inflate(UIUtils.getContext(), R.layout.title, null);
-        llSetting = (LinearLayout) viewTitle.findViewById(R.id.ll_setting);
-        tvHelp = (TextView) viewTitle.findViewById(R.id.tv_help);
+        LinearLayout llSetting = (LinearLayout) viewTitle.findViewById(R.id.ll_setting);
+        TextView tvHelp = (TextView) viewTitle.findViewById(R.id.tv_help);
         llSetting.setVisibility(View.VISIBLE);
         tvHelp.setVisibility(View.GONE);
         //需要刷新的列表
@@ -177,7 +166,7 @@ public class MeFragment extends android.support.v4.app.Fragment implements View.
         tvGender = (TextView) view.findViewById(R.id.tv_gender);
         tvYbh = (TextView) view.findViewById(R.id.tv_ybh);
         tvTel = (TextView) view.findViewById(R.id.tv_tel);
-        tvLocation = (TextView) view.findViewById(R.id.tv_location);
+        TextView tvLocation = (TextView) view.findViewById(R.id.tv_location);
         //隐藏地址,功能未实现
         tvLocation.setVisibility(View.GONE);
         Button btnExit = (Button) view.findViewById(R.id.btn_exit);

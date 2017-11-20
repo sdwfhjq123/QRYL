@@ -87,7 +87,6 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
                      */
                     String resultInfo = payResult.getResult();// 同步返回需要验证的信息
                     String resultStatus = payResult.getResultStatus();
-                    Log.i(TAG, "handleMessage:交易返回的状态码: " + resultStatus);
                     // 判断resultStatus 为9000则代表支付成功
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
@@ -115,12 +114,10 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
         orderId = intent.getStringExtra("order_id");
         orderType = intent.getIntExtra("order_type", 4);
         orderNormal = intent.getIntExtra("order_normal", 0);
-        Log.i(TAG, "pay: order_price" + orderPrice + ",order_id" + orderId + ",order_type" + orderType);
 
         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         token = prefs.getString("token", "");
         userId = prefs.getString("user_id", "");
-        Log.i(TAG, "onCreate: userId:" + userId);
         initView();
     }
 
@@ -159,17 +156,12 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
 //                    wxPay();
 //                } else
                 if (cbZfb.isChecked()) {//!cbWx.isChecked() &&
-                    Log.i(TAG, "onClick: 调用了支付宝支付");
                     //从服务器获取支付宝订单信息
                     if (orderNormal == ORDER_NORMAL) {//普通的订单
-                        new Thread() {
-                            @Override
-                            public void run() {
-                                postOrderInfoOnServer();
-                            }
-                        }.start();
+                        postOrderInfoOnServer("/order/buildOrderInfo", "/test/order/buildOrderInfo-");
                     } else if (orderNormal == ORDER_MAKELIST) {
                         //开单子的订单
+
                     }
                     //支付宝支付
                     aliPay();
@@ -189,7 +181,6 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
         }
 
         if (!TextUtils.isEmpty(dataAlipay)) {
-            Log.i(TAG, "aliPay: 支付宝订单信息" + dataAlipay);
             Runnable payRunnable = new Runnable() {
                 @Override
                 public void run() {
@@ -212,13 +203,13 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     /**
-     * 支付宝推送
+     * 支付宝普通订单返回的数据
      *
      * @return 返回签名后的数据
      */
-    private String postOrderInfoOnServer() {
+    private String postOrderInfoOnServer(String address, String signAddress) {
         String currentTimeMillis = String.valueOf(System.currentTimeMillis());
-        byte[] bytes = ("/test/order/buildOrderInfo-" + token + "-" + currentTimeMillis).getBytes();
+        byte[] bytes = (signAddress + token + "-" + currentTimeMillis).getBytes();
         String sign = EncryptionByMD5.getMD5(bytes);
         OkHttpClient client = new OkHttpClient();
         FormBody.Builder builder = new FormBody.Builder();
@@ -229,7 +220,7 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
         builder.add("timeStamp", currentTimeMillis);
         FormBody formBody = builder.build();
         Request request = new Request.Builder()
-                .url(ConstantValue.URL + "/order/buildOrderInfo")
+                .url(ConstantValue.URL + address)
                 .post(formBody)
                 .build();
         client.newCall(request).enqueue(new Callback() {
@@ -242,28 +233,31 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String result = response.body().string();
-                Log.i(TAG, "onResponse: 支付宝订单信息" + result);
                 JSONObject jsonObject = null;
                 try {
                     jsonObject = new JSONObject(result);
                     String resultCode = jsonObject.getString("resultCode");
-                    if (resultCode.equals("500")) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(PayActivity.this, "下单失败", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    } else if (resultCode.equals("200")) {
-                        dataAlipay = jsonObject.getString("data");
-                    } else if (resultCode.equals("400")) {//错误时
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Intent intent = new Intent("com.qryl.qryl.activity.BaseActivity.MustForceOfflineReceiver");
-                                sendBroadcast(intent);
-                            }
-                        });
+                    switch (resultCode) {
+                        case "500":
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(PayActivity.this, "下单失败", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            break;
+                        case "200"://成功时赋值
+                            dataAlipay = jsonObject.getString("data");
+                            break;
+                        case "400": //错误时
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Intent intent = new Intent("com.qryl.qryl.activity.BaseActivity.MustForceOfflineReceiver");
+                                    sendBroadcast(intent);
+                                }
+                            });
+                            break;
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -1,6 +1,7 @@
 package com.qryl.qryl.util;
 
 import java.io.IOException;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -25,8 +26,41 @@ public class HttpUtil {
         FormBody formBody = builder.build();
         Request request = new Request.Builder()
                 .post(formBody)
-                .url(ConstantValue.URL+"/services/getServiceById")
+                .url(ConstantValue.URL + "/services/getServiceById")
                 .build();
         client.newCall(request).enqueue(callback);
+    }
+
+    public static void postAsyn(String address, Map<String, String> map, Callback callback) {
+        OkHttpClient client = new OkHttpClient();
+        FormBody.Builder builder = new FormBody.Builder();
+        for (Map.Entry<String, String> entrySet : map.entrySet()) {
+            builder.add(entrySet.getKey(), entrySet.getValue());
+        }
+        FormBody formBody = builder.build();
+        Request request = new Request.Builder()
+                .url(address)
+                .post(formBody)
+                .build();
+        client.newCall(request).enqueue(callback);
+    }
+
+    public static String postSync(String address, Map<String, String> map) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        FormBody.Builder builder = new FormBody.Builder();
+        for (Map.Entry<String, String> entrySet : map.entrySet()) {
+            builder.add(entrySet.getKey(), entrySet.getValue());
+        }
+        FormBody formBody = builder.build();
+        Request request = new Request.Builder()
+                .url(address)
+                .post(formBody)
+                .build();
+        Response response = client.newCall(request).execute();
+        if (response.isSuccessful()) {
+            return response.body().string();
+        }
+        return null;
+
     }
 }

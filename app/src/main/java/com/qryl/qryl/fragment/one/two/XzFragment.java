@@ -87,15 +87,14 @@ public class XzFragment extends Fragment {
 
         private final String[] mTabNames;
 
-        public mTabLayoutAdapter(FragmentManager fm) {
+        mTabLayoutAdapter(FragmentManager fm) {
             super(fm);
             mTabNames = UIUtils.getStringArray(R.array.tab_names);
         }
 
         @Override
         public Fragment getItem(int position) {
-            BaseFragment fragment = XzFragmentFactory.createFragment(position);
-            return fragment;
+            return XzFragmentFactory.createFragment(position);
         }
 
         @Override

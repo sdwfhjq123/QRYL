@@ -1,5 +1,6 @@
 package com.qryl.qryl.adapter;
 
+import android.annotation.SuppressLint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,11 +66,12 @@ public class HlAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return null;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         //修改内容
         if (holder instanceof ItemViewHolder) {
-            ((ItemViewHolder) holder).tvAgeItem.setText(datas.get(position).getAge() + "");
+            ((ItemViewHolder) holder).tvAgeItem.setText(String.valueOf(datas.get(position).getAge()));
             ((ItemViewHolder) holder).tvExperienceItem.setText(datas.get(position).getWorkYears() + "年");
             if (datas.get(position).getGender() == 0) {
                 ((ItemViewHolder) holder).tvGenderItem.setText("男");
@@ -106,7 +108,7 @@ public class HlAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView tvStarItem;
         ImageView ivHeadItem;
 
-        public ItemViewHolder(View itemView) {
+        ItemViewHolder(View itemView) {
             super(itemView);
             rlRootItem = (RelativeLayout) itemView;
             tvNameItem = (TextView) itemView.findViewById(R.id.tv_name_item);
@@ -120,7 +122,7 @@ public class HlAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     static class FootViewHolder extends RecyclerView.ViewHolder {
 
-        public FootViewHolder(View itemView) {
+        FootViewHolder(View itemView) {
             super(itemView);
         }
     }

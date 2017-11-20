@@ -1,7 +1,6 @@
 package com.qryl.qryl.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +17,6 @@ import java.util.List;
 
 public class MenuListAdapter extends BaseAdapter {
     private Context context;
-
-    private ViewHolder viewHolder;
 
     private List<String> list;
 
@@ -46,7 +43,7 @@ public class MenuListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        viewHolder = new ViewHolder();
+        ViewHolder viewHolder = new ViewHolder();
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_popup_list, null);
         }

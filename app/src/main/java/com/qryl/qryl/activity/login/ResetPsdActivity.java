@@ -1,23 +1,17 @@
 package com.qryl.qryl.activity.login;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.qryl.qryl.R;
 import com.qryl.qryl.activity.BaseActivity;
-import com.qryl.qryl.activity.MainActivity;
 import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.VerificationCountDownTimer;
 
@@ -31,7 +25,6 @@ import okhttp3.Callback;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class ResetPsdActivity extends BaseActivity {
@@ -42,7 +35,6 @@ public class ResetPsdActivity extends BaseActivity {
     private AppCompatEditText etVerification;
     private AppCompatEditText etPsd;
     private AppCompatEditText etPsdComfirm;
-    private Button btnSure;
     private AppCompatEditText etTel;
     private ProgressDialog progressDialog;
 
@@ -61,7 +53,7 @@ public class ResetPsdActivity extends BaseActivity {
         etVerification = (AppCompatEditText) findViewById(R.id.et_verification_register);
         etPsd = (AppCompatEditText) findViewById(R.id.et_psd_register);
         etPsdComfirm = (AppCompatEditText) findViewById(R.id.et_psd_confirm_register);
-        btnSure = (Button) findViewById(R.id.btn_register);
+        Button btnSure = (Button) findViewById(R.id.btn_register);
 
         //实现倒计时并发送请求并获取验证码的功能
         receiverSMS();
@@ -202,6 +194,7 @@ public class ResetPsdActivity extends BaseActivity {
     private void countDownTimer() {
         VerificationCountDownTimer timer = new VerificationCountDownTimer(60000, 1000) {
             //倒计时过程
+            @SuppressLint("SetTextI18n")
             @Override
             public void onTick(long millisUntilFinished) {
                 super.onTick(millisUntilFinished);

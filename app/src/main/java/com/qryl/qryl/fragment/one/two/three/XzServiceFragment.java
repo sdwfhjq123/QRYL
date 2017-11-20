@@ -13,7 +13,6 @@ import com.qryl.qryl.VO.ServiceVO.Data;
 import com.qryl.qryl.VO.ServiceVO.ItemList;
 import com.qryl.qryl.VO.ServiceVO.ServiceVO;
 import com.qryl.qryl.activity.H5.XzServicexqActivity;
-import com.qryl.qryl.activity.H5.XzxqActivity;
 import com.qryl.qryl.activity.MainActivity;
 import com.qryl.qryl.adapter.XzServiceAdapter;
 import com.qryl.qryl.fragment.one.two.BaseFragment;
@@ -71,7 +70,7 @@ public class XzServiceFragment extends BaseFragment {
     /**
      * 解析json
      *
-     * @param result
+     * @param result 获取的网络数据
      */
     private void handleJson(String result) {
         Gson gson = new Gson();

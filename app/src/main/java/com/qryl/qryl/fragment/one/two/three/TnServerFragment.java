@@ -84,7 +84,7 @@ public class TnServerFragment extends BaseFragment {
     /**
      * 处理获取下来的json
      *
-     * @param result
+     * @param result 获取的网络数据
      */
     private void handleJson(String result) {
         Gson gson = new Gson();
@@ -171,11 +171,6 @@ public class TnServerFragment extends BaseFragment {
                 intent.putExtra("type", 3);
                 intent.putExtra("list_id",listId);
                 startActivity(intent);
-            }
-
-            @Override
-            public void onDeleteItemClick(View view, int position) {
-
             }
         });
         return view;

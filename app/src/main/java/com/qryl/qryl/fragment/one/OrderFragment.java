@@ -12,16 +12,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.qryl.qryl.R;
-import com.qryl.qryl.activity.MainActivity;
 import com.qryl.qryl.fragment.one.two.BaseFragment;
 import com.qryl.qryl.util.UIUtils;
 
@@ -72,9 +69,7 @@ public class OrderFragment extends android.support.v4.app.Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {//点击第一次的tab选项回调
                 //Toast.makeText(UIUtils.getContext(), tab.getText(), Toast.LENGTH_SHORT).show();
-                /**
-                 * 是否强制下线的标识
-                 */
+                //是否强制下线的标识
                 if (prefs.getBoolean("is_force_offline", false)) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -120,7 +115,7 @@ public class OrderFragment extends android.support.v4.app.Fragment {
 
         private final String[] mTabNames;
 
-        public mTabLayoutAdapter(FragmentManager fm) {
+        mTabLayoutAdapter(FragmentManager fm) {
             super(fm);
             mTabNames = UIUtils.getStringArray(R.array.tab_order_names);
         }
@@ -128,8 +123,7 @@ public class OrderFragment extends android.support.v4.app.Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            BaseFragment fragment = OrderFragmentFactory.createFragment(position);
-            return fragment;
+            return OrderFragmentFactory.createFragment(position);
         }
 
         @Override

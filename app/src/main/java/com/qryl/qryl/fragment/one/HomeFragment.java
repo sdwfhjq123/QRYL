@@ -1,5 +1,6 @@
 package com.qryl.qryl.fragment.one;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,9 +11,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.hintview.ColorPointHintView;
 import com.qryl.qryl.R;
@@ -52,7 +50,6 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
     private android.support.v4.app.FragmentTransaction ft;
 
     private View view;
-    private LinearLayout llHl, llXz, llTn, llMy;
     private LinearLayout llFourHome;
     private RollPagerView mRollPagerView;
     private List<Picture> mImgList = new ArrayList<>();
@@ -85,7 +82,7 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
         builder.add("positionName", "shouye");
         FormBody formBody = builder.build();
         Request request = new Request.Builder()
-                .url(ConstantValue.URL +"/common/getAdverListByPositionName")
+                .url(ConstantValue.URL + "/common/getAdverListByPositionName")
                 .post(formBody)
                 .build();
         client.newCall(request).enqueue(new Callback() {
@@ -105,7 +102,7 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
     /**
      * 解析json
      *
-     * @param result
+     * @param result 获取的网络的数据
      */
     private void handldJson(String result) {
         try {
@@ -113,11 +110,6 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
             JSONArray data = jsonObject.getJSONArray("data");
             for (int i = 0; i < data.length(); i++) {
                 JSONObject jb = data.getJSONObject(i);
-                //"id": 2,
-                //"imgUrl": "new url img",
-                //"positionId": 2,
-                //"httpUrl": "new httpurl",
-                //"note": "new note"
                 int id = jb.getInt("id");
                 int positionId = jb.getInt("positionId");
                 String imgUrl = jb.getString("imgUrl");
@@ -126,7 +118,7 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
                 String note = jb.getString("note");
                 mImgList.add(new Picture(id, imgUrl, positionId, httpUrl, note));
             }
-            if (getActivity() instanceof MainActivity){
+            if (getActivity() instanceof MainActivity) {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -144,11 +136,10 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
      * 初始化UI
      */
     private void initUI() {
-
-        llHl = (LinearLayout) view.findViewById(R.id.ll_hl);
-        llXz = (LinearLayout) view.findViewById(R.id.ll_xz);
-        llTn = (LinearLayout) view.findViewById(R.id.ll_tn);
-        llMy = (LinearLayout) view.findViewById(R.id.ll_my);
+        LinearLayout llHl = (LinearLayout) view.findViewById(R.id.ll_hl);
+        LinearLayout llXz = (LinearLayout) view.findViewById(R.id.ll_xz);
+        LinearLayout llTn = (LinearLayout) view.findViewById(R.id.ll_tn);
+        LinearLayout llMy = (LinearLayout) view.findViewById(R.id.ll_my);
         llFourHome = (LinearLayout) view.findViewById(R.id.ll_four_home);
         mRollPagerView = (RollPagerView) view.findViewById(R.id.rpv_home);
         llHl.setOnClickListener(this);
@@ -160,6 +151,7 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
     /**
      * 初始化fragment
      */
+    @SuppressLint("CommitTransaction")
     private void initFragment() {
         fm = getFragmentManager();
         ft = fm.beginTransaction();
@@ -198,9 +190,9 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
     }
 
     /**
-     * 点击每个条目时修改密码
+     * 点击每个条目时修改标题
      *
-     * @param name
+     * @param name 需要修改的标题的名字
      */
     private void changeTitleName(String name) {
         TextView view = (TextView) getActivity().findViewById(R.id.tv_title);

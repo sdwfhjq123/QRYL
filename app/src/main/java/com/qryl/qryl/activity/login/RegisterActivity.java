@@ -1,10 +1,10 @@
 package com.qryl.qryl.activity.login;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +27,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import cn.jpush.android.api.JPushInterface;
 import cn.jpush.sms.SMSSDK;
 import cn.jpush.sms.listener.SmscheckListener;
 import cn.jpush.sms.listener.SmscodeListener;
@@ -37,10 +35,8 @@ import okhttp3.Callback;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import static android.R.attr.data;
 
 public class RegisterActivity extends BaseActivity {
 
@@ -50,14 +46,10 @@ public class RegisterActivity extends BaseActivity {
     private AppCompatEditText etVerification;
     private AppCompatEditText etPsd;
     private AppCompatEditText etPsdComfirm;
-    private RelativeLayout rlIsCheck;
     private CheckBox checkBox;
-    private TextView tvProtocol;
-    private Button btnRegisiter;
     private AppCompatEditText etTel;
     private ProgressDialog progressDialog;
     private int id;
-    private String registrationID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,10 +66,10 @@ public class RegisterActivity extends BaseActivity {
         etVerification = (AppCompatEditText) findViewById(R.id.et_verification_register);
         etPsd = (AppCompatEditText) findViewById(R.id.et_psd_register);
         etPsdComfirm = (AppCompatEditText) findViewById(R.id.et_psd_confirm_register);
-        rlIsCheck = (RelativeLayout) findViewById(R.id.rl_isCheck);
+        RelativeLayout rlIsCheck = (RelativeLayout) findViewById(R.id.rl_isCheck);
         checkBox = (CheckBox) findViewById(R.id.cb_consent);
-        tvProtocol = (TextView) findViewById(R.id.tv_protocol_register);
-        btnRegisiter = (Button) findViewById(R.id.btn_register);
+        TextView tvProtocol = (TextView) findViewById(R.id.tv_protocol_register);
+        Button btnRegisiter = (Button) findViewById(R.id.btn_register);
         //根据cb判断是否点击了对号
         rlIsCheck.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,16 +129,12 @@ public class RegisterActivity extends BaseActivity {
         SMSSDK.getInstance().checkSmsCode(etTel.getText().toString(), etVerification.getText().toString(), new SmscheckListener() {
             @Override
             public void checkCodeSuccess(String s) {
-                Log.i(TAG, "checkCodeSuccess: 验证成功：" + s);
                 //注册极光唯一registrationId
-                registrationID = JPushInterface.getRegistrationID(RegisterActivity.this);
-                Log.i(TAG, "注册时需要提交的registrationID: " + registrationID);
                 postData();
             }
 
             @Override
             public void checkCodeFail(int i, String s) {
-                Log.i(TAG, "checkCodeSuccess: 验证失败：" + s);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -177,7 +165,6 @@ public class RegisterActivity extends BaseActivity {
         client.newCall(requset).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.i(TAG, "onFailure: 服务器连接失败");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -192,7 +179,6 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String result = response.body().string();
-                Log.i(TAG, "onResponse: 验证成功后获取的数据: " + result);
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     String resultCode = jsonObject.getString("resultCode");
@@ -269,6 +255,7 @@ public class RegisterActivity extends BaseActivity {
     private void countDownTimer() {
         VerificationCountDownTimer timer = new VerificationCountDownTimer(60000, 1000) {
             //倒计时过程
+            @SuppressLint("SetTextI18n")
             @Override
             public void onTick(long millisUntilFinished) {
                 super.onTick(millisUntilFinished);

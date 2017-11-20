@@ -28,6 +28,7 @@ public class QRYLApplication extends LitePalApplication {
 
     private static final String TAG = "QRYLApplication全局application";
 
+    @SuppressLint("StaticFieldLeak")
     private static Context context;
     private static Handler handler;
     private static int mainThreadId;
