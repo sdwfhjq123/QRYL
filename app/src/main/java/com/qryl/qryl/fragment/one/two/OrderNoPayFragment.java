@@ -80,7 +80,7 @@ public class OrderNoPayFragment extends BaseFragment {
             builder.add("orderType", String.valueOf(i));
             builder.add("puId", userId);//动态获取，需要写缓存
             builder.add("page", page);
-            builder.add("limit", "20");
+            builder.add("limit", "4");
             builder.add("sign", sign);
             builder.add("tokenUserId", userId + "bh");
             builder.add("timeStamp", currentTimeMillis);
@@ -103,9 +103,7 @@ public class OrderNoPayFragment extends BaseFragment {
                     try {
                         JSONObject jsonObject = new JSONObject(result);
                         resultCode = jsonObject.getString("resultCode");
-                        if (resultCode.equals("500")) {
-                            return;
-                        } else if (resultCode.equals("200")) {
+                        if (resultCode.equals("200")) {
                             JSONObject data = jsonObject.getJSONObject("data");
                             if (data != null) {
                                 handleJson(result);

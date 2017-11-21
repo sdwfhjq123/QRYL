@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.google.gson.Gson;
@@ -36,7 +37,7 @@ import okhttp3.Response;
 
 public class OrderFinishedFragment extends BaseFragment {
 
-    //private static final String TAG = "OrderFinishedFragment";
+    private static final String TAG = "OrderFinishedFragment";
 
     private SwipeRefreshLayout swipeRefresh;
 
@@ -69,7 +70,7 @@ public class OrderFinishedFragment extends BaseFragment {
             builder.add("orderType", String.valueOf(i));
             builder.add("puId", userId);//动态获取，需要写缓存
             builder.add("page", page);
-            builder.add("limit", "20");
+            builder.add("limit", "4");
             builder.add("sign", sign);
             builder.add("tokenUserId", userId + "bh");
             builder.add("timeStamp", currentTimeMillis);
@@ -151,12 +152,14 @@ public class OrderFinishedFragment extends BaseFragment {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+
                 super.onScrollStateChanged(recyclerView, newState);
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                Log.i(TAG, "onScrolled: page:" + page);
                 lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
                 if (lastVisibleItemPosition + 1 == adapter.getItemCount()) {
                     boolean isRefreshing = swipeRefresh.isRefreshing();

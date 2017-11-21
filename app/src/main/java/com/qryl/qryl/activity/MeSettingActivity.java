@@ -36,6 +36,7 @@ import com.bumptech.glide.Glide;
 import com.qryl.qryl.R;
 import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.DialogUtil;
+import com.qryl.qryl.util.RegularUtil;
 import com.qryl.qryl.view.MyAlertDialog;
 
 import org.json.JSONException;
@@ -99,9 +100,7 @@ public class MeSettingActivity extends BaseActivity {
     private TextView tvCustomId;
     private String userId;
     private SharedPreferences sp;
-
-    public MeSettingActivity() {
-    }
+    private String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,7 +153,7 @@ public class MeSettingActivity extends BaseActivity {
             String resultCode = jsonObject.getString("resultCode");
             if (resultCode.equals("200")) {
                 JSONObject data = jsonObject.getJSONObject("data");
-                final String userName = data.getString("userName");
+                userName = data.getString("userName");
                 final String headshotImg = data.getString("headshotImg");
                 final String mobile = data.getString("mobile");
                 final String realName = data.getString("realName");
@@ -297,6 +296,7 @@ public class MeSettingActivity extends BaseActivity {
 //            }
 //        });
 
+
         //输入医保号
         ybh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -366,21 +366,30 @@ public class MeSettingActivity extends BaseActivity {
         customId.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = View.inflate(MeSettingActivity.this, R.layout.text_item_dialog_text, null);
-                TextView tvTitileDialog = (TextView) view.findViewById(R.id.tv_title_dialog);
-                final EditText etHintDialog = (EditText) view.findViewById(R.id.et_hint_dialog);
-                tvTitileDialog.setText("修改账号，只能修改一次");
-                new MyAlertDialog(MeSettingActivity.this, view)
-                        //.setView(view)
-                        .setNegativeButton("取消", null)
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String customId = etHintDialog.getText().toString();
-                                tvCustomId.setText(customId);
-                                dialog.dismiss();
-                            }
-                        }).show();
+                if (userName != null) {
+                    View view = View.inflate(MeSettingActivity.this, R.layout.text_item_dialog_text, null);
+                    TextView tvTitileDialog = (TextView) view.findViewById(R.id.tv_title_dialog);
+                    final EditText etHintDialog = (EditText) view.findViewById(R.id.et_hint_dialog);
+                    tvTitileDialog.setText("修改账号，只能修改一次");
+                    new MyAlertDialog(MeSettingActivity.this, view)
+                            //.setView(view)
+                            .setNegativeButton("取消", null)
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    String customId = etHintDialog.getText().toString();
+                                    if (RegularUtil.checkUsername(customId)) {
+                                        tvCustomId.setText(customId);
+                                        dialog.dismiss();
+                                    } else {
+                                        Toast.makeText(MeSettingActivity.this, "请输入6到12位字母数字组合", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                }
+                            }).show();
+                } else {
+                    Toast.makeText(MeSettingActivity.this, "只能修改一次", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -390,6 +399,7 @@ public class MeSettingActivity extends BaseActivity {
      * 将注册信息上传到服务器
      */
     private void postData() {
+
         SharedPreferences pref = getSharedPreferences("image", Context.MODE_PRIVATE);
         String headImage = pref.getString(HEAD_KEY, null);
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
@@ -399,6 +409,8 @@ public class MeSettingActivity extends BaseActivity {
         if (headFile != null) {
             RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), headFile);
             builder.addFormDataPart("txImg", headFile.getName(), requestBody);
+        } else {
+            builder.addFormDataPart("txImg", String.valueOf(""));
         }
         if (!tvCustomId.getText().toString().equals("请输入")) {
             builder.addFormDataPart("userName", tvCustomId.getText().toString());
@@ -437,7 +449,12 @@ public class MeSettingActivity extends BaseActivity {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.i(TAG, "onFailure: ");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MeSettingActivity.this, "请重新上传头像", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override
@@ -710,7 +727,7 @@ public class MeSettingActivity extends BaseActivity {
         SharedPreferences.Editor edit = sp.edit();
         edit.putString(HEAD_KEY, fileName);
         //提交edit
-        edit.commit();
+        edit.apply();
         Log.i(TAG, "saveFile: 保存成功" + sp.getString(HEAD_KEY, null));
     }
 
@@ -749,8 +766,13 @@ public class MeSettingActivity extends BaseActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //不能为空时点击跳转
-                postData();
+                if (RegularUtil.isMobileNO(tvTel.getText().toString()) && RegularUtil.isIDCard(tvIdentity.getText().toString())) {
+                    //不能为空时点击跳转
+                    postData();
+                } else {
+                    Toast.makeText(MeSettingActivity.this, "身份证号或手机不正确", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }

@@ -29,19 +29,21 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="50dp"
-            android:src="@mipmap/ic_loading"
-           />
+            android:src="@mipmap/ic_loading" />
 
     </RelativeLayout>
 
-    <View style="@style/ViewLine" />
+    <View
+        style="@style/ViewLine"
+         />
 
     <RelativeLayout
         android:id="@+id/custom_id"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:padding="5dp">
+        android:padding="5dp"
+        >
 
         <TextView
 
@@ -159,26 +161,26 @@
     <View style="@style/ViewLine" />
 
     <!--<RelativeLayout-->
-        <!--android:id="@+id/location"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_weight="1"-->
-        <!--android:padding="5dp">-->
+    <!--android:id="@+id/location"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="0dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:padding="5dp">-->
 
-        <!--<TextView-->
-            <!--style="@style/TextInItemStyle"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:text="我的地址" />-->
+    <!--<TextView-->
+    <!--style="@style/TextInItemStyle"-->
+    <!--android:layout_marginLeft="10dp"-->
+    <!--android:text="我的地址" />-->
 
-        <!--<ImageView style="@style/ImgAdvanceInItemStyle" />-->
+    <!--<ImageView style="@style/ImgAdvanceInItemStyle" />-->
 
-        <!--<TextView-->
-            <!--android:id="@+id/tv_location"-->
-            <!--style="@style/TextInItemStyle"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_marginRight="20dp"-->
-            <!--android:text="请选择" />-->
+    <!--<TextView-->
+    <!--android:id="@+id/tv_location"-->
+    <!--style="@style/TextInItemStyle"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_marginRight="20dp"-->
+    <!--android:text="请选择" />-->
     <!--</RelativeLayout>-->
 
     <!--<View style="@style/ViewLine" />-->

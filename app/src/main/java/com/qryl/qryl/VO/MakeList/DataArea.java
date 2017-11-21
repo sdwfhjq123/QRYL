@@ -12,27 +12,18 @@ public class DataArea {
     private Patient patient;
     private DoctorNurse doctorNurse;
     private Long createTime;
-    private List<DrugsList> drugsList;
-
-    public DataArea(int id, Double price, Patient patient, DoctorNurse doctorNurse, Long createTime, List<DrugsList> drugsList) {
-        this.id = id;
-        this.price = price;
-        this.patient = patient;
-        this.doctorNurse = doctorNurse;
-        this.createTime = createTime;
-        this.drugsList = drugsList;
-    }
-
-    public List<DrugsList> getDrugsList() {
-        return drugsList;
-    }
-
-    public void setDrugsList(List<DrugsList> drugsList) {
-        this.drugsList = drugsList;
-    }
+    private int payed;
 
     public int getId() {
         return id;
+    }
+
+    public int getPayed() {
+        return payed;
+    }
+
+    public void setPayed(int payed) {
+        this.payed = payed;
     }
 
     public void setId(int id) {

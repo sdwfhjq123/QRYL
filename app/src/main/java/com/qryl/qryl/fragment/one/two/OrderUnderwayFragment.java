@@ -50,7 +50,7 @@ public class OrderUnderwayFragment extends BaseFragment {
     private OrderUnderwayAdapter adapter = new OrderUnderwayAdapter(datas);
     private int page = 1;
     private int lastVisibleItemPosition;
-    private boolean isLoading;
+    private boolean isLoading = false;
     private String userId;
     private String token;
     private SharedPreferences prefs;
@@ -75,7 +75,7 @@ public class OrderUnderwayFragment extends BaseFragment {
             builder.add("orderType", String.valueOf(i));
             builder.add("puId", userId);//动态获取，需要写缓存
             builder.add("page", page);
-            builder.add("limit", "20");
+            builder.add("limit", "4");
             builder.add("sign", sign);
             builder.add("tokenUserId", userId + "bh");
             builder.add("timeStamp", currentTimeMillis);
@@ -164,7 +164,6 @@ public class OrderUnderwayFragment extends BaseFragment {
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
                 super.onScrolled(recyclerView, dx, dy);
                 lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
                 if (lastVisibleItemPosition + 1 == adapter.getItemCount()) {

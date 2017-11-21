@@ -21,6 +21,7 @@ import com.alipay.sdk.app.PayTask;
 import com.qryl.qryl.R;
 import com.qryl.qryl.util.ConstantValue;
 import com.qryl.qryl.util.EncryptionByMD5;
+import com.qryl.qryl.util.HttpUtil;
 import com.qryl.qryl.util.PayResult;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -30,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.Call;
@@ -57,7 +59,6 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
     private LinearLayout llZfb;
     private CheckBox cbWx;
     private CheckBox cbZfb;
-    private TextView tvMoney;
     /**
      * 订单的价格
      */
@@ -72,6 +73,11 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
     private String token;
     private int orderNormal;
     private String userId;
+
+    /**
+     * 处方订单id
+     */
+    private int prescribeId;
 
 
     @SuppressLint("HandlerLeak")
@@ -109,11 +115,16 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay);
+
         Intent intent = getIntent();
-        orderPrice = intent.getStringExtra("order_price");
-        orderId = intent.getStringExtra("order_id");
-        orderType = intent.getIntExtra("order_type", 4);
         orderNormal = intent.getIntExtra("order_normal", 0);
+        orderPrice = intent.getStringExtra("order_price");
+        if (orderNormal == ORDER_MAKELIST) {
+            prescribeId = intent.getIntExtra("prescribeId", 0);
+        } else if (orderNormal == ORDER_NORMAL) {
+            orderId = intent.getStringExtra("order_id");
+            orderType = intent.getIntExtra("order_type", 4);
+        }
 
         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         token = prefs.getString("token", "");
@@ -126,11 +137,12 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
         llZfb = (LinearLayout) findViewById(R.id.ll_zfb);
         cbZfb = (CheckBox) findViewById(R.id.cb_zfb);
         Button btnPay = (Button) findViewById(R.id.btn_pay);
-        tvMoney = (TextView) findViewById(R.id.tv_money);
+        TextView tvMoney = (TextView) findViewById(R.id.tv_money);
         llZfb.setOnClickListener(this);
         cbZfb.setOnClickListener(this);
         btnPay.setOnClickListener(this);
 
+        //显示金钱
         tvMoney.setText(String.valueOf(orderPrice));
     }
 
@@ -158,10 +170,10 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
                 if (cbZfb.isChecked()) {//!cbWx.isChecked() &&
                     //从服务器获取支付宝订单信息
                     if (orderNormal == ORDER_NORMAL) {//普通的订单
-                        postOrderInfoOnServer("/order/buildOrderInfo", "/test/order/buildOrderInfo-");
+                        postOrderInfoOnServer();
                     } else if (orderNormal == ORDER_MAKELIST) {
                         //开单子的订单
-
+                        postListOrderInfoOnServer();
                     }
                     //支付宝支付
                     aliPay();
@@ -169,6 +181,62 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
                 break;
         }
     }
+
+    /**
+     * 开单子的支付
+     */
+    private void postListOrderInfoOnServer() {
+        String currentTimeMillis = String.valueOf(System.currentTimeMillis());
+        byte[] bytes = ("/test/order/buildPrescribeInfo-" + token + "-" + currentTimeMillis).getBytes();
+        String sign = EncryptionByMD5.getMD5(bytes);
+        Map<String, String> map = new HashMap<>();
+        map.put("puId", userId);
+        map.put("prescribeId", String.valueOf(prescribeId));
+        map.put("sign", sign);
+        map.put("tokenUserId", userId + "bh");
+        map.put("timeStamp", String.valueOf(currentTimeMillis));
+        HttpUtil.postAsyn(ConstantValue.URL + "/order/buildPrescribeInfo", map, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String result = response.body().string();
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(result);
+                    String resultCode = jsonObject.getString("resultCode");
+                    switch (resultCode) {
+                        case "500":
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(PayActivity.this, "下单失败", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            break;
+                        case "200"://成功时赋值
+                            dataAlipay = jsonObject.getString("data");
+                            break;
+                        case "400": //错误时
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Intent intent = new Intent("com.qryl.qryl.activity.BaseActivity.MustForceOfflineReceiver");
+                                    sendBroadcast(intent);
+                                }
+                            });
+                            break;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
 
     /**
      * 支付宝支付
@@ -207,9 +275,9 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
      *
      * @return 返回签名后的数据
      */
-    private String postOrderInfoOnServer(String address, String signAddress) {
+    private String postOrderInfoOnServer() {
         String currentTimeMillis = String.valueOf(System.currentTimeMillis());
-        byte[] bytes = (signAddress + token + "-" + currentTimeMillis).getBytes();
+        byte[] bytes = ("/test/order/buildOrderInfo-" + token + "-" + currentTimeMillis).getBytes();
         String sign = EncryptionByMD5.getMD5(bytes);
         OkHttpClient client = new OkHttpClient();
         FormBody.Builder builder = new FormBody.Builder();
@@ -220,7 +288,7 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
         builder.add("timeStamp", currentTimeMillis);
         FormBody formBody = builder.build();
         Request request = new Request.Builder()
-                .url(ConstantValue.URL + address)
+                .url(ConstantValue.URL + "/order/buildOrderInfo")
                 .post(formBody)
                 .build();
         client.newCall(request).enqueue(new Callback() {

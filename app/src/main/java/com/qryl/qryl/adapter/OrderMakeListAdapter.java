@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+
 import com.qryl.qryl.R;
 import com.qryl.qryl.VO.MakeList.DataArea;
 import com.qryl.qryl.util.UIUtils;
@@ -48,8 +49,10 @@ public class OrderMakeListAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         if (holder instanceof ItemViewHolder) {
+            ((ItemViewHolder) holder).btnDelete.setVisibility(View.GONE);
+            ((ItemViewHolder) holder).btnPay.setVisibility(data.get(position).getPayed() == 0 ? View.VISIBLE : View.GONE);
             ((ItemViewHolder) holder).tvTitle.setText(data.get(position).getDoctorNurse().getRealName() + "为您服务");
-            ((ItemViewHolder) holder).tvMoney.setText(String.valueOf(data.get(position).getPrice()));
+            ((ItemViewHolder) holder).tvMoney.setText(data.get(position).getPrice() + "");
             ((ItemViewHolder) holder).tvNote.setText(data.get(position).getDoctorNurse().getRealName() + "为您服务");
             ((ItemViewHolder) holder).tvContent.setText("点击查看单子详情...");
             //点击条目
@@ -64,13 +67,6 @@ public class OrderMakeListAdapter extends RecyclerView.Adapter<RecyclerView.View
                 @Override
                 public void onClick(View v) {
                     onItemClickListener.onPayItemClick(((ItemViewHolder) holder).btnPay, position);
-                }
-            });
-            //点击删除订单
-            ((ItemViewHolder) holder).btnDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onItemClickListener.onDeleteItemClick(((ItemViewHolder) holder).btnDelete, position);
                 }
             });
         }
@@ -125,8 +121,6 @@ public class OrderMakeListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
-
-        void onDeleteItemClick(View view, int position);
 
         void onPayItemClick(View view, int position);
     }
