@@ -318,6 +318,7 @@ public class MeSettingActivity extends BaseActivity {
                         }).show();
             }
         });
+
         //我的身高
         stature.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetTextI18n")
@@ -340,6 +341,7 @@ public class MeSettingActivity extends BaseActivity {
                         }).show();
             }
         });
+
         //我的体重
         weight.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetTextI18n")
@@ -362,6 +364,7 @@ public class MeSettingActivity extends BaseActivity {
                         }).show();
             }
         });
+
         //登录账号只能修改一次
         customId.setOnClickListener(new View.OnClickListener() {
             @Override
