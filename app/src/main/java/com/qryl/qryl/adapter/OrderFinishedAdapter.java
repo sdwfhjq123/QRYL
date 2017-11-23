@@ -51,10 +51,10 @@ public class OrderFinishedAdapter extends RecyclerView.Adapter<RecyclerView.View
             ((ItemViewHolder) holder).tvNote.setText(data.get(position).getNote());
             ((ItemViewHolder) holder).tvContent.setText(data.get(position).getContent());
             ((ItemViewHolder) holder).tvTitle.setText(data.get(position).getTitle());
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            ((ItemViewHolder) holder).evaluate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onItemClickListener.onItemClick(holder.itemView, position);
+                    onItemClickListener.onItemClick(((ItemViewHolder) holder).evaluate, position);
                 }
             });
         }

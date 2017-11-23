@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.qryl.qryl.R;
@@ -177,6 +178,7 @@ public class OrderFinishedFragment extends BaseFragment {
                 }
             }
         });
+
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -185,6 +187,15 @@ public class OrderFinishedFragment extends BaseFragment {
                 postData(String.valueOf(1));
             }
         });
+
+        adapter.setOnItemClickListener(new OrderFinishedAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(getActivity(), "评价功能暂未开放", Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
         return view;
     }
 
