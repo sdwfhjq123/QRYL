@@ -201,16 +201,16 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void hiddenView() {
-        View view = View.inflate(this, R.layout.title, null);
-        TextView tvReturn = (TextView) view.findViewById(R.id.tv_return);
-        TextView tvTitle = (TextView) view.findViewById(R.id.tv_title);
-        TextView tvLocation = (TextView) view.findViewById(R.id.tv_location);
-        LinearLayout llSetting = (LinearLayout) view.findViewById(R.id.ll_setting);
-        TextView tvHelp = (TextView) view.findViewById(R.id.tv_help);
+        TextView tvReturn = (TextView) findViewById(R.id.tv_return);
+        TextView tvTitle = (TextView) findViewById(R.id.tv_title);
+        TextView tvLocation = (TextView) findViewById(R.id.tv_location);
+        LinearLayout llSetting = (LinearLayout) findViewById(R.id.ll_setting);
+        TextView tvHelp = (TextView) findViewById(R.id.tv_help);
         tvHelp.setVisibility(View.GONE);
         tvReturn.setVisibility(View.GONE);
         tvLocation.setVisibility(View.GONE);
         llSetting.setVisibility(View.GONE);
+        tvTitle.setVisibility(View.VISIBLE);
         tvTitle.setText("用户登录");
     }
 }

@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,6 +62,7 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void initView() {
+        hiddenView();
         progressDialog = new ProgressDialog(this);
         btnVerification = (Button) findViewById(R.id.btn_verification_register);
         etTel = (AppCompatEditText) findViewById(R.id.et_tel_register);
@@ -274,6 +276,26 @@ public class RegisterActivity extends BaseActivity {
             }
         };
         timer.start();
+    }
+
+    private void hiddenView() {
+        TextView tvReturn = (TextView) findViewById(R.id.tv_return);
+        TextView tvTitle = (TextView) findViewById(R.id.tv_title);
+        TextView tvLocation = (TextView) findViewById(R.id.tv_location);
+        LinearLayout llSetting = (LinearLayout) findViewById(R.id.ll_setting);
+        TextView tvHelp = (TextView) findViewById(R.id.tv_help);
+        tvHelp.setVisibility(View.GONE);
+        tvReturn.setVisibility(View.VISIBLE);
+        tvReturn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        tvLocation.setVisibility(View.GONE);
+        llSetting.setVisibility(View.GONE);
+        tvTitle.setVisibility(View.VISIBLE);
+        tvTitle.setText("用户注册");
     }
 
 }

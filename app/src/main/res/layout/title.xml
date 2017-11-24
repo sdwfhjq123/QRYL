@@ -36,7 +36,7 @@
         <TextView
             android:id="@+id/tv_title"
             style="@style/TitleName"
-            android:text="" />
+            android:text="登录" />
 
         <TextView
             android:id="@+id/tv_help"
