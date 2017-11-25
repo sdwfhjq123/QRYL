@@ -26,7 +26,7 @@
             android:background="#ffff"
             android:text="相机拍摄"
             android:textSize="18sp"
-            android:visibility="gone" />
+             />
 
         <Button
             android:id="@+id/btn_pop_cancel"

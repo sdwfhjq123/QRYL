@@ -548,13 +548,13 @@ public class MeSettingActivity extends BaseActivity {
             e.printStackTrace();
         }
         if (Build.VERSION.SDK_INT >= 24) {
-            imageUri = FileProvider.getUriForFile(MeSettingActivity.this, "com.qryl.qryl.activity.fileprovider", outputImage);
+            imageUri = FileProvider.getUriForFile(MeSettingActivity.this, "com.qryl.qryl.activity.mesettingactivity.fileprovider", outputImage);
         } else {
             imageUri = Uri.fromFile(outputImage);
         }
 
         //启动相机程序
-        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent, TAKE_PHOTO);
 
@@ -588,7 +588,7 @@ public class MeSettingActivity extends BaseActivity {
         switch (requestCode) {
             case 1:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    int camera_or_album = sp.getInt("camera_or_album", 2);
+                    int camera_or_album = sp.getInt("camera_or_album", 3);
                     if (camera_or_album == 2) {
                         openAlbum();
                     } else if (camera_or_album == 1) {
