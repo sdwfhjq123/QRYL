@@ -150,7 +150,7 @@ public class OrderMakeListFragment extends BaseFragment {
         prefs = getActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
         token = prefs.getString("token", "");
-        View view = View.inflate(getActivity(), R.layout.fragment_order_container, null);
+        View view = View.inflate(getActivity(), R.layout.fragment_order_container_all, null);
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());

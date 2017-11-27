@@ -29,21 +29,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="姓名 : "
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="性别 : "
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="经验 : "
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="张小四 "
-                android:textColor="#666"
+                android:textColor="#969696"
                 android:textSize="14sp" />
 
             <TextView
@@ -67,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="女"
-                android:textColor="#666"
+                android:textColor="#969696"
                 android:textSize="14sp" />
 
             <TextView
@@ -75,7 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="3年"
-                android:textColor="#666"
+                android:textColor="#969696"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -88,7 +88,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="14sp"
                 android:visibility="invisible" />
 
@@ -96,14 +96,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="年龄 : "
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="经验 : "
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -117,7 +117,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="14sp"
                 android:visibility="invisible" />
 
@@ -126,7 +126,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="女"
-                android:textColor="#666"
+                android:textColor="#969696"
                 android:textSize="14sp" />
 
             <TextView
@@ -134,7 +134,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="★★★★★"
-                android:textColor="#666"
+                android:textColor="#969696"
                 android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>

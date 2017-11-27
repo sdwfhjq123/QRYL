@@ -3,8 +3,10 @@
     <color name="colorPrimary">#5988be</color>
     <color name="colorPrimaryDark">#000</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="rb_text_color_selector">#1296db</color><!-- 选中颜色文字 -->
-    <color name="rb_text_color_normal">#656565</color><!-- 未选中颜色文字 -->
+
+    <color name="rb_text_color_selector">#5988be</color><!-- 选中颜色文字 -->
+    <color name="rb_text_color_normal">#4a4a4a</color><!-- 未选中颜色文字 -->
+
     <color name="title_bg_color">#5988be</color><!-- 标题的背景颜色 -->
 
     <color name="bg_tab_pressed">#665988be</color>
@@ -15,11 +17,11 @@
     <color name="tab_text_color_normal">#3b3b3b</color><!-- tab未选中文字颜色 -->
     <color name="card_view_bg">#ffffff</color><!-- tab未选中文字颜色 -->
 
-    <color name="mask_color">#88888888</color>
-    <color name="blue_app">#666</color>
+    <color name="mask_color">#e6e6e6</color>
+    <color name="blue_app">#e6e6e6</color>
     <color name="drop_down_unselected">#fff</color>
 
     <color name="base_title_color">#fff</color>
-    <color name="material_text_color_47">#333333</color>
-    <color name="divider_color_c7">#d3d3d3</color>
+    <color name="material_text_color_47">#4a4a4a</color>
+    <color name="divider_color_c7">#4a4a4a</color>
 </resources>

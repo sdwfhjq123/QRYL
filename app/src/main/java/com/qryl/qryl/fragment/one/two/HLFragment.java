@@ -255,10 +255,6 @@ public class HLFragment extends Fragment {
                     public void handle(String time) {
                         tvTime.setText(time + ":00");
                         startTime = tvTime.getText().toString();
-                        //Toast.makeText(getActivity(), time, Toast.LENGTH_SHORT).show();
-                        //datas.clear();
-                        //page = 1;
-                        // postData(String.valueOf(gender), startTime, endTime, String.valueOf(hours));
                     }
                 }, startTime, "2017-7-31 00:00");
                 timeSelectorStart.setTitle("请选择开始时间");
@@ -303,8 +299,6 @@ public class HLFragment extends Fragment {
                         if (page <= total) {
                             postData(String.valueOf(gender), startTime, endTime, String.valueOf(hours));
                         } else {
-                            Toast.makeText(getActivity(), "没有更多数据了...", Toast.LENGTH_SHORT).show();
-
                         }
                         isLoading = false;
                     }

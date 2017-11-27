@@ -35,7 +35,7 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.RECEIVE_MMS" />
-
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission
         android:name="android.permission.CALL_PRIVILEGED"
         tools:ignore="ProtectedPermissions" />
@@ -191,7 +191,7 @@
             android:name="JPUSH_APPKEY"
             android:value="06bafe8fadf0adce5749adc1" />
 
-        <activity android:name=".activity.MeSettingActivity"></activity>
+        <activity android:name=".activity.MeSettingActivity" />
         <activity android:name=".activity.login.ResetPsdActivity" />
         <activity android:name=".activity.H5.HgxqActivity" />
         <activity android:name=".activity.H5.ContactsActivity" />
@@ -201,7 +201,6 @@
         <activity android:name=".activity.H5.MakeListActivity" />
         <activity android:name=".activity.H5.OrderInfoActivity" />
         <activity android:name=".activity.PayActivity" />
-
 
         <!-- alipay -->
         <activity
@@ -232,13 +231,12 @@
             android:authorities="com.qryl.qryl.activity.mesettingactivity.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
-
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/files" />
-
         </provider>
 
+        <activity android:name=".activity.FeedBackActivity"></activity>
     </application>
 
 </manifest>

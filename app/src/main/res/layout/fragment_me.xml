@@ -8,7 +8,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:gravity="center_vertical">
 
         <ImageView
@@ -28,13 +29,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp">
+        android:layout_height="0dp"
+        android:layout_weight="3">
 
         <LinearLayout
-            android:layout_width="100dp"
+            android:layout_width="110dp"
             android:layout_height="150dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="10dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -42,76 +44,88 @@
                 android:id="@+id/imageView"
                 android:layout_width="70dp"
                 android:layout_height="80dp"
-                android:layout_gravity="center_vertical"
+                android:layout_gravity="center"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:layout_marginTop="15dp"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/ic_loading" />
 
             <LinearLayout
                 android:id="@+id/ll_compile"
-                android:layout_width="match_parent"
+                android:layout_width="100dp"
                 android:layout_height="30dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center">
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="15dp"
+                    android:layout_gravity="center"
                     android:src="@mipmap/ic_input" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:layout_gravity="center"
                     android:text="编辑资料"
-                    android:textColor="#666" />
+                    android:textColor="#4a4a4a" />
 
             </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:orientation="vertical">
+            android:layout_marginEnd="15dp"
+            android:layout_marginStart="10dp"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:text="账    号:"
-                android:textColor="#666" />
+                android:textColor="#4a4a4a" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:text="姓    名:"
-                android:textColor="#666" />
+                android:textColor="#4a4a4a" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:text="性    别:"
-                android:textColor="#666" />
+                android:textColor="#4a4a4a" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:text="医保号:"
-                android:textColor="#666" />
+                android:textColor="#4a4a4a" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:text="电    话:"
-                android:textColor="#666" />
+                android:textColor="#4a4a4a" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="地    址:"
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:visibility="gone" />
 
         </LinearLayout>
@@ -120,50 +134,58 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
 
             <TextView
                 android:id="@+id/tv_id"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:text=""
-                android:textColor="#666" />
+                android:textColor="#4a4a4a" />
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:text=""
-                android:textColor="#666" />
+                android:textColor="#4a4a4a" />
 
             <TextView
                 android:id="@+id/tv_gender"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:text=""
-                android:textColor="#666" />
+                android:textColor="#4a4a4a" />
 
             <TextView
                 android:id="@+id/tv_ybh"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:text=""
-                android:textColor="#666" />
+                android:textColor="#4a4a4a" />
 
             <TextView
                 android:id="@+id/tv_tel"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:text=""
-                android:textColor="#666" />
+                android:textColor="#4a4a4a" />
 
             <TextView
                 android:id="@+id/tv_location"
-                android:layout_width="170dp"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:text=""
-                android:textColor="#666" />
+                android:textColor="#4a4a4a"
+                android:visibility="gone" />
 
         </LinearLayout>
 
@@ -171,20 +193,20 @@
 
     <View
         style="@style/ViewLine"
-        android:layout_marginBottom="3dp" />
-
-    <View style="@style/ViewLine" />
+        android:layout_height="10dp" />
 
     <RelativeLayout
         android:id="@+id/rl_wallet"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:padding="5dp">
 
         <ImageView
             android:id="@+id/ic_wallet_2"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
             android:src="@mipmap/ic_wallet_2" />
 
@@ -194,7 +216,7 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/ic_wallet_2"
             android:text="我的钱包"
-            android:textColor="#666"
+            android:textColor="#4a4a4a"
             android:textSize="16sp" />
 
         <ImageView
@@ -211,13 +233,15 @@
     <RelativeLayout
         android:id="@+id/rl_contacts"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:padding="5dp">
 
         <ImageView
             android:id="@+id/ic_contact_2"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
             android:src="@mipmap/ic_people_2" />
 
@@ -227,7 +251,7 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/ic_contact_2"
             android:text="我的常用联系人"
-            android:textColor="#666"
+            android:textColor="#4a4a4a"
             android:textSize="16sp" />
 
         <ImageView
@@ -244,13 +268,15 @@
     <RelativeLayout
         android:id="@+id/rl_location"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:padding="5dp">
 
         <ImageView
             android:id="@+id/ic_illness_2"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
             android:src="@mipmap/ic_illness_2" />
 
@@ -260,7 +286,7 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/ic_illness_2"
             android:text="我的常用地址"
-            android:textColor="#666"
+            android:textColor="#4a4a4a"
             android:textSize="16sp" />
 
         <ImageView
@@ -277,13 +303,15 @@
     <RelativeLayout
         android:id="@+id/rl_attention"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:padding="5dp">
 
         <ImageView
             android:id="@+id/ic_follow"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
             android:src="@mipmap/ic_follow" />
 
@@ -293,7 +321,7 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/ic_follow"
             android:text="我的关注"
-            android:textColor="#666"
+            android:textColor="#4a4a4a"
             android:textSize="16sp" />
 
         <ImageView
@@ -307,20 +335,20 @@
 
     <View
         style="@style/ViewLine"
-        android:layout_marginBottom="3dp" />
-
-    <View style="@style/ViewLine" />
+        android:layout_height="10dp" />
 
     <RelativeLayout
         android:id="@+id/rl_feedback"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:padding="5dp">
 
         <ImageView
             android:id="@+id/ic_content_2"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
             android:src="@mipmap/ic_content_2" />
 
@@ -330,7 +358,7 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/ic_content_2"
             android:text="意见反馈"
-            android:textColor="#666"
+            android:textColor="#4a4a4a"
             android:textSize="16sp" />
 
         <ImageView
@@ -348,13 +376,15 @@
     <RelativeLayout
         android:id="@+id/rl_customer_service"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:padding="5dp">
 
         <ImageView
             android:id="@+id/ic_people_2"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
             android:src="@mipmap/ic_people_2" />
 
@@ -364,7 +394,7 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/ic_people_2"
             android:text="我的客服"
-            android:textColor="#666"
+            android:textColor="#4a4a4a"
             android:textSize="16sp" />
 
         <ImageView
@@ -380,15 +410,16 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="2">
 
         <Button
             android:id="@+id/btn_exit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
             android:background="@drawable/selector_btn_login"
             android:text="退出登陆"
             android:textColor="#fff" />

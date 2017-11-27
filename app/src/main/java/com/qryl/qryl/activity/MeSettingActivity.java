@@ -1,5 +1,6 @@
 package com.qryl.qryl.activity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
@@ -82,6 +83,9 @@ public class MeSettingActivity extends BaseActivity {
 
     private static final int TAKE_PHOTO = 1;
     private static final int CHOOSE_PHOTO = 2;
+    //1 为拍照
+    //2 为文件夹
+    private static int CAREMA_OR_ALBUM = 3;
 
     private static final String HEAD_KEY = "head_key";
 
@@ -507,8 +511,8 @@ public class MeSettingActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
+                CAREMA_OR_ALBUM = 2;
                 //调用相册
-                sp.edit().putInt("camera_or_album", 2).apply();
                 invokeAlbum();
             }
         });
@@ -516,14 +520,16 @@ public class MeSettingActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
-                //打开相机
-                sp.edit().putInt("camera_or_album", 1).apply();
-                //动态申请危险时权限，运行时权限
                 if (ContextCompat.checkSelfPermission(MeSettingActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
                         PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(MeSettingActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 } else {
-                    openCarema();
+                    if (ContextCompat.checkSelfPermission(MeSettingActivity.this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(MeSettingActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                    } else {
+                        //打开相机
+                        openCarema();
+                    }
                 }
 
             }
@@ -564,7 +570,7 @@ public class MeSettingActivity extends BaseActivity {
         //动态申请危险时权限，运行时权限
         if (ContextCompat.checkSelfPermission(MeSettingActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
                 PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MeSettingActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            ActivityCompat.requestPermissions(MeSettingActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
         } else {
             openAlbum();
         }
@@ -588,14 +594,21 @@ public class MeSettingActivity extends BaseActivity {
         switch (requestCode) {
             case 1:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    int camera_or_album = sp.getInt("camera_or_album", 3);
-                    if (camera_or_album == 2) {
-                        openAlbum();
-                    } else if (camera_or_album == 1) {
-                        openCarema();
-                    }
+                    openAlbum();
                 } else {
-                    Toast.makeText(MeSettingActivity.this, "you denied the permission", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MeSettingActivity.this, "没有获取到权限，请手动设置", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case 2:
+                if (grantResults.length > 0) {
+                    for (int grantResult : grantResults) {
+                        if (grantResult == PackageManager.PERMISSION_GRANTED) {
+                            return;
+                        }
+                    }
+                    openAlbum();
+                } else {
+                    Toast.makeText(MeSettingActivity.this, "没有获取到权限，请手动设置", Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:

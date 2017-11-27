@@ -19,7 +19,7 @@
             android:text="111"
             android:gravity="center_horizontal"
             android:singleLine="true"
-            android:textColor="#000"
+            android:textColor="#4a4a4a"
             android:textSize="16sp" />
     </RelativeLayout>
 

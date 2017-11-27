@@ -36,13 +36,14 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="3dp"
                 android:text="账号"
-                android:textColor="#666" />
+                android:textColor="#4a4a4a" />
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/et_user"
                 style="@style/et_lab"
                 android:cursorVisible="true"
                 android:hint="请输入用户名"
+                android:textColorHint="#a2a2a2"
                 android:textCursorDrawable="@null" />
 
         </LinearLayout>
@@ -65,13 +66,14 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="3dp"
                 android:text="密码"
-                android:textColor="#666" />
+                android:textColor="#4a4a4a" />
 
             <com.qryl.qryl.view.PasswordToggleEditText
                 android:id="@+id/et_psd"
                 style="@style/et_lab"
                 android:cursorVisible="true"
                 android:hint="请输入密码"
+                android:textColorHint="#a2a2a2"
                 android:textCursorDrawable="@null" />
 
         </LinearLayout>
@@ -95,8 +97,9 @@
 
             <CheckBox
                 android:id="@+id/cb_auto_login"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
                 android:background="@drawable/selector_check_box"
                 android:shadowColor="#4581c7" />
 

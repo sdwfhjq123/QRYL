@@ -33,8 +33,8 @@
 
     <View style="@style/ViewLine" />
 
-
-    <com.qryl.qryl.view.DropDownMenu xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.qryl.qryl.view.DropDownMenu
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/dropDownMenu"
         android:layout_width="match_parent"
@@ -43,26 +43,12 @@
         app:maskColor="@color/mask_color"
         app:menuBackgroundColor="@color/base_title_color"
         app:menuSelectedIcon="@mipmap/ic_img_up"
+        app:menuSelectedLeftIcon="@mipmap/ic_date_2"
         app:menuTextSize="16sp"
         app:menuUnselectedIcon="@mipmap/ic_img_down"
-        app:textSelectedColor="@color/blue_app"
         app:menuUnselectedLeftIcon="@mipmap/ic_date"
-        app:menuSelectedLeftIcon="@mipmap/ic_date_2"
-        app:textUnselectedColor="#666"
+        app:textSelectedColor="@color/blue_app"
+        app:textUnselectedColor="#4a4a4a"
         app:underlineColor="@color/blue_app" />
 
-
-    <!--<android.support.v4.widget.SwipeRefreshLayout-->
-    <!--android:id="@+id/swipe_refresh"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent">-->
-
-    <!--<android.support.v7.widget.RecyclerView-->
-    <!--android:id="@+id/recycler_view"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent">-->
-
-    <!--</android.support.v7.widget.RecyclerView>-->
-
-    <!--</android.support.v4.widget.SwipeRefreshLayout>-->
 </LinearLayout>

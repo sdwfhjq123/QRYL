@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.qryl.qryl.R;
+import com.qryl.qryl.activity.FeedBackActivity;
 import com.qryl.qryl.activity.H5.ContactsActivity;
 import com.qryl.qryl.activity.H5.LocationActivity;
 import com.qryl.qryl.activity.MainActivity;
@@ -244,16 +245,17 @@ public class MeFragment extends android.support.v4.app.Fragment implements View.
                 });
                 break;
             case R.id.rl_wallet://我的钱包
-                Toast.makeText(getActivity(),"该功能暂未开放",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "该功能暂未开放", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.rl_attention://我的关注
-                Toast.makeText(getActivity(),"该功能暂未开放",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "该功能暂未开放", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.rl_feedback://意见反馈
-                Toast.makeText(getActivity(),"该功能暂未开放",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), FeedBackActivity.class);
+                startActivity(intent);
                 break;
             case R.id.rl_customer_service://我的客服
-                Intent intent1=  new Intent(Intent.ACTION_DIAL);
+                Intent intent1 = new Intent(Intent.ACTION_DIAL);
                 intent1.setData(Uri.parse("tel:400-8181800"));
                 startActivity(intent1);
                 break;

@@ -19,7 +19,9 @@
     <LinearLayout
         android:id="@+id/ll_four_home"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="2dp"
+        android:paddingTop="5dp">
 
         <LinearLayout
             android:id="@+id/ll_hl"
@@ -32,14 +34,15 @@
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:paddingBottom="3dp"
                 android:src="@mipmap/ic_nursing" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="护理"
-                android:textSize="14sp"
-                android:textColor="#666"/>
+                android:textColor="#4a4a4a"
+                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -53,14 +56,15 @@
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:paddingBottom="3dp"
                 android:src="@mipmap/ic_rounds" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="巡诊"
-                android:textSize="14sp"
-                android:textColor="#666"/>
+                android:textColor="#4a4a4a"
+                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -74,14 +78,15 @@
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:paddingBottom="3dp"
                 android:src="@mipmap/ic_massage" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="推拿"
-                android:textSize="14sp"
-                android:textColor="#666"/>
+                android:textColor="#4a4a4a"
+                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -95,17 +100,17 @@
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:paddingBottom="3dp"
                 android:src="@mipmap/ic_baby" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="母婴"
-                android:textSize="14sp"
-                android:textColor="#666"/>
+                android:textColor="#4a4a4a"
+                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
-
 
     <View style="@style/ViewLine" />
 
