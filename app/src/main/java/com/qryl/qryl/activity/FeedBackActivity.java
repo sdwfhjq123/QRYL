@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -83,6 +84,7 @@ public class FeedBackActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
                 final String result = response.body().string();
+                Log.i(TAG, "onResponse: result" + result);
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     final String resultCode = jsonObject.getString("resultCode");
@@ -90,11 +92,8 @@ public class FeedBackActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             dismissProgressDialog();
-                            if (resultCode.equals("500")) {
-                                Toast.makeText(FeedBackActivity.this, "提交失败", Toast.LENGTH_SHORT).show();
-                            } else if (result.equals("200")) {
-                                Toast.makeText(FeedBackActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
-                            }
+                            Toast.makeText(FeedBackActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
+                            finish();
                         }
                     });
                 } catch (JSONException e) {
