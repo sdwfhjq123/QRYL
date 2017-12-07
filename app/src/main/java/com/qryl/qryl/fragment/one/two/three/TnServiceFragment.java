@@ -63,7 +63,6 @@ public class TnServiceFragment extends BaseFragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String result = response.body().string();
-                Log.i(TAG, "onResponse: result" + result);
                 handleJson(result);
             }
         });
