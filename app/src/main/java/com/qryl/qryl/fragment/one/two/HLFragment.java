@@ -245,7 +245,7 @@ public class HLFragment extends Fragment {
                         page = 1;
                         postData(String.valueOf(gender), startTime, endTime, String.valueOf(hours));
                     }
-                }, startTime, "2018-12-31 00:00");
+                }, startTime, "2019-12-31 00:00");
                 timeSelectorEnd.setTitle("请选择结束时间");
                 timeSelectorEnd.show();
 
@@ -256,7 +256,7 @@ public class HLFragment extends Fragment {
                         tvTime.setText(time + ":00");
                         startTime = tvTime.getText().toString();
                     }
-                }, startTime, "2017-7-31 00:00");
+                }, startTime, "2017-12-07 00:00");
                 timeSelectorStart.setTitle("请选择开始时间");
                 timeSelectorStart.show();
 
@@ -270,8 +270,8 @@ public class HLFragment extends Fragment {
             public void onRefresh() {
                 datas.clear();
                 String gender = "";
-                String starTime = "2017-07-07 00:00:00";
-                String endTime = "2018-12-12 00:00:00";
+                String starTime = "2017-12-07 00:00:00";
+                String endTime = "2019-12-12 00:00:00";
                 String hours = "";
                 page = 1;
                 postData(gender, starTime, endTime, hours);
@@ -371,6 +371,6 @@ public class HLFragment extends Fragment {
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss");
         String date = sDateFormat.format(new java.util.Date());
         Toast.makeText(getActivity(), date, Toast.LENGTH_SHORT).show();
-        return "2017-07-07 00:00:00";
+        return "2017-12-07 00:00:00";
     }
 }

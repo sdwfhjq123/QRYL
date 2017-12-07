@@ -409,15 +409,17 @@ public class MeSettingActivity extends BaseActivity {
 
         SharedPreferences pref = getSharedPreferences("image", Context.MODE_PRIVATE);
         String headImage = pref.getString(HEAD_KEY, null);
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-        File headFile = new File(storageDir, headImage);
         OkHttpClient client = new OkHttpClient();
         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
-        if (headFile != null) {
-            RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), headFile);
-            builder.addFormDataPart("txImg", headFile.getName(), requestBody);
-        } else {
-            builder.addFormDataPart("txImg", String.valueOf(""));
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+        if (!headImage.equals("")) {
+            File headFile = new File(storageDir, headImage);
+            if (headFile != null) {
+                // MediaType.parse() 里面是上传的文件类型。
+                RequestBody body = RequestBody.create(MediaType.parse("image/*"), headFile);
+                // 参数分别为， 请求key ，文件名称 ， RequestBody
+                builder.addFormDataPart("txImg", headFile.getName(), body);
+            }
         }
         if (!tvCustomId.getText().toString().equals("请输入")) {
             builder.addFormDataPart("userName", tvCustomId.getText().toString());
@@ -451,6 +453,7 @@ public class MeSettingActivity extends BaseActivity {
         builder.addFormDataPart("provinceId", "370000");
         builder.addFormDataPart("cityId", "370100");
         builder.addFormDataPart("districtId", "370102");
+        builder.addFormDataPart("idNum", tvIdentity.getText().toString());
         MultipartBody body = builder.build();
         Request request = new Request.Builder().url(ConstantValue.URL + "/patientUser/modify").post(body).build();
         client.newCall(request).enqueue(new Callback() {

@@ -10,12 +10,22 @@ public class ItemList {
     private String name;
     private String headshotImg;
     private String abstracts;
+    private String content;
 
-    public ItemList(int id, String name, String headshotImg, String abstracts) {
+    public ItemList(int id, String name, String headshotImg, String abstracts, String content) {
         this.id = id;
         this.name = name;
         this.headshotImg = headshotImg;
         this.abstracts = abstracts;
+        this.content = content;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public int getId() {

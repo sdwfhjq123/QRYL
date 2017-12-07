@@ -1,56 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
-    android:layout_width="180dp"
-    android:layout_height="90dp"
-    android:layout_margin="10dp"
-    app:cardBackgroundColor="#fff"
-    app:cardCornerRadius="4dp"
-    app:cardElevation="2dp">
+    android:layout_width="200dp"
+    android:layout_height="120dp">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/iv_service_item"
-            android:layout_width="45dp"
-            android:layout_height="60dp"
-            android:layout_centerVertical="true"
-            android:layout_margin="5dp"
-            android:src="@mipmap/ic_loading" />
+        <RelativeLayout
+            android:id="@+id/rl"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="120dp"
-            android:layout_height="80dp"
+            <com.qryl.qryl.view.RoundImageView
+                android:id="@+id/iv_service_item"
+                android:layout_width="45dp"
+                android:layout_height="60dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_loading" />
+
+            <LinearLayout
+                android:layout_width="115dp"
+                android:layout_height="100dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:layout_toRightOf="@id/iv_service_item"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_title_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:paddingLeft="3dp"
+                    android:textColor="#4a4a4a"
+                    android:textSize="18sp"
+                    tools:text="静脉采血" />
+
+                <TextView
+                    android:id="@+id/tv_info_item"
+                    android:layout_width="110dp"
+                    android:layout_height="53dp"
+                    android:ellipsize="end"
+                    android:paddingLeft="3dp"
+                    android:paddingRight="3dp"
+                    android:textColor="#969696"
+                    android:textSize="14sp"
+                    tools:text="静脉采血血静脉采血静脉采血静脉采血静脉采血静脉采血静采血静脉采血静脉采血静脉采血静" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="5dp"
-            android:orientation="vertical">
+            android:layout_toRightOf="@id/rl"
+            android:background="#e6e6e6" />
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_title_item"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:text="静脉采血"
-                android:textColor="#4a4a4a"
-                android:textSize="14sp"
-                android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tv_info_item"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                tools:text="静脉采血血静脉采血静脉采血静脉采血静脉采血静脉采血静采血静脉采血静脉采血静脉采血静"
-                android:textColor="#969696"
-                android:textSize="10sp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="#e6e6e6" />
 
-        </LinearLayout>
-
-    </RelativeLayout>
-
-</android.support.v7.widget.CardView>
+</RelativeLayout>

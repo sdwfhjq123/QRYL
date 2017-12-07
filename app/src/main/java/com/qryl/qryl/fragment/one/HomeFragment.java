@@ -204,7 +204,7 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
      */
     private void initRPV() {
         //设置播放时间间隔
-        mRollPagerView.setPlayDelay(1500);
+        mRollPagerView.setPlayDelay(5000);
         //设置透明度
         mRollPagerView.setAnimationDurtion(500);
         //自定义指示器图片

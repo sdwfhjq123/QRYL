@@ -2,6 +2,7 @@ package com.qryl.qryl.adapter;
 
 import android.annotation.SuppressLint;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +55,11 @@ public class XzServerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             Glide.with(UIUtils.getContext()).load(ConstantValue.URL + datas.get(position).getHeadshotImg()).into(((ItemViewHolder) holder).ivHeadItem);
             ((ItemViewHolder) holder).tvNameItem.setText(datas.get(position).getRealName());
             ((ItemViewHolder) holder).tvExperienceItem.setText(String.valueOf(datas.get(position).getWorkYears()));
-            ((ItemViewHolder) holder).tvBeGoodAtItem.setText(datas.get(position).getProfessionNames());
+            if (!TextUtils.isEmpty(datas.get(position).getProfessionNames())) {
+                ((ItemViewHolder) holder).tvBeGoodAtItem.setText("擅长:" + datas.get(position).getProfessionNames());
+            } else {
+                ((ItemViewHolder) holder).tvBeGoodAtItem.setText("擅长:无");
+            }
             ((ItemViewHolder) holder).tvHospital.setText(datas.get(position).getHospitalName());
             ((ItemViewHolder) holder).tvDepartment.setText(datas.get(position).getDepartmentName());
             int roleType = datas.get(position).getRoleType();
@@ -73,6 +78,14 @@ public class XzServerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         onItemClickListener.onItemClick(((ItemViewHolder) holder).rlRootItem, position);
                     }
                 });
+            }
+
+            if (datas.get(position).getStatus() == 0) {
+                ((ItemViewHolder) holder).tvSign.setText("未签到");
+            } else if (datas.get(position).getStatus() == 1) {
+                ((ItemViewHolder) holder).tvSign.setText("已签到");
+            } else if (datas.get(position).getStatus() == 2) {
+                ((ItemViewHolder) holder).tvSign.setText("已接单");
             }
         }
     }
@@ -109,6 +122,7 @@ public class XzServerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         TextView tvProfessionItem;
         TextView tvHospital;
         TextView tvDepartment;
+        TextView tvSign;
 
         ItemViewHolder(View itemView) {
             super(itemView);
@@ -120,6 +134,7 @@ public class XzServerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             tvProfessionItem = (TextView) itemView.findViewById(R.id.tv_profession);
             tvHospital = (TextView) itemView.findViewById(R.id.tv_hospital);
             tvDepartment = (TextView) itemView.findViewById(R.id.tv_department);
+            tvSign = (TextView) itemView.findViewById(R.id.tv_sign_item);
         }
     }
 

@@ -11,20 +11,10 @@
         android:layout_height="40dp"
         app:tabIndicatorColor="@color/tab_text_color_selected"
         app:tabIndicatorHeight="3dp"
-        app:tabMode="fixed"
-
         app:tabSelectedTextColor="@color/tab_text_color_selected"
+        app:tabTextAppearance="@style/tablayout_text_size"
         app:tabTextColor="@color/tab_text_color_normal">
 
-        <!--<android.support.design.widget.TabItem-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="派单模式" />-->
-
-        <!--<android.support.design.widget.TabItem-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="点单模式" />-->
     </android.support.design.widget.TabLayout>
 
     <android.support.v4.view.ViewPager

@@ -1,12 +1,13 @@
 package com.qryl.qryl.adapter;
 
 import android.annotation.SuppressLint;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -36,14 +37,14 @@ public class XzServiceAdapter extends RecyclerView.Adapter<XzServiceAdapter.View
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        CardView cardView;
+        RelativeLayout cardView;
         ImageView ivServiceItem;
         TextView tvTitleItem;
         TextView tvInfoItem;
 
         ViewHolder(View itemView) {
             super(itemView);
-            cardView = (CardView) itemView;
+            cardView = (RelativeLayout) itemView;
             ivServiceItem = (ImageView) itemView.findViewById(R.id.iv_service_item);
             tvTitleItem = (TextView) itemView.findViewById(R.id.tv_title_item);
             tvInfoItem = (TextView) itemView.findViewById(R.id.tv_info_item);
@@ -61,7 +62,7 @@ public class XzServiceAdapter extends RecyclerView.Adapter<XzServiceAdapter.View
         //修改内容
         holder.tvTitleItem.setText(datas.get(position).getName());
         Glide.with(UIUtils.getContext()).load(ConstantValue.URL + datas.get(position).getHeadshotImg()).into(holder.ivServiceItem);
-        holder.tvInfoItem.setText(datas.get(position).getAbstracts());
+        holder.tvInfoItem.setText(datas.get(position).getContent());
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

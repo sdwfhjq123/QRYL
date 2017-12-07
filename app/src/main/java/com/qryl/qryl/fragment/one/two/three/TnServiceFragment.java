@@ -81,7 +81,7 @@ public class TnServiceFragment extends BaseFragment {
         for (int i = 0; i < data.size(); i++) {
             List<ItemList> itemList = data.get(i).getItemList();
             for (int j = 0; j < itemList.size(); j++) {
-                datas.add(new ItemList(itemList.get(j).getId(), itemList.get(j).getName(), itemList.get(j).getHeadshotImg(), itemList.get(j).getAbstracts()));
+                datas.add(new ItemList(itemList.get(j).getId(), itemList.get(j).getName(), itemList.get(j).getHeadshotImg(), itemList.get(j).getAbstracts(), itemList.get(j).getContent()));
             }
         }
 

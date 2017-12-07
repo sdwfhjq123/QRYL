@@ -8,15 +8,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
-        android:padding="15dp">
+        android:padding="10dp">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_head_item"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="50dp"
+            android:layout_marginRight="30dp"
+            android:scaleType="centerCrop"
             android:src="@mipmap/ic_loading" />
 
         <LinearLayout
@@ -30,27 +31,27 @@
                 android:layout_height="wrap_content"
                 android:text="姓名 : "
                 android:textColor="#4a4a4a"
-                android:textSize="14sp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="性别 : "
                 android:textColor="#4a4a4a"
-                android:textSize="14sp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="经验 : "
                 android:textColor="#4a4a4a"
-                android:textSize="14sp" />
+                android:textSize="15sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="45dp"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
@@ -60,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:text="张小四 "
                 android:textColor="#969696"
-                android:textSize="14sp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/tv_gender_item"
@@ -68,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:text="女"
                 android:textColor="#969696"
-                android:textSize="14sp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/tv_experience_item"
@@ -76,7 +77,7 @@
                 android:layout_height="wrap_content"
                 android:text="3年"
                 android:textColor="#969696"
-                android:textSize="14sp" />
+                android:textSize="15sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -89,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#4a4a4a"
-                android:textSize="14sp"
+                android:textSize="15sp"
                 android:visibility="invisible" />
 
             <TextView
@@ -97,18 +98,18 @@
                 android:layout_height="wrap_content"
                 android:text="年龄 : "
                 android:textColor="#4a4a4a"
-                android:textSize="14sp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="经验 : "
                 android:textColor="#4a4a4a"
-                android:textSize="14sp" />
+                android:textSize="15sp" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_marginRight="20dp"
             android:gravity="center_vertical"
@@ -118,7 +119,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#4a4a4a"
-                android:textSize="14sp"
+                android:textSize="15sp"
                 android:visibility="invisible" />
 
             <TextView
@@ -127,7 +128,7 @@
                 android:layout_height="wrap_content"
                 android:text="女"
                 android:textColor="#969696"
-                android:textSize="14sp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/tv_star_item"
@@ -135,7 +136,7 @@
                 android:layout_height="wrap_content"
                 android:text="★★★★★"
                 android:textColor="#969696"
-                android:textSize="14sp" />
+                android:textSize="15sp" />
         </LinearLayout>
     </LinearLayout>
 

@@ -262,4 +262,10 @@ public class MeFragment extends android.support.v4.app.Fragment implements View.
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
+    }
+
 }

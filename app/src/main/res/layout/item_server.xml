@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rl_root_item"
     android:layout_width="match_parent"
-    android:layout_height="100dp">
+    android:layout_height="90dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,11 +13,12 @@
         android:gravity="center_vertical"
         android:padding="5dp">
 
-        <ImageView
+        <com.qryl.qryl.view.RoundImageView
             android:id="@+id/iv_head_item"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="5dp"
+            android:scaleType="centerCrop"
             android:src="@mipmap/ic_loading" />
 
         <LinearLayout
@@ -34,31 +36,35 @@
                     android:id="@+id/tv_name_item"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="5dp"
                     android:text="刘亚男"
                     android:textColor="#4a4a4a"
-                    android:textSize="14sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_marginRight="20dp"
                     android:layout_toRightOf="@+id/tv_name_item"
                     android:text="专业:"
                     android:textColor="#969696"
-                    android:textSize="14sp" />
+                    android:textSize="13dp" />
 
                 <TextView
                     android:id="@+id/tv_profession"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="35dp"
                     android:layout_marginRight="20dp"
                     android:layout_toRightOf="@+id/tv_name_item"
-                    android:text="123"
                     android:textColor="#969696"
-                    android:textSize="14sp" />
+                    android:textSize="13dp"
+                    tools:text="123" />
 
                 <TextView
                     android:id="@+id/tv_experience_item"
@@ -66,9 +72,9 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/tv_profession"
-                    android:text="8"
                     android:textColor="#969696"
-                    android:textSize="10sp" />
+                    android:textSize="13dp"
+                    tools:text="8" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -78,19 +84,21 @@
                     android:layout_toRightOf="@id/tv_experience_item"
                     android:text="年经验"
                     android:textColor="#969696"
-                    android:textSize="10sp" />
+                    android:textSize="13dp" />
 
 
                 <TextView
                     android:id="@+id/tv_sign_item"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="200dp"
-                    android:layout_toRightOf="@id/tv_name_item"
-                    android:text=""
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/shape_bg_border"
+                    android:padding="3dp"
                     android:textColor="#969696"
-                    android:textSize="10sp" />
+                    android:textSize="13dp"
+                    tools:text="123" />
 
             </RelativeLayout>
 
@@ -102,24 +110,24 @@
                     android:id="@+id/tv_hospital"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="医院"
                     android:textColor="#969696"
-                    android:textSize="10sp" />
+                    android:textSize="13dp"
+                    tools:text="医院" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=" | "
                     android:textColor="#969696"
-                    android:textSize="10sp" />
+                    android:textSize="13dp" />
 
                 <TextView
                     android:id="@+id/tv_department"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="科室"
                     android:textColor="#969696"
-                    android:textSize="10sp" />
+                    android:textSize="13dp"
+                    tools:text="科室" />
 
             </LinearLayout>
 
@@ -127,9 +135,9 @@
                 android:id="@+id/tv_be_good_at_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="擅长:擅擅长:擅长:擅长擅长:擅长擅长:擅长擅擅长擅长:擅长擅长:擅长"
                 android:textColor="#969696"
-                android:textSize="10sp" />
+                android:textSize="13dp"
+                tools:text="擅长:擅擅长:擅长:擅长擅长:擅长擅长:擅长擅擅长擅长:擅长擅长:擅长" />
         </LinearLayout>
     </LinearLayout>
 
