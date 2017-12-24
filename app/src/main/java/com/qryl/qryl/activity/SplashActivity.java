@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.qryl.qryl.R;
+import com.qryl.qryl.activity.login.LoginActivity;
 import com.qryl.qryl.util.VerificationCountDownTimer;
 
 public class SplashActivity extends BaseActivity {
@@ -76,7 +77,7 @@ public class SplashActivity extends BaseActivity {
      * 跳转
      */
     private void splashJump() {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
     }

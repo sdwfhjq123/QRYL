@@ -101,6 +101,7 @@
                 android:layout_height="20dp"
                 android:layout_centerVertical="true"
                 android:background="@drawable/selector_check_box"
+                android:checked="false"
                 android:shadowColor="#4581c7" />
 
             <TextView

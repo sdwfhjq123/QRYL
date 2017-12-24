@@ -50,6 +50,7 @@ public class LoginActivity extends BaseActivity {
         initView();
         //自动登录逻辑
         prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+
         if (prefs.getBoolean("is_auto_login", false)) {
             cbAuto.setChecked(true);
             Intent intent = new Intent(this, MainActivity.class);
@@ -77,7 +78,7 @@ public class LoginActivity extends BaseActivity {
                     prefs.edit().putBoolean("is_auto_login", cbAuto.isChecked()).apply();
                 } else {
                     cbAuto.setChecked(false);
-                    prefs.edit().clear().apply();
+                    prefs.edit().putBoolean("is_auto_login", cbAuto.isChecked()).apply();
                 }
 
             }
